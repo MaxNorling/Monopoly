@@ -19,7 +19,7 @@ public class Window extends JFrame
     }
 
     public static void main(String[] args){
-        Board board = new Board(650);
+        Board board = new Board(910);
         Window w = new Window(board);
     }
 

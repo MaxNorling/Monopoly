@@ -58,6 +58,6 @@ public class LoadBoard
     }
 
     public void createTile(String streetName, int price, Color color) {
-	houseTiles.add(new HouseTile(0, 0, (650 / 13) / 2, (650 / 13) / 2, price, color, streetName));
+	//houseTiles.add(new HouseTile(0, 0, (650 / 13) / 2, (650 / 13) / 2, price, color, streetName));
     }
 }

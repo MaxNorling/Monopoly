@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public class BoardComponent extends JComponent
 {
@@ -18,9 +19,12 @@ public class BoardComponent extends JComponent
         super.paintComponent(g);
         final Graphics2D g2d = (Graphics2D) g;
 
+
+
         for(HouseTile tile: board.getTiles()){
-	tile.paint(g2d);
+	    tile.paint(g2d);
 	}
+
     }
 
 }
