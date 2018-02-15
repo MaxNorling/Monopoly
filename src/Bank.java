@@ -9,12 +9,12 @@ public class Bank
 
     public Bank() {}
 
-    private int getBankMoney() {
+    public int getBankMoney() {
         return this.bankMoney;
     }
 
     public boolean canLoanMoney(int toLoan) {
-        return getBankMoney() > toLoan; // Additional constraints to be added that take banks finanical levels into decision.
+        return this.bankMoney > toLoan; // Additional constraints to be added that take banks finanical levels into decision.
     }
 
     public boolean canPlayerLoan(int toLoan) {
@@ -52,4 +52,6 @@ public class Bank
         Gives a player a specified amount for various reasons. e.g. in the beginning of the game.
          */
     }
+
+    public void sellTile() {} // Should take some kind of identifier to tile as parameter
 }
