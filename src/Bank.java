@@ -13,12 +13,11 @@ public class Bank
         return this.bankMoney;
     }
 
-    public boolean canLoanMoney(int toLoan) {
-        return this.bankMoney > toLoan; // Additional constraints to be added that take banks finanical levels into decision.
-    }
+    public int getInterestRate() { return this.interestRate; }
 
-    public boolean canPlayerLoan(int toLoan) {
-        return canLoanMoney(toLoan); // Additional constraints to be added that take player financial levels into decision.
+    public boolean canPlayerLoan(Player player, int toLoan) {
+        if (toLoan > player.playerWorth()) { return false; }
+        return true; // Additional constraints to be added that take player financial levels into decision.
     }
 
     public int setInterestRate() {
@@ -31,7 +30,9 @@ public class Bank
          */
     }
 
-    public void playerLoanMoney() {}
+    public void playerGiveMoney(Player player, int amount) {
+        player.setPlayerMoney(amount);
+    }
 
     public void getMoneyFromLoan() {
         /*
@@ -41,17 +42,13 @@ public class Bank
          */
     }
 
-    public void getMoney() {
+    public void getMoney(int amount) {
         /*
         Add money to the bank for various reasons.
          */
+        this.bankMoney += amount;
     }
 
-    public void handOutMoney() {
-        /*
-        Gives a player a specified amount for various reasons. e.g. in the beginning of the game.
-         */
-    }
-
-    public void sellTile() {} // Should take some kind of identifier to tile as parameter
+    public void sellTile(Player player, HouseTile tile) {
+    } // Should take some kind of identifier to tile as parameter
 }

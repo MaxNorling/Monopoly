@@ -8,14 +8,15 @@ import java.util.ArrayList;
 public class Player
 {
     private int money;
+    private int playerWorth;
     private int currentTile;
-    private ArrayList<Tile> ownedTiles;
+    private ArrayList<HouseTile> ownedTiles;
     private String name;
     private Color color;
     private boolean jailed;
 
 
-    private boolean canThrow = true;
+    private boolean canThrow;
 
     public Player(String name,Color color) {
         this.money = 100; // Should be assigned to a starting money function
@@ -24,19 +25,39 @@ public class Player
     	this.name = name;
     	this.color = color;
 
-
     	this.jailed = false;
+    	this.playerWorth = playerWorth();
+    	this.canThrow = true;
     }
 
     public int getMoney() {
         return this.money;
     }
 
+    public void setPlayerMoney(int amount) {
+        this.money += amount;
+    }
+
     public int getCurrentTile() {
         return this.currentTile;
     }
 
+    public void removeTile() {
+
+    }
+
     public void getOwnedTiles() {} // Should return a Tile object
+
+    public int playerWorth() {
+        int sumMoney = money;
+
+        for (HouseTile tile: ownedTiles) {
+            sumMoney += tile.getPrice(); // Change to resell value instead
+        }
+
+        return sumMoney;
+
+    } // Should sum all the stuff a player owns. to be used in risk-analysis for the bank.
 
     public void moveToTile(int amountOfTiles) {}
 
