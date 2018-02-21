@@ -14,7 +14,7 @@ public class Dice
         this.dieSize = dieSize;
     }
 
-    private int throwDie() {
+    public int throwDie() {
         return randint.nextInt((this.dieSize + 1) -1) + 1; // A random number between 1 and including 6
     }
 }

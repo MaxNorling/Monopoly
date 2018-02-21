@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -6,18 +7,29 @@ import java.util.ArrayList;
 
 public class Player
 {
-    private int playerMoney;
+    private int money;
     private int currentTile;
     private ArrayList<Tile> ownedTiles;
+    private String name;
+    private Color color;
+    private boolean jailed;
 
-    public Player() {
-        this.playerMoney = playerMoney; // Should be assigned to a starting money function
-        this.currentTile = currentTile; // Should be assigned to the starting tile "GO"
+
+    private boolean canThrow = true;
+
+    public Player(String name,Color color) {
+        this.money = 100; // Should be assigned to a starting money function
+        this.currentTile = 0; // Should be assigned to the starting tile "GO"
     	this.ownedTiles = new ArrayList<>();
+    	this.name = name;
+    	this.color = color;
+
+
+    	this.jailed = false;
     }
 
-    public int getPlayerMoney() {
-        return this.playerMoney;
+    public int getMoney() {
+        return this.money;
     }
 
     public int getCurrentTile() {
@@ -29,4 +41,31 @@ public class Player
     public void moveToTile(int amountOfTiles) {}
 
     public void askToLoan(int amountToLoan) {}
+
+    public void passedGo(){
+
+    }
+
+    public void move(int i) {
+        if(!jailed){
+	    currentTile += i;
+	    if (currentTile >= 40) { // 40 is the ammount of tiles on the board
+		currentTile -=40;
+	    passedGo();
+	    }
+        }
+    }
+    public boolean canThrow(){
+        return canThrow;
+    }
+    public void setCanThrow(boolean b){
+        canThrow = b;
+    }
+    public String getName(){
+        return name;
+    }
+
+    public Color getColor(){
+        return color;
+    }
 }

@@ -1,11 +1,48 @@
 import java.awt.*;
 
-public interface Tile
+public abstract class Tile
 {
-    void landAction();
+    private int x, y, width, height;
+    private TileType type;
 
-    void paint(Graphics2D g2d);
+    protected Tile(int x, int y, int width, int height, TileType type){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.type = type;
+    }
 
+    //public abstract void landAction();
 
+    public boolean contains(Point point){
+
+        if(point.x >= x && point.x <= x + width){
+            return point.y >= y && point.y <= y + height;
+	}
+        return false;
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public  int getY(){
+        return y;
+    }
+
+    public  int getWidth(){
+        return width;
+    }
+
+    public  TileType getType(){
+        return type;
+    }
+
+    public  int getHeight(){
+        return height;
+    }
+
+    public abstract String toString();
 
 }

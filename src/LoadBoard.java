@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.List;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,14 +10,14 @@ import java.util.ArrayList;
  */
 public class LoadBoard
 {
-    private ArrayList<HouseTile> houseTiles;
+    private List<HouseTile> houseTiles;
 
     public LoadBoard() {
 	this.houseTiles = new ArrayList<>();
     }
 
     public void readTileInformation() {
-	ArrayList<String> tileInfo = new ArrayList<>();
+	List<String> tileInfo = new ArrayList<>();
 
 	Scanner scanner = null;
 
