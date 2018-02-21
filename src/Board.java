@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 public class Board
 {
-
-
     private int boardSize, tileSize;
     private static final int TILE_AMOUNT = 13;
     private Dice die;
@@ -136,6 +134,13 @@ public class Board
     }
 
     public void nextPlayer() {
+        if (getCurrentPlayer().getLoanMoney() > 0) {
+            double loanPayment = getCurrentPlayer().getLoanMoney() - (getCurrentPlayer().getLoanMoney()*bank.getInterestRate());
+            System.out.println(loanPayment);
+            // Should take things from players if player cant pay
+            getCurrentPlayer().setPlayerMoney((int) -loanPayment);
+	}
+
 	currentPlayer++;
 	if (currentPlayer >= players.size()) {
 	    currentPlayer = 0;

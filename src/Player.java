@@ -48,8 +48,6 @@ public class Player
 
     }
 
-    public void getOwnedTiles() {} // Should return a Tile object
-
     public int playerWorth() {
         int sumMoney = money;
 

@@ -76,7 +76,6 @@ public class Window extends JFrame
 		    // Add terms
 		} else {
 		    JOptionPane.showConfirmDialog(null, "You have not been granted a loan.\n" + res, "BANK", JOptionPane.DEFAULT_OPTION);
-		    // Add reason for denial
 		}
 
 	    }
