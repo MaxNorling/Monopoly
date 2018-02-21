@@ -59,7 +59,6 @@ public class Player
 
     } // Should sum all the stuff a player owns. to be used in risk-analysis for the bank.
 
-    public void moveToTile(int amountOfTiles) {}
 
     public void askToLoan(int amountToLoan) {}
 
@@ -72,7 +71,7 @@ public class Player
 	    currentTile += i;
 	    if (currentTile >= 40) { // 40 is the ammount of tiles on the board
 		currentTile -=40;
-	    passedGo();
+		passedGo();
 	    }
         }
     }
