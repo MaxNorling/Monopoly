@@ -19,6 +19,7 @@ public class LoadBoard
 
     public LoadBoard(Board board) {
 	this.boardTiles = new ArrayList<>();
+	this.tileMaker = new TileMaker();
 	this.board = board;
 	this.tileX = 0;
 	this.tileY = 0;
@@ -30,7 +31,6 @@ public class LoadBoard
 	Scanner scanner = null;
 
 	try {
-	    System.out.println();
 	    scanner = new Scanner(new File((System.getProperty("user.dir") + "/src/tiles.csv").trim()));
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();
@@ -42,32 +42,22 @@ public class LoadBoard
 	    String val = scanner.next();
 
 	    if (val.equals("-")) {
-		String streetName = "";
-		String price = "";
-		String color = "";
-
-		for (String info : tileInfo) {
-		    if (streetName.equals("")) {
-			streetName = info;
-		    } else if (price.equals("")) {
-			price = info;
-		    } else {
-			color = info;
-		    }
-		}
+		String streetName = tileInfo.get(0);
+		int price = Integer.parseInt(tileInfo.get(1));
+		String color = tileInfo.get(2);
 
 		switch (color) {
-		    case "Blue":
-			createTopTile(streetName, Integer.parseInt(price), Color.getColor(color));
+		    case "BLUE":
+			createTopTile(streetName, price, Color.BLUE);
 			break;
-		    case "Red":
-			createBottomTile(streetName, Integer.parseInt(price), Color.getColor(color));
+		    case "RED":
+			createBottomTile(streetName, price, Color.getColor(color));
 			break;
-		    case "Orange":
-			createLeftTile(streetName, Integer.parseInt(price), Color.getColor(color));
+		    case "ORANGE":
+			createLeftTile(streetName, price, Color.getColor(color));
 			break;
-		    case "Pink":
-			createRightTile(streetName, Integer.parseInt(price), Color.getColor(color));
+		    case "PINK":
+			createRightTile(streetName, price, Color.getColor(color));
 			break;
 		    default:
 			throw new IllegalArgumentException("Bad color.");
