@@ -9,13 +9,13 @@ public class Player
 {
     private int money;
     private int playerWorth;
+    private int playerLoanCooldown;
+    private int loanMoney;
     private int currentTile;
     private ArrayList<HouseTile> ownedTiles;
     private String name;
     private Color color;
     private boolean jailed;
-
-
     private boolean canThrow;
 
     public Player(String name,Color color) {
@@ -24,6 +24,8 @@ public class Player
     	this.ownedTiles = new ArrayList<>();
     	this.name = name;
     	this.color = color;
+    	this.playerLoanCooldown = 0;
+    	this.loanMoney = 0;
 
     	this.jailed = false;
     	this.playerWorth = playerWorth();
@@ -55,15 +57,28 @@ public class Player
             sumMoney += tile.getPrice(); // Change to resell value instead
         }
 
-        return sumMoney;
+        return sumMoney - loanMoney;
 
     } // Should sum all the stuff a player owns. to be used in risk-analysis for the bank.
 
-
-    public void askToLoan(int amountToLoan) {}
-
     public void passedGo(){
 
+    }
+
+    public int getLoanCooldown() {
+        return playerLoanCooldown;
+    }
+
+    public void setLoanCooldown() {
+        playerLoanCooldown += 5; // Change to be dynamic depending on factors
+    }
+
+    public int getLoanMoney() {
+        return loanMoney;
+    }
+
+    public void setLoanMoney(int amount) {
+        loanMoney += amount;
     }
 
     public void move(int i) {

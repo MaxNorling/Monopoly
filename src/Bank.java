@@ -10,18 +10,30 @@ public class Bank
     public Bank() {}
 
     public int getBankMoney() {
-        return this.bankMoney;
+	return this.bankMoney;
     }
 
-    public int getInterestRate() { return this.interestRate; }
+    public int getInterestRate() { return interestRate; }
 
-    public boolean canPlayerLoan(Player player, int toLoan) {
-        if (toLoan > player.playerWorth()) { return false; }
-        return true; // Additional constraints to be added that take player financial levels into decision.
+
+    public String canPlayerLoan(Player player, int toLoan) {
+	// && player.getLoanCooldown() != 0 && player.getLoanMoney() > 0
+
+	if (toLoan > player.playerWorth()) {
+	    return "Loan greater than worth!";
+	} else if (player.getLoanMoney() > 0) {
+
+	    return "You have a loan of: $" + player.getLoanMoney() + ", to pay off first!";
+	} else if (player.getLoanCooldown() != 0) {
+
+	    return "Turns until a loan can be taken: " + player.getLoanCooldown();
+	}
+
+	return "Granted"; // Additional constraints to be added that take player financial levels into decision.
     }
 
     public int setInterestRate() {
-        return 0;
+	return 0;
         /*
         Set the interest rate depending on how many lots have been bought in the game.
         This will make sure that the players might be more inclined to loan to buy lots in order to be progress the game forward.
@@ -31,7 +43,7 @@ public class Bank
     }
 
     public void playerGiveMoney(Player player, int amount) {
-        player.setPlayerMoney(amount);
+	player.setPlayerMoney(amount);
     }
 
     public void getMoneyFromLoan() {
@@ -46,7 +58,7 @@ public class Bank
         /*
         Add money to the bank for various reasons.
          */
-        this.bankMoney += amount;
+	this.bankMoney += amount;
     }
 
     public void sellTile(Player player, HouseTile tile) {

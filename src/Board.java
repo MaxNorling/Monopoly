@@ -13,6 +13,7 @@ public class Board
     private int lastThrow = 1;
     private int currentPlayer;
     private ArrayList<Player> players;
+    private Bank bank;
 
     private ArrayList<Tile> tiles;
 
@@ -23,7 +24,7 @@ public class Board
 	System.out.println(tileSize);
 	tiles = new ArrayList<>();
 	die = new Dice(6);
-
+	bank = new Bank();
 
 	players = new ArrayList<>();
 	players.add(new Player("Sven", Color.ORANGE));
@@ -128,6 +129,10 @@ public class Board
 
     public Player getCurrentPlayer() {
 	return players.get(currentPlayer);
+    }
+
+    public Bank getBank() {
+        return bank;
     }
 
     public void nextPlayer() {

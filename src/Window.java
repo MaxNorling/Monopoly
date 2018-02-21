@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +11,7 @@ public class Window extends JFrame
 {
 
     private JTextArea currentPlayer;
-
+    private int amountToLoan = 0;
 
     public Window(Board b){
         BoardComponent bc = new BoardComponent(b);
@@ -45,6 +47,41 @@ public class Window extends JFrame
 	    }
 	});
 
+	SpinnerModel loanSpinner = new SpinnerNumberModel(0, 0, 1000, 50);
+	JSpinner spinner = new JSpinner(loanSpinner);
+	spinner.addChangeListener(new ChangeListener() {
+
+	    @Override
+	    public void stateChanged(ChangeEvent e) {
+	        amountToLoan = (int) ((JSpinner)e.getSource()).getValue();
+	    }
+	});
+
+	JButton loan = new JButton("Ask for a loan from the bank!");
+	loan.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e)
+	    {
+		String res = b.getBank().canPlayerLoan(b.getCurrentPlayer(), amountToLoan);
+		if (res.equals("Granted")) {
+		    JOptionPane.showConfirmDialog(null, "You have been granted a loan!\n" + "Your interest rate is: " + b.getBank().getInterestRate(),
+						  "BANK", JOptionPane.DEFAULT_OPTION);
+		    b.getCurrentPlayer().setPlayerMoney(amountToLoan);
+		    b.getCurrentPlayer().setLoanMoney(amountToLoan);
+
+		    currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
+		    bc.repaint();
+
+		    // Add terms
+		} else {
+		    JOptionPane.showConfirmDialog(null, "You have not been granted a loan.\n" + res, "BANK", JOptionPane.DEFAULT_OPTION);
+		    // Add reason for denial
+		}
+
+	    }
+	});
+
 	ArrayList<Player> players  = b.getPlayers();
 	System.out.println(players);
 	JPanel playerPanel = new JPanel();
@@ -68,6 +105,8 @@ public class Window extends JFrame
 	currentPlayer.setText(b.getCurrentPlayer().getName() + " $" +  b.getCurrentPlayer().getMoney());
 	subPanel.add(dice);
 	subPanel.add(next);
+	subPanel.add(loan);
+	subPanel.add(spinner);
 	subPanel.add(currentPlayer);
 	add(subPanel,BorderLayout.LINE_END);
 	subPanel.add(playerPanel,BorderLayout.SOUTH);
