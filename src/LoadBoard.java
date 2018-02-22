@@ -81,7 +81,7 @@ public class LoadBoard
     }
 
     public void createBottomTile(String streetName, int price, Color color) {
-	if (!getLastAddedTile().getColor().equals(color)) {
+	if (getLastAddedTile() != null && !getLastAddedTile().getColor().equals(color)) {
 	    tileX = 0;
 	}
 
@@ -99,7 +99,7 @@ public class LoadBoard
     }
 
     public void createLeftTile(String streetName, int price, Color color) {
-	if (!getLastAddedTile().getColor().equals(color)) {
+	if (getLastAddedTile() != null && !getLastAddedTile().getColor().equals(color)) {
 	    tileY = 0;
 	}
 
