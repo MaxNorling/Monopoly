@@ -4,7 +4,7 @@ import java.awt.geom.AffineTransform;
 public class HouseTile extends SmallTile
 {
     private int price;
-
+    private String name;
     private Color color;
     private Player owner = null;
 
@@ -13,6 +13,7 @@ public class HouseTile extends SmallTile
 	super(x,y,width,height,boxWidth,boxHeight,boxX,boxY,name,textX,textY,TileType.HOUSE);
 	this.price = price;
 	this.color = color;
+	this.name = name;
 
     }
 
@@ -27,6 +28,14 @@ public class HouseTile extends SmallTile
 	return color;
     }
 
+    public String getName() { return name; }
+
+    public void buyTile(Player player) {
+        if (player.canBuyTile(this)) {
+            player.setPlayerMoney(-this.price);
+            player.getOwnedTiles().add(this);
+	}
+    }
 
     @Override public String toString() {
 	return "            "+getText() + " : $" + price + "\n\n" + "            " +

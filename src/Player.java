@@ -44,8 +44,14 @@ public class Player
         return this.currentTile;
     }
 
-    public void removeTile() {
+    public void removeTile() {}
 
+    public boolean canBuyTile(HouseTile tile) {
+        if (tile.getPrice() > money) {
+            return false;
+        }
+
+        return true;
     }
 
     public int playerWorth() {
@@ -97,6 +103,7 @@ public class Player
     public String getName(){
         return name;
     }
+    public ArrayList<HouseTile> getOwnedTiles() { return ownedTiles; }
 
     public Color getColor(){
         return color;

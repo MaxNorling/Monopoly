@@ -4,9 +4,12 @@
 
 public class Bank
 {
-    private double interestRate = 0.1; // Decide what the intial interest rate should be
+    private static final double INTEREST_RATE = 0.1;
+    private double interestRate; // Decide what the intial interest rate should be
 
-    public Bank() {}
+    public Bank() {
+        this.interestRate = INTEREST_RATE;
+    }
 
     public double getInterestRate() { return interestRate; }
 
@@ -42,5 +45,9 @@ public class Bank
     }
 
     public void sellTile(Player player, HouseTile tile) {
+        if (tile.getOwner().equals(player)) {
+            playerGiveMoney(player, tile.getPrice()); // Change resell value to something lower
+            player.getOwnedTiles().remove(player.getOwnedTiles().indexOf(tile));
+	}
     } // Should take some kind of identifier to tile as parameter
 }

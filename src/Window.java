@@ -63,19 +63,23 @@ public class Window extends JFrame
 	    @Override
 	    public void actionPerformed(ActionEvent e)
 	    {
-		String res = b.getBank().canPlayerLoan(b.getCurrentPlayer(), amountToLoan);
-		if (res.equals("Granted")) {
-		    JOptionPane.showConfirmDialog(null, "You have been granted a loan!\n" + "Your interest rate is: " + b.getBank().getInterestRate(),
-						  "BANK", JOptionPane.DEFAULT_OPTION);
-		    b.getCurrentPlayer().setPlayerMoney(amountToLoan);
-		    b.getCurrentPlayer().setLoanMoney(amountToLoan);
+	        if (amountToLoan < 1) { JOptionPane.showConfirmDialog(null, "Please use the spinner below and specify amount!", "BANK", JOptionPane.DEFAULT_OPTION);
+	        } else {
+		    String res = b.getBank().canPlayerLoan(b.getCurrentPlayer(), amountToLoan);
+		    if (res.equals("Granted")) {
+			JOptionPane.showConfirmDialog(null, "You have been granted a loan of $" + amountToLoan + "!\n" +
+							    "Your interest rate is: " + b.getBank().getInterestRate(), "BANK",
+						      JOptionPane.DEFAULT_OPTION);
+			b.getCurrentPlayer().setPlayerMoney(amountToLoan);
+			b.getCurrentPlayer().setLoanMoney(amountToLoan);
 
-		    currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
-		    bc.repaint();
+			currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
+			bc.repaint();
 
-		    // Add terms
-		} else {
-		    JOptionPane.showConfirmDialog(null, "You have not been granted a loan.\n" + res, "BANK", JOptionPane.DEFAULT_OPTION);
+			// Add terms
+		    } else {
+			JOptionPane.showConfirmDialog(null, "You have not been granted a loan.\n" + res, "BANK", JOptionPane.DEFAULT_OPTION);
+		    }
 		}
 
 	    }
