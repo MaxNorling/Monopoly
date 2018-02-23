@@ -127,7 +127,7 @@ public class Player
 		}
 	    }
         }
-	}
+    }
 
 
     public boolean canThrow() {

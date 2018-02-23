@@ -26,7 +26,7 @@ public class Bank
 	    return "Turns until a loan can be taken: " + player.getLoanCooldown();
 	}
 
-	setInterestRate(player);
+	interestRate = setInterestRate(player);
 	return "Granted"; // Additional constraints to be added that take player financial levels into decision.
     }
 
