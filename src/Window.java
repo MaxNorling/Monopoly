@@ -10,83 +10,17 @@ import java.util.List;
 public class Window extends JFrame
 {
 
-    private JTextArea currentPlayer;
-    private int amountToLoan = 0;
 
     public Window(Board b){
         BoardComponent bc = new BoardComponent(b);
         setLayout(new BorderLayout());
-        add(bc);
-        JButton dice = new JButton("Throw dice!");
+        add(bc,BorderLayout.CENTER);
 
-	dice.addActionListener( new ActionListener()
-	{
-	    @Override
-	    public void actionPerformed(ActionEvent e)
-	    {
-	        if(b.getCurrentPlayer().canThrow()) {
-		    b.throwDie();
-		    bc.repaint();
-		    b.getCurrentPlayer().setCanThrow(false);
-		    dice.setEnabled(b.getCurrentPlayer().canThrow());
-		}
-	    }
-	});
-	JButton next = new JButton("Next player!");
-	next.addActionListener( new ActionListener()
-	{
-	    @Override
-	    public void actionPerformed(ActionEvent e)
-	    {
-		b.getCurrentPlayer().setCanThrow(true);
-	        b.nextPlayer();
-	        dice.setEnabled(b.getCurrentPlayer().canThrow());
-		currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
-	        bc.repaint();
+        GameButtons buttons = new GameButtons(b,bc);
 
-	    }
-	});
 
-	SpinnerModel loanSpinner = new SpinnerNumberModel(0, 0, 1000, 50);
-	JSpinner spinner = new JSpinner(loanSpinner);
-	spinner.addChangeListener(new ChangeListener() {
-
-	    @Override
-	    public void stateChanged(ChangeEvent e) {
-	        amountToLoan = (int) ((JSpinner)e.getSource()).getValue();
-	    }
-	});
-
-	JButton loan = new JButton("Ask for a loan from the bank!");
-	loan.addActionListener(new ActionListener() {
-
-	    @Override
-	    public void actionPerformed(ActionEvent e)
-	    {
-	        if (amountToLoan < 1) { JOptionPane.showConfirmDialog(null, "Please use the spinner below and specify amount!", "BANK", JOptionPane.DEFAULT_OPTION);
-	        } else {
-		    String res = b.getBank().canPlayerLoan(b.getCurrentPlayer(), amountToLoan);
-		    if (res.equals("Granted")) {
-			JOptionPane.showConfirmDialog(null, "You have been granted a loan of $" + amountToLoan + "!\n" +
-							    "Your interest rate is: " + b.getBank().getInterestRate(), "BANK",
-						      JOptionPane.DEFAULT_OPTION);
-			b.getCurrentPlayer().setPlayerMoney(amountToLoan);
-			b.getCurrentPlayer().setLoanMoney(amountToLoan);
-
-			currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
-			bc.repaint();
-
-			// Add terms
-		    } else {
-			JOptionPane.showConfirmDialog(null, "You have not been granted a loan.\n" + res, "BANK", JOptionPane.DEFAULT_OPTION);
-		    }
-		}
-
-	    }
-	});
 
 	ArrayList<Player> players  = b.getPlayers();
-	System.out.println(players);
 	JPanel playerPanel = new JPanel();
 	playerPanel.setLayout(new GridLayout(4,2));
 
@@ -101,19 +35,16 @@ public class Window extends JFrame
 	    playerPanel.add(button);
 	}
 
-
 	JPanel subPanel = new JPanel();
-	subPanel.setLayout(new GridLayout(8,8));
-	currentPlayer = new JTextArea();
-	currentPlayer.setText(b.getCurrentPlayer().getName() + " $" +  b.getCurrentPlayer().getMoney());
-	subPanel.add(dice);
-	subPanel.add(next);
-	subPanel.add(loan);
-	subPanel.add(spinner);
-	subPanel.add(currentPlayer);
+	subPanel.setLayout(new GridLayout(3,1));
+
 	add(subPanel,BorderLayout.LINE_END);
 	subPanel.add(playerPanel,BorderLayout.SOUTH);
+	subPanel.setLayout(new GridLayout(5,2));
 
+	subPanel.add(buttons,BorderLayout.LINE_END);
+	subPanel.add(playerPanel,BorderLayout.SOUTH);
+	add(subPanel,BorderLayout.LINE_END);
 	setTitle("Monopoly");
 	pack();
 	setVisible(true);

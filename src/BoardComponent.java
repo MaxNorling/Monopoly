@@ -2,9 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class BoardComponent extends JComponent implements MouseListener
 {
@@ -93,6 +91,16 @@ public class BoardComponent extends JComponent implements MouseListener
 	String name = tile.getText();
 
 
+
+	if(tile.getOwner() != null){
+	    g2d.setColor(tile.getOwner().getColor());
+	    Stroke oldStroke = g2d.getStroke();
+
+	    g2d.setStroke(new BasicStroke(4));
+	    g2d.drawRect(x + 4,y + 4,width - 8,height - 8);
+
+	    g2d.setStroke(oldStroke);
+	}
 	g2d.setColor(Color.BLACK);
 	g2d.drawRect(x, y, width, height);
 
@@ -108,6 +116,7 @@ public class BoardComponent extends JComponent implements MouseListener
 
 	g2d.setFont(new Font("Serif", Font.PLAIN, 12));
 	g2d.drawString(name, textX, textY - 15 - 12);
+
     }
 
     public void paintCornerTile(Graphics2D g2d, CornerTile tile) {

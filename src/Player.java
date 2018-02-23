@@ -16,10 +16,13 @@ public class Player
     private String name;
     private Color color;
     private boolean jailed;
+    private boolean hasMoved;
+
+
     private boolean canThrow;
 
     public Player(String name,Color color) {
-        this.money = 100; // Should be assigned to a starting money function
+        this.money = 1000; // Should be assigned to a starting money function
         this.currentTile = 0; // Should be assigned to the starting tile "GO"
     	this.ownedTiles = new ArrayList<>();
     	this.name = name;
@@ -30,6 +33,7 @@ public class Player
     	this.jailed = false;
     	this.playerWorth = playerWorth();
     	this.canThrow = true;
+    	this.hasMoved = false;
     }
 
     public int getMoney() {
@@ -65,10 +69,6 @@ public class Player
 
     } // Should sum all the stuff a player owns. to be used in risk-analysis for the bank.
 
-    public void passedGo(){
-
-    }
-
     public int getLoanCooldown() {
         return playerLoanCooldown;
     }
@@ -84,18 +84,46 @@ public class Player
     public void setLoanMoney(int amount) {
         loanMoney += amount;
     }
+    public void passedGo(){
+	money+=200;
+    }
 
-    public void move(int i) {
-        if(!jailed){
+    public void buyTile(HouseTile tile) {
+	if (hasMoved) {
+	    if (tile.getOwner() == null) {
+		if (money > tile.getPrice()) {
+		    money -= tile.getPrice();
+		    tile.setOwner(this);
+		    ownedTiles.add(tile);
+		}
+	    }
+	}
+    }
+
+    public void move(int i,Board b) {
+        if(!jailed && !hasMoved){
 	    currentTile += i;
+	    hasMoved = true;
 	    if (currentTile >= 40) { // 40 is the ammount of tiles on the board
 		currentTile -=40;
 		passedGo();
+	    }
+	    if(b.getTile(currentTile).getType() == TileType.HOUSE){
+	        HouseTile tile = (HouseTile) b.getTile(currentTile);
+	        if((tile.getOwner() != null) && (tile.getOwner() != this)){
+	            money-= tile.currentRent();
+		}
 	    }
         }
     }
     public boolean canThrow(){
         return canThrow;
+    }
+    public boolean hasMoved(){
+        return hasMoved;
+    }
+    public void setHasMoved(boolean b){
+        hasMoved = b;
     }
     public void setCanThrow(boolean b){
         canThrow = b;
@@ -107,5 +135,8 @@ public class Player
 
     public Color getColor(){
         return color;
+    }
+    public boolean isJailed(){
+        return jailed;
     }
 }

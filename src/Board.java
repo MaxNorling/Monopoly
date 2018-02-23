@@ -31,6 +31,7 @@ public class Board
 	players.add(new Player("Erik", Color.YELLOW));
 	players.add(new Player("Tesrta", Color.CYAN));
 
+
 	currentPlayer = 0;
 
 	//TODO SPARA OLIKA BANOR I TEXT FILER
@@ -106,7 +107,7 @@ public class Board
 
     public void throwDie() {
 	lastThrow = die.throwDie();
-	players.get(currentPlayer).move(lastThrow);
+	players.get(currentPlayer).move(lastThrow,this);
     }
 
     public int lastThrow() {
