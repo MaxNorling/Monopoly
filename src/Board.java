@@ -41,7 +41,7 @@ public class Board
 	BufferedImage img = il.loadImage("images/go.png");
 	BufferedImage chance = il.loadImage("images/question.png");
 	BufferedImage chest = il.loadImage("images/chest.png");
-	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, TILE_AMOUNT, img,"GO \n Pass this tile to get $200."));
+	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, TILE_AMOUNT, img, "GO \n Pass this tile to get $200."));
 
 	for (int x = TILE_AMOUNT - 3; x >= 2; x--) {
 	    if (x == 3) {
@@ -55,7 +55,7 @@ public class Board
 	}
 
 	img = il.loadImage("images/jail.png");
-	tiles.add(tm.makeCornerTile(tileSize, 2, TILE_AMOUNT, img,"JAIL \n You dont want to be here."));
+	tiles.add(tm.makeCornerTile(tileSize, 2, TILE_AMOUNT, img, "JAIL \n You dont want to be here."));
 
 	for (int y = TILE_AMOUNT - 3; y >= 2; y--) {
 	    if (y == 3) {
@@ -66,7 +66,7 @@ public class Board
 
 	}
 	img = il.loadImage("images/parking.png");
-	tiles.add(tm.makeCornerTile(tileSize, 2, 2, img,"FREE PARKING \n"));
+	tiles.add(tm.makeCornerTile(tileSize, 2, 2, img, "FREE PARKING \n"));
 
 
 	for (int x = 2; x < TILE_AMOUNT - 2; x++) {
@@ -78,7 +78,7 @@ public class Board
 
 	}
 	img = il.loadImage("images/gotoJail.png");
-	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, 2, img,"GO TO JAIL! \n GO DIRECTLY TO JAIl, WITHOUT PASSING GO!"));
+	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, 2, img, "GO TO JAIL! \n GO DIRECTLY TO JAIl, WITHOUT PASSING GO!"));
 
 	for (int y = 2; y < TILE_AMOUNT - 2; y++) {
 	    if (y == 4) {
@@ -131,15 +131,14 @@ public class Board
     }
 
     public Bank getBank() {
-        return bank;
+	return bank;
     }
 
     public void nextPlayer() {
-        if (getCurrentPlayer().getLoanMoney() > 0) {
-            double loanPayment = getCurrentPlayer().getLoanMoney() - (getCurrentPlayer().getLoanMoney()*bank.getInterestRate());
-            System.out.println(loanPayment);
-            // Should take things from players if player cant pay
-            getCurrentPlayer().setPlayerMoney((int) -loanPayment);
+	if (getCurrentPlayer().getLoanMoney() > 0) {
+	    double loanPayment = getCurrentPlayer().getLoanMoney() - (getCurrentPlayer().getLoanMoney() * bank.getInterestRate());
+	    getCurrentPlayer().payLoan((int) loanPayment);
+
 	}
 
 	currentPlayer++;
