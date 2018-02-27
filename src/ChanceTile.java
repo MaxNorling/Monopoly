@@ -20,4 +20,8 @@ public class ChanceTile extends SmallTile
     @Override public String toString() {
 	return "Gives the player a random card";
     }
+
+    @Override public void landAction(final Player p) {
+
+    }
 }

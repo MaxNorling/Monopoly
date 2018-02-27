@@ -13,7 +13,6 @@ public abstract class Tile
         this.type = type;
     }
 
-    //public abstract void landAction();
 
     public boolean contains(Point point){
 
@@ -44,5 +43,8 @@ public abstract class Tile
     }
 
     public abstract String toString();
-    
+
+    public abstract void landAction(Player p);
+
+
 }

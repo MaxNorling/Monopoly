@@ -20,4 +20,8 @@ public class CornerTile extends Tile
     @Override public String toString() {
 	return description;
     }
+
+    @Override public void landAction(Player p) {
+
+    }
 }

@@ -92,8 +92,8 @@ public class BoardComponent extends JComponent implements MouseListener
 
 
 
-	if(tile.getOwner() != null){
-	    g2d.setColor(tile.getOwner().getColor());
+	if(tile.getOwner() != ""){
+	    g2d.setColor(tile.getOwnerColor());
 	    Stroke oldStroke = g2d.getStroke();
 
 	    g2d.setStroke(new BasicStroke(4));
@@ -127,7 +127,6 @@ public class BoardComponent extends JComponent implements MouseListener
     }
 
     public void paintChanceTile(Graphics2D g2d, ChanceTile tile) {
-
 	    int x = tile.getX();
 	    int y = tile.getY();
 	    int width = tile.getWidth();
@@ -137,14 +136,10 @@ public class BoardComponent extends JComponent implements MouseListener
 	    int boxWidth = tile.getBoxWidth();
 	    int boxHeight = tile.getBoxHeight();
 
-
 	    g2d.setColor(Color.BLACK);
 	    g2d.drawRect(x, y, width, height);
 
-
 	    g2d.drawImage(tile.getImage(),boxX, boxY, boxWidth, boxHeight,null);
-
-
 
 	}
 

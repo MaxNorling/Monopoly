@@ -22,7 +22,7 @@ public class Window extends JFrame
 
 	ArrayList<Player> players  = b.getPlayers();
 	JPanel playerPanel = new JPanel();
-	playerPanel.setLayout(new GridLayout(4,2));
+	playerPanel.setLayout(new GridLayout(4,4));
 
 	for(Player p: players){
 

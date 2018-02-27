@@ -5,7 +5,8 @@ public class HouseTile extends SmallTile
     private int price;
     private String name;
     private Color color;
-    private Player owner;
+    private String owner;
+    private Color ownerColor;
     private int rent,rentOne,rentTwo,rentThree,rentFour,rentHotel;
 
 
@@ -14,7 +15,8 @@ public class HouseTile extends SmallTile
 	this.price = price;
 	this.color = color;
 	this.name = name;
-	owner = null;
+	owner = "";
+	ownerColor = null;
 
 	rent = 20;
 	rentOne = 130;
@@ -25,11 +27,12 @@ public class HouseTile extends SmallTile
 
     }
 
-    public Player getOwner(){
+    public String getOwner(){
         return owner;
     }
-    public void setOwner(Player player){
-        owner = player;
+    public void setOwner(String name, Color c){
+        owner = name;
+        ownerColor  = c;
     }
     public int getPrice() {
 	return price;
@@ -49,6 +52,10 @@ public class HouseTile extends SmallTile
             player.setPlayerMoney(-this.price);
             player.getOwnedTiles().add(this);
 	}
+    }
+
+    public Color getOwnerColor(){
+        return ownerColor;
     }
 
     @Override public String toString() {
@@ -83,12 +90,19 @@ public class HouseTile extends SmallTile
 	res.append(rentHotel);
 	res.append("\n");
 
-	if (owner != null) {
+	if (owner != "") {
 	    res.append("\n \t");
 	    res.append("Owner:");
-	    res.append(owner.getName());
+	    res.append(owner);
 	}
 
 	return res.toString();
+    }
+
+    @Override public void landAction(Player p) {
+        if(owner != ""){
+            if(p.getColor() != ownerColor)
+                p.loseMoney(currentRent());
+	}
     }
 }

@@ -107,7 +107,14 @@ public class Board
 
     public void throwDie() {
 	lastThrow = die.throwDie();
-	players.get(currentPlayer).move(lastThrow,this);
+	Player player = players.get(currentPlayer);
+	movePlayer(player);
+
+    }
+
+    private void movePlayer(Player player){
+	player.move(lastThrow);
+	tiles.get(player.getCurrentTile()).landAction(player);
     }
 
     public int lastThrow() {

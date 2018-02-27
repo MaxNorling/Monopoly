@@ -9,7 +9,6 @@ public class GameButtons extends JComponent
 {
 
     private int amountToLoan = 0;
-    private JTextArea currentPlayer;
 
     public GameButtons(Board b,BoardComponent bc) {
 	setLayout(new GridLayout(3, 3));
@@ -24,12 +23,14 @@ public class GameButtons extends JComponent
 	{
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
-		Player currentPlayer = b.getCurrentPlayer();
-		Tile currentTile = b.getTile(currentPlayer.getCurrentTile());
+		Player player = b.getCurrentPlayer();
+		Tile currentTile = b.getTile(player.getCurrentTile());
 		if (currentTile.getType() == TileType.HOUSE) {
-		    currentPlayer.buyTile((HouseTile) currentTile);
+		    player.buyTile((HouseTile) currentTile);
 		    bc.repaint();
 		}
+		currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
+
 
 	    }
 	});
@@ -44,8 +45,10 @@ public class GameButtons extends JComponent
 	    {
 		if (b.getCurrentPlayer().canThrow()) {
 		    b.throwDie();
+
 		    b.getCurrentPlayer().setCanThrow(false);
 		    dice.setEnabled(b.getCurrentPlayer().canThrow());
+		    currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
 		    bc.repaint();
 		}
 	    }
@@ -110,7 +113,7 @@ public class GameButtons extends JComponent
 			JOptionPane.showConfirmDialog(null, "You have not been granted a loan.\n" + res, "BANK", JOptionPane.DEFAULT_OPTION);
 		    }
 		}
-
+		spinner.setValue(0);
 	    }
 	});
 	add(loan);

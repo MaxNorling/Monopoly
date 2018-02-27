@@ -100,10 +100,10 @@ public class Player
 
     public void buyTile(HouseTile tile) {
 	if (hasMoved) {
-	    if (tile.getOwner() == null) {
+	    if (tile.getOwner() == "") {
 		if (money > tile.getPrice()) {
-		    money -= tile.getPrice();
-		    tile.setOwner(this);
+		    loseMoney(tile.getPrice());
+		    tile.setOwner(name,color);
 		    ownedTiles.add(tile);
 		}
 	    }
@@ -111,7 +111,7 @@ public class Player
     }
 
 
-    public void move(int i, Board b) {
+    public void move(int i) {
 	if(!jailed && !hasMoved){
 	    currentTile += i;
 	    hasMoved = true;
@@ -119,16 +119,21 @@ public class Player
 		currentTile -= 40;
 		passedGo();
 	    }
-
-	    if(b.getTile(currentTile).getType() == TileType.HOUSE){
-	        HouseTile tile = (HouseTile) b.getTile(currentTile);
-	        if((tile.getOwner() != null) && (tile.getOwner() != this)){
-	            money-= tile.currentRent();
-		}
-	    }
-        }
+	}
     }
 
+
+    public void loseMoney(int lost){
+	money-=lost;
+	if (money <= 0){
+	    gameOver();
+	}
+
+    }
+
+    public void gameOver(){
+
+    }
 
     public boolean canThrow() {
 	return canThrow;
