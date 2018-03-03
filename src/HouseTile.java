@@ -7,7 +7,7 @@ public class HouseTile extends SmallTile
     private Color color;
     private String owner;
     private Color ownerColor;
-    private int rent,rentOne,rentTwo,rentThree,rentFour,rentHotel;
+    private int rent,rentOne,rentTwo,rentThree,rentFour,rentHotel, houses , housePrice, hotelPrice;
 
 
     public HouseTile(int x, int y, int width,int height,int boxWidth, int boxHeight,int boxX, int boxY, int price, Color color, String name , int textX, int textY) {
@@ -18,12 +18,17 @@ public class HouseTile extends SmallTile
 	owner = "";
 	ownerColor = null;
 
+	houses = 0;
+
 	rent = 20;
 	rentOne = 130;
 	rentTwo = 280;
 	rentThree = 520;
 	rentFour = 850;
 	rentHotel = 1200;
+
+	housePrice = 100;
+	hotelPrice = 240;
 
     }
 
@@ -42,7 +47,16 @@ public class HouseTile extends SmallTile
 	return color;
     }
     public int currentRent(){
-        return rent;
+        switch(houses){
+	    case 1: return rentOne;
+	    case 2: return rentTwo;
+	    case 3: return rentThree;
+	    case 4: return rentFour;
+	    case 5: return rentHotel;
+
+	    case 0:
+	    default: return rent;
+	}
     }
 
     public String getName() { return name; }
@@ -54,8 +68,30 @@ public class HouseTile extends SmallTile
 	}
     }
 
+    public int getHousePrice(){
+        if(houses <= 3){
+            return housePrice;
+	}else if(houses < 5){
+            return hotelPrice;
+	}
+	return 0;
+    }
+
+    public int buyHouse(){
+        if(owner != "" && ownerColor != null){
+            if(houses < 5) {
+		houses++;
+		return getHousePrice();
+	    }
+	}
+	return 0;
+    }
+
     public Color getOwnerColor(){
         return ownerColor;
+    }
+    public int getHouses(){
+        return houses;
     }
 
     @Override public String toString() {
@@ -94,6 +130,14 @@ public class HouseTile extends SmallTile
 	    res.append("\n \t");
 	    res.append("Owner:");
 	    res.append(owner);
+	    if(houses > 0 && houses <=4){
+		res.append("\n");
+		res.append(houses);
+		res.append(" houses.");
+	    }else if(houses >4){
+	        res.append("\n");
+	        res.append("Hotel");
+	    }
 	}
 
 	return res.toString();

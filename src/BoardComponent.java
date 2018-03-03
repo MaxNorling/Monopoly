@@ -12,6 +12,7 @@ public class BoardComponent extends JComponent implements MouseListener
     private Dice die;
     private BufferedImage[] dice;
 
+
     public BoardComponent(Board b) {
 	board = b;
 	setPreferredSize(new Dimension(board.getBoardSize(), board.getBoardSize()));
@@ -27,7 +28,6 @@ public class BoardComponent extends JComponent implements MouseListener
 	dice[6] = loader.loadImage("images/die6.png");
 
 	addMouseListener(this);
-
 
 
     }
@@ -110,6 +110,26 @@ public class BoardComponent extends JComponent implements MouseListener
 	g2d.setColor(Color.BLACK);
 	g2d.drawRect(boxX, boxY, boxWidth, boxHeight);
 
+	if(tile.getOwner() != ""){
+	    int houses = tile.getHouses();
+	    if(houses > 0 && houses <=4){
+
+	        for(int i = 0;  i < houses; i++){
+		    g2d.setColor(Color.GREEN);
+	            g2d.fillRect(boxX + i * boxWidth/4,boxY,boxWidth/5,boxHeight);
+
+	            g2d.setColor(Color.BLACK);
+		    g2d.drawRect(boxX + i * boxWidth/4,boxY,boxWidth/5,boxHeight);
+		}
+
+	    }else if(houses > 4 ){
+	        g2d.setColor(Color.PINK);
+	        g2d.fillRect(boxX + boxWidth/4, boxY + boxHeight/4, boxWidth / 2, boxHeight/2);
+
+		g2d.setColor(Color.BLACK);
+		g2d.drawRect(boxX + boxWidth/4, boxY + boxHeight/4, boxWidth / 2, boxHeight/2);
+	    }
+	}
 
 	g2d.setFont(new Font("Serif", Font.BOLD, 15));
 	g2d.drawString("$" + price, textX, textY);
@@ -143,7 +163,6 @@ public class BoardComponent extends JComponent implements MouseListener
 
 	}
 
-
     @Override public void mouseClicked(final MouseEvent e) {
 
     }
@@ -151,7 +170,6 @@ public class BoardComponent extends JComponent implements MouseListener
     @Override public void mousePressed(final MouseEvent e) {
 	for(Tile tile: board.getTiles()){
 	 if(tile.contains(e.getPoint())){
-	     System.out.println(tile);
 	     JOptionPane.showMessageDialog(this, tile,tile.getType().toString(),JOptionPane.PLAIN_MESSAGE);
 
 	     }

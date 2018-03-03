@@ -4,37 +4,54 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class GameButtons extends JComponent
 {
 
     private int amountToLoan = 0;
+    private JTextField currentPlayer;
+    private Board b;
+    private BoardComponent bc;
+    private OwnedTilesGUI ownedTilesGUI;
 
     public GameButtons(Board b,BoardComponent bc) {
 	setLayout(new GridLayout(3, 3));
-
-	JTextField currentPlayer = new JTextField();
+	currentPlayer = new JTextField();
 	currentPlayer.setText(b.getCurrentPlayer().getName() + " : $" + b.getCurrentPlayer().getMoney());
 	add(currentPlayer);
-
+	this.b = b;
+	this.bc = bc;
 
 	JButton buyTile = new JButton("Buy Tile!");
 	buyTile.addActionListener(new ActionListener()
 	{
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
-		Player player = b.getCurrentPlayer();
-		Tile currentTile = b.getTile(player.getCurrentTile());
-		if (currentTile.getType() == TileType.HOUSE) {
-		    player.buyTile((HouseTile) currentTile);
-		    bc.repaint();
-		}
-		currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
+		b.buyTile();
+		updateScreen();
 
 
 	    }
 	});
 	add(buyTile);
+
+	JButton buyHouse = new JButton("Buy house!");
+	buyHouse.addActionListener(new ActionListener()
+	{
+	    @Override public void actionPerformed(ActionEvent e)
+	    {
+		HouseTile selected = displayOwnedTiles(b.getCurrentPlayer());
+		if(!b.buyHouse(selected)){
+		    JOptionPane.showConfirmDialog(null,"ERROR BUYING HOUSE! \n \n You need to own all tiles of the same color", "ERROR",JOptionPane.DEFAULT_OPTION);
+		}
+
+		updateScreen();
+
+	    }
+	});
+	add(buyHouse);
+
 
 	JButton dice = new JButton("Throw dice!");
 
@@ -48,12 +65,12 @@ public class GameButtons extends JComponent
 
 		    b.getCurrentPlayer().setCanThrow(false);
 		    dice.setEnabled(b.getCurrentPlayer().canThrow());
-		    currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
-		    bc.repaint();
+		    updateScreen();
 		}
 	    }
 	});
 	add(dice);
+
 
 
 
@@ -69,8 +86,7 @@ public class GameButtons extends JComponent
 
 		b.nextPlayer();
 		dice.setEnabled(b.getCurrentPlayer().canThrow());
-		currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
-		bc.repaint();
+		updateScreen();
 
 	    }
 	});
@@ -105,8 +121,7 @@ public class GameButtons extends JComponent
 			b.getCurrentPlayer().setPlayerMoney(amountToLoan);
 			b.getCurrentPlayer().setLoanMoney(amountToLoan);
 
-			currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
-			bc.repaint();
+
 
 			// Add terms
 		    } else {
@@ -114,10 +129,35 @@ public class GameButtons extends JComponent
 		    }
 		}
 		spinner.setValue(0);
+		updateScreen();
 	    }
 	});
 	add(loan);
 
 
+
     }
+
+    private HouseTile displayOwnedTiles(Player player){
+	ArrayList<HouseTile> owned = b.getOwnedTiles(player);
+
+	if(owned.isEmpty()){
+	    JOptionPane.showMessageDialog(this,"You do not own any tiles.","ERROR",JOptionPane.PLAIN_MESSAGE);
+	}else{
+	    if(ownedTilesGUI != null) {
+		ownedTilesGUI.dispose();
+	    }
+
+	    ownedTilesGUI =  new OwnedTilesGUI(owned);
+	    HouseTile result = ownedTilesGUI.showDialog();
+	    return result;
+	}
+	return null;
+    }
+
+    private void updateScreen(){
+   	currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
+   	bc.repaint();
+    }
+
 }

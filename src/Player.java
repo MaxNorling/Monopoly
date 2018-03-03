@@ -49,7 +49,8 @@ public class Player
 	return this.currentTile;
     }
 
-    public void removeTile() {}
+    public void removeTile() {
+    }
 
     public boolean canBuyTile(HouseTile tile) {
 	return tile.getPrice() > money;

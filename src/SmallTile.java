@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public abstract class SmallTile extends Tile
 {
     private int boxWidth,boxHeight,boxX,boxY,textX,textY;

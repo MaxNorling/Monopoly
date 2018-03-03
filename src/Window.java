@@ -1,11 +1,8 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Window extends JFrame
 {
@@ -13,7 +10,7 @@ public class Window extends JFrame
 
     public Window(Board b){
         BoardComponent bc = new BoardComponent(b);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout()); // TODO Byt layout
         add(bc,BorderLayout.CENTER);
 
         GameButtons buttons = new GameButtons(b,bc);

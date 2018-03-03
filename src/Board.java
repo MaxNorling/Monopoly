@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -27,9 +26,9 @@ public class Board
 	players = new ArrayList<>();
 	players.add(new Player("Sven", Color.ORANGE));
 	players.add(new Player("Pelle", Color.BLUE));
-	players.add(new Player("Oskar", Color.RED));
-	players.add(new Player("Erik", Color.YELLOW));
-	players.add(new Player("Tesrta", Color.CYAN));
+	//players.add(new Player("Oskar", Color.RED));
+	//players.add(new Player("Erik", Color.YELLOW));
+	//players.add(new Player("Tesrta", Color.CYAN));
 
 
 	currentPlayer = 0;
@@ -46,8 +45,10 @@ public class Board
 	for (int x = TILE_AMOUNT - 3; x >= 2; x--) {
 	    if (x == 3) {
 		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chance, "Chance"));
+
 	    } else if (x == 9) {
 		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chest, "Chest"));
+
 	    } else {
 		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.RED, 120, "Valla"));
 	    }
@@ -140,8 +141,57 @@ public class Board
     public Bank getBank() {
 	return bank;
     }
+    private boolean isHouseTile(Tile tile){
+        if (tile.getType() == TileType.HOUSE) {
+	    return true;
+	}
+        return false;
+    }
+    public boolean buyHouse(HouseTile tile){
+	Player player = getCurrentPlayer();
+	int money = player.getMoney();
+
+	if(ownsAll(tile.getColor(), player)){
+	    if(money > tile.getHousePrice()) {
+	        player.loseMoney(tile.buyHouse());
+	        return true;
+	    }
+	}
+	return false;
+    }
+
+    public boolean ownsAll(Color color, Player player){
+	for (Tile tile: tiles){
+	    if(tile instanceof HouseTile) {
+	        HouseTile hTile = (HouseTile) tile;
+		if (hTile.getColor() == color) {
+		    if(hTile.getOwnerColor() != player.getColor()){
+		        return false;
+		    }
+		}
+	    }
+	}
+
+
+        return true;
+    }
+
+
+    public void buyTile() {
+	Player player = getCurrentPlayer();
+	Tile currentTile = getTile(player.getCurrentTile());
+
+	if(isHouseTile(currentTile)){
+	    player.buyTile((HouseTile) getTile(player.getCurrentTile()));
+	}
+    }
+
+    public ArrayList<HouseTile> getOwnedTiles(Player player){
+        return player.getOwnedTiles();
+    }
 
     public void nextPlayer() {
+
 	if (getCurrentPlayer().getLoanMoney() > 0) {
 	    double loanPayment = getCurrentPlayer().getLoanMoney() - (getCurrentPlayer().getLoanMoney() * bank.getInterestRate());
 	    getCurrentPlayer().payLoan((int) loanPayment);
