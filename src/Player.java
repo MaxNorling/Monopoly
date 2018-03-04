@@ -125,7 +125,7 @@ public class Player
     }
 
     public void goToJail() {
-        setPosition(9);
+        this.currentTile = 9;
         this.jailed = true;
     }
 
@@ -137,10 +137,15 @@ public class Player
         this.outOfJailCard = true;
     }
 
+
     private void setPosition(int position) {
         this.currentTile = position;
     }
 
+    public void specialMove(int amount) {
+        // Used when a special card moves the player a specified amount, can't use normal move
+	this.currentTile += amount;
+    }
 
     public void loseMoney(int lost){
 	money-=lost;

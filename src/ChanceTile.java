@@ -49,9 +49,12 @@ public class ChanceTile extends SmallTile
 	        p.goToJail();
 	        break;
 	    case "playerTravelTiles":
-		System.out.println("t");
+		System.out.println("t" + card.getAmount());
+		System.out.println(p.getCurrentTile());
 
-	        p.move(card.getAmount());
+	        p.specialMove(card.getAmount());
+		System.out.println(p.getCurrentTile());
+
 	        break;
 	    default:
 	        System.out.println(card.getActionType());

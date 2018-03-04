@@ -56,7 +56,7 @@ public class Window extends JFrame
 
     public void displayPlayer(Player player){
 	JOptionPane.showMessageDialog(this, player.getName()+" : $" + player.getMoney()
-					    + "\n" + "Color:" + player.getColor() + "\n" + "Owned properites:",
+					    + "\n" + "Color:" + player.getColor() + "\n" + "Get out of jail card: " + player.getOutOfJailCard() + "\n" + "Owned properites:",
 				      player.getName(),JOptionPane.PLAIN_MESSAGE);
 
     }

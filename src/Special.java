@@ -9,7 +9,9 @@ public class Special implements SpecialCards
     }
 
     @Override public void playerTravelTiles(final Player p, final int amount) {
+        System.out.println(p.getCurrentTile());
 	p.move(amount);
+	System.out.println(p.getCurrentTile());
     }
 
     @Override public void playerGiveCard(final Player p) {
@@ -21,6 +23,6 @@ public class Special implements SpecialCards
     }
 
     @Override public void getOutOfJail(final Player p) {
-
+	p.giveOutOfJailCard();
     }
 }
