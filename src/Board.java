@@ -12,9 +12,9 @@ public class Board
     private int currentPlayer;
     private ArrayList<Player> players;
     private Bank bank;
-
     private ArrayList<Tile> tiles;
-
+    private LoadBoard loadBoard;
+    private ArrayList<Card> chanceCards;
 
     public Board(int boardSize) {
 	this.boardSize = boardSize;
@@ -23,7 +23,8 @@ public class Board
 	tiles = new ArrayList<>();
 	die = new Dice(6);
 	bank = new Bank();
-
+	loadBoard = new LoadBoard(this);
+	chanceCards = loadBoard.getChanceCards();
 	players = new ArrayList<>();
 	players.add(new Player("Sven", Color.ORANGE));
 	players.add(new Player("Pelle", Color.BLUE));
@@ -45,9 +46,9 @@ public class Board
 
 	for (int x = TILE_AMOUNT - 3; x >= 2; x--) {
 	    if (x == 3) {
-		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chance, "Chance"));
+		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chance, "Chance", chanceCards));
 	    } else if (x == 9) {
-		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chest, "Chest"));
+		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chest, "Chest", chanceCards));
 	    } else {
 		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.RED, 120, "Valla"));
 	    }
@@ -59,7 +60,7 @@ public class Board
 
 	for (int y = TILE_AMOUNT - 3; y >= 2; y--) {
 	    if (y == 3) {
-		tiles.add(tm.makeLeftChanceTile(tileSize, 0, y, chest, "Chest"));
+		tiles.add(tm.makeLeftChanceTile(tileSize, 0, y, chest, "Chest", chanceCards));
 	    } else {
 		tiles.add(tm.makeLeftHouseTile(tileSize, 0, y, Color.ORANGE, 100 + y, "Ryd"));
 	    }
@@ -71,7 +72,7 @@ public class Board
 
 	for (int x = 2; x < TILE_AMOUNT - 2; x++) {
 	    if (x == 3) {
-		tiles.add(tm.makeTopChanceTile(tileSize, x, 0, chance, "Chance"));
+		tiles.add(tm.makeTopChanceTile(tileSize, x, 0, chance, "Chance", chanceCards));
 	    } else {
 		tiles.add(tm.makeTopHouseTile(tileSize, x, 0, Color.BLUE, 100 + x, "Ipsum"));
 	    }
@@ -82,9 +83,9 @@ public class Board
 
 	for (int y = 2; y < TILE_AMOUNT - 2; y++) {
 	    if (y == 4) {
-		tiles.add(tm.makeRightChanceTile(tileSize, 5, y, chest, "Chest"));
+		tiles.add(tm.makeRightChanceTile(tileSize, 5, y, chest, "Chest", chanceCards));
 	    } else if (y == 7) {
-		tiles.add(tm.makeRightChanceTile(tileSize, 5, y, chance, "Chance"));
+		tiles.add(tm.makeRightChanceTile(tileSize, 5, y, chance, "Chance", chanceCards));
 	    } else {
 		tiles.add(tm.makeRightHouseTile(tileSize, 5, y, Color.PINK, 100 + y, "Lorem"));
 	    }
@@ -152,6 +153,7 @@ public class Board
 	if (currentPlayer >= players.size()) {
 	    currentPlayer = 0;
 	}
+
     }
 
 

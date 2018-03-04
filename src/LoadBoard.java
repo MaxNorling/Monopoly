@@ -12,6 +12,8 @@ public class LoadBoard
 {
 
     private ArrayList<HouseTile> boardTiles;
+    private ArrayList<Card> chanceCards;
+    private ArrayList<Card> communityCards;
     private TileMaker tileMaker;
     private Board board;
     private int tileX;
@@ -19,13 +21,19 @@ public class LoadBoard
 
     public LoadBoard(Board board) {
 	this.boardTiles = new ArrayList<>();
+	this.chanceCards = new ArrayList<>();
+	readTileInformation("chance.csv");
+
+
+	this.communityCards = new ArrayList<>();
 	this.tileMaker = new TileMaker();
 	this.board = board;
 	this.tileX = 0;
 	this.tileY = 0;
     }
 
-    public void readTileInformation(File file) {
+    public void readTileInformation(String fileName) {
+        File file = new File(fileName);
 	List<String> tileInfo = new ArrayList<>();
 
 	Scanner scanner = null;
@@ -40,7 +48,6 @@ public class LoadBoard
 
 	while (scanner.hasNext()) {
 	    String val = scanner.next();
-
 	    if (file.getPath().equals("tiles.csv")) {
 		if (val.equals("-")) {
 		    String streetName = tileInfo.get(0);
@@ -65,27 +72,26 @@ public class LoadBoard
 		    }
 
 		    tileInfo = new ArrayList<>();
-
 		} else {
 		    tileInfo.add(val);
 		}
-	    } else if (file.getPath().equals("chance.csv")) {
+	    } else if (file.getPath().equals("chance.csv") || file.getPath().equals("community.csv")) {
 		if (val.equals("-")) {
 		    String chanceText = tileInfo.get(0);
-		    String chanceId = tileInfo.get(1);
-		    String jailFreeCard = "";
-		    String jailCard = "";
+		    String chanceId = tileInfo.get(1).trim();
+		    String getOutOfJail = "";
+		    String goToJail = "";
 		    int amountId = 0;
 		    int travelTiles = 0;
 
 		    if (chanceId.equals("loseMoney") || chanceId.equals("addMoney")) {
-			amountId = Integer.parseInt(tileInfo.get(2));
+			amountId = Integer.parseInt(tileInfo.get(2).trim());
 		    } else if (chanceId.equals("travelTiles")) {
-			travelTiles = Integer.parseInt(tileInfo.get(2));
-		    } else if (chanceId.equals("jailFreeCard")) {
-			jailFreeCard = tileInfo.get(2);
-		    } else if (chanceId.equals("jailCard")) {
-			jailCard = tileInfo.get(2);
+			travelTiles = Integer.parseInt(tileInfo.get(2).trim());
+		    } else if (chanceId.equals("getOutOfJail")) {
+			getOutOfJail = tileInfo.get(2).trim();
+		    } else if (chanceId.equals("goToJail")) {
+			goToJail = tileInfo.get(2).trim();
 		    }
 
 		    switch (chanceId) {
@@ -98,17 +104,18 @@ public class LoadBoard
 			case "travelTiles":
 			    playerTravelTiles(chanceText, travelTiles);
 			    break;
-			case "jailFreeCard":
-			    playerGiveCard(chanceText, jailFreeCard);
+			case "getOutOfJail":
+			    playerGetOutOfJail(chanceText);
 			    break;
-			case "jailCard":
-			    playerInJail(chanceText, jailCard);
+			case "goToJail":
+			    playerGoToJail(chanceText);
 			    break;
 			default:
-			    throw new IllegalArgumentException("Invalid Card");
+			    throw new IllegalArgumentException("Invalid Card: " + chanceId);
 		    }
 
 		    tileInfo = new ArrayList<>();
+
 		} else {
 		    tileInfo.add(val);
 		}
@@ -162,24 +169,57 @@ public class LoadBoard
     }
 
     public void playerLoseMoney(String chanceText, int amount) {
-        board.getCurrentPlayer().setPlayerMoney(-amount);
+        Special special = new Special();
+        Card card = new Card(chanceText, "playerLoseMoney", amount, special);
+
+        chanceCards.add(card);
+        //board.getCurrentPlayer().setPlayerMoney(-amount);
     }
 
     public void playerAddMoney(String chanceText, int amount) {
-	board.getCurrentPlayer().setPlayerMoney(amount);
+	Special special = new Special();
+ 	Card card = new Card(chanceText, "playerLoseMoney", amount, special);
+ 	chanceCards.add(card);
+	//board.getCurrentPlayer().setPlayerMoney(amount);
     }
 
     public void playerTravelTiles(String chanceText, int travelTiles) {
-        board.getCurrentPlayer().move(travelTiles);
+        Special special = new Special();
+        Card card = new Card(chanceText, "playerTravelTiles", travelTiles, special);
+        chanceCards.add(card);
+
+        //board.getCurrentPlayer().move(travelTiles);
     }
 
-    public void playerGiveCard(String chanceText, String card) {}
+    public void playerGoToJail(String chanceText) {
+	Special special = new Special();
+	Card card = new Card(chanceText, "goToJail", 0, special);
+ 	chanceCards.add(card);
 
-    public void playerInJail(String chanceText, String card) {}
+        //board.getCurrentPlayer().goToJail();
+    }
+
+    public void playerGetOutOfJail(String chanceText) {
+        Special special = new Special();
+        Card card = new Card(chanceText, "getOutOfJail", 0, special);
+        chanceCards.add(card);
+    }
+
+    public ArrayList<Card> getChanceCards() {
+        return this.chanceCards;
+    }
+
+    public ArrayList<Card> getCommunityCard() {
+        return this.communityCards;
+    }
+
+    public ArrayList<HouseTile> getBoardTiles() {
+        return this.boardTiles;
+    }
 
     public static void main(String... args) {
 	LoadBoard loadBoard = new LoadBoard(new Board(10));
-	loadBoard.readTileInformation(new File("chance.csv"));
+	loadBoard.readTileInformation("chance.csv");
 	System.out.println(loadBoard.boardTiles);
     }
 }

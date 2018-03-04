@@ -17,7 +17,7 @@ public class Player
     private Color color;
     private boolean jailed;
     private boolean hasMoved;
-
+    private boolean outOfJailCard;
 
     private boolean canThrow;
 
@@ -31,6 +31,7 @@ public class Player
 	this.loanMoney = 0;
 
 	this.jailed = false;
+	this.outOfJailCard = false;
 	this.playerWorth = playerWorth();
 	this.canThrow = true;
 	this.hasMoved = false;
@@ -120,6 +121,23 @@ public class Player
 		passedGo();
 	    }
 	}
+    }
+
+    public void goToJail() {
+        setPosition(9);
+        this.jailed = true;
+    }
+
+    public boolean getOutOfJailCard() {
+        return this.outOfJailCard;
+    }
+
+    public void giveOutOfJailCard() {
+        this.outOfJailCard = true;
+    }
+
+    private void setPosition(int position) {
+        this.currentTile = position;
     }
 
 

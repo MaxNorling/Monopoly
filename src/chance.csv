@@ -1,1 +1,1 @@
-"You have been given money", "addMoney", "20", -, "You lose money", "loseMoney", "20", -, "You travel tiles", "travelTiles", "10", -, "You have been given a get out of jail card", "jailFreeCard", -, "You are going to jail", "jailCard"
+You have been given money, addMoney, 20,-, You lose money, loseMoney, 20,-, You travel tiles, travelTiles, 10,-, You have been given a get out of jail card, getOutOfJail, 0,-, You are going to jail, goToJail,0
