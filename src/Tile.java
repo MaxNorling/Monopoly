@@ -46,5 +46,4 @@ public abstract class Tile
 
     public abstract void landAction(Player p);
 
-
 }
