@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Board
     private ArrayList<Tile> tiles;
     private LoadBoard loadBoard;
     private ArrayList<Card> chanceCards;
+    private StringBuilder turnSummary;
 
     public Board(int boardSize) {
 	this.boardSize = boardSize;
@@ -27,6 +29,8 @@ public class Board
 	players = new ArrayList<>();
 	players.add(new Player("Sven", Color.ORANGE));
 	players.add(new Player("Pelle", Color.BLUE));
+
+	turnSummary = new StringBuilder();
 	//players.add(new Player("Oskar", Color.RED));
 	//players.add(new Player("Erik", Color.YELLOW));
 	//players.add(new Player("Tesrta", Color.CYAN));
@@ -41,7 +45,7 @@ public class Board
 	BufferedImage img = il.loadImage("images/go.png");
 	BufferedImage chance = il.loadImage("images/question.png");
 	BufferedImage chest = il.loadImage("images/chest.png");
-	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, TILE_AMOUNT, img, "GO \n Pass this tile to get $200."));
+	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, TILE_AMOUNT, img, "GO","Pass this tile to get $200."));
 
 	for (int x = TILE_AMOUNT - 3; x >= 2; x--) {
 	    if (x == 3) {
@@ -56,7 +60,7 @@ public class Board
 	}
 
 	img = il.loadImage("images/jail.png");
-	tiles.add(tm.makeCornerTile(tileSize, 2, TILE_AMOUNT, img, "JAIL \n You dont want to be here."));
+	tiles.add(tm.makeCornerTile(tileSize, 2, TILE_AMOUNT, img, "JAIL", "You dont want to be here."));
 
 	for (int y = TILE_AMOUNT - 3; y >= 2; y--) {
 	    if (y == 3) {
@@ -67,7 +71,7 @@ public class Board
 
 	}
 	img = il.loadImage("images/parking.png");
-	tiles.add(tm.makeCornerTile(tileSize, 2, 2, img, "FREE PARKING \n"));
+	tiles.add(tm.makeCornerTile(tileSize, 2, 2, img,"Free parking", "Nothing happens here"));
 
 
 	for (int x = 2; x < TILE_AMOUNT - 2; x++) {
@@ -79,7 +83,7 @@ public class Board
 
 	}
 	img = il.loadImage("images/gotoJail.png");
-	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, 2, img, "GO TO JAIL! \n GO DIRECTLY TO JAIl, WITHOUT PASSING GO!"));
+	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, 2, img, "GO TO JAIL!","GO DIRECTLY TO JAIl, WITHOUT PASSING GO!"));
 
 	for (int y = 2; y < TILE_AMOUNT - 2; y++) {
 	    if (y == 4) {
@@ -110,20 +114,25 @@ public class Board
 	lastThrow = die.throwDie();
 	Player player = players.get(currentPlayer);
 	movePlayer(player);
+	addToSummary("You rolled a " + lastThrow);
+
+
 
     }
 
     private void movePlayer(Player player){
 	player.move(lastThrow);
-	tiles.get(player.getCurrentTile()).landAction(player);
+	Tile currentTile = tiles.get(player.getCurrentTile());
+	String landed = currentTile.landAction(player);
+	if(landed != ""){
+	    addToSummary(landed);
+	}
+	addToSummary("You landed on a " + currentTile.getType());
+
     }
 
     public int lastThrow() {
 	return lastThrow;
-    }
-
-    public int getTileAmount() {
-	return TILE_AMOUNT - 2; //CORNER TILES ARE 2 TILES
     }
 
     public Tile getTile(int i) {
@@ -152,8 +161,10 @@ public class Board
 	int money = player.getMoney();
 
 	if(ownsAll(tile.getColor(), player)){
-	    if(money > tile.getHousePrice()) {
+	    int price = tile.getHousePrice();
+	    if(money > price) {
 	        player.loseMoney(tile.buyHouse());
+	        addToSummary("You bought house on " +tile.getName() +" for" + price);
 	        return true;
 	    }
 	}
@@ -165,7 +176,7 @@ public class Board
 	    if(tile instanceof HouseTile) {
 	        HouseTile hTile = (HouseTile) tile;
 		if (hTile.getColor() == color) {
-		    if(hTile.getOwnerColor() != player.getColor()){
+		    if(hTile.getOwner() != player ){
 		        return false;
 		    }
 		}
@@ -182,7 +193,10 @@ public class Board
 	Tile currentTile = getTile(player.getCurrentTile());
 
 	if(isHouseTile(currentTile)){
-	    player.buyTile((HouseTile) getTile(player.getCurrentTile()));
+	    HouseTile cTile = (HouseTile) currentTile;
+	    if(player.buyTile(cTile)) {
+		addToSummary("You bought the tile " + cTile.getName() + " for" + cTile.getPrice());
+	    }
 	}
     }
 
@@ -203,6 +217,18 @@ public class Board
 	    currentPlayer = 0;
 	}
 
+    }
+    public void addToSummary(String message){
+        turnSummary.append("\n");
+        turnSummary.append(message);
+    }
+
+    public String getSummary(){
+        return turnSummary.toString();
+    }
+
+    public void resetTurnSummary(){
+        turnSummary = new StringBuilder();
     }
 
 

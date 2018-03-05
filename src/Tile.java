@@ -44,6 +44,6 @@ public abstract class Tile
 
     public abstract String toString();
 
-    public abstract void landAction(Player p);
+    public abstract String landAction(Player p);
 
 }

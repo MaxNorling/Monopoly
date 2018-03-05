@@ -18,7 +18,9 @@ public class Player
     private boolean jailed;
     private boolean hasMoved;
     private boolean outOfJailCard;
+    private boolean gameOver;
 
+    private int jailedTurns;
     private boolean canThrow;
 
     public Player(String name,Color color) {
@@ -29,12 +31,14 @@ public class Player
 	this.color = color;
 	this.loanCooldown = 0;
 	this.loanMoney = 0;
+	this.jailedTurns = 0;
 
 	this.jailed = false;
 	this.outOfJailCard = false;
 	this.playerWorth = playerWorth();
 	this.canThrow = true;
 	this.hasMoved = false;
+	this.gameOver = false;
     }
 
 
@@ -100,16 +104,18 @@ public class Player
 	money+=200;
     }
 
-    public void buyTile(HouseTile tile) {
+    public boolean buyTile(HouseTile tile) {
 	if (hasMoved) {
-	    if (tile.getOwner() == "") {
+	    if (tile.getOwner() == null) {
 		if (money > tile.getPrice()) {
 		    loseMoney(tile.getPrice());
-		    tile.setOwner(name,color);
+		    tile.setOwner(this);
 		    ownedTiles.add(tile);
+		    return true;
 		}
 	    }
 	}
+	return false;
     }
 
 
@@ -125,7 +131,7 @@ public class Player
     }
 
     public void goToJail() {
-        this.currentTile = 9;
+        this.currentTile = 10;
         this.jailed = true;
     }
 
@@ -140,23 +146,28 @@ public class Player
 
     private void setPosition(int position) {
         this.currentTile = position;
+
     }
 
     public void specialMove(int amount) {
         // Used when a special card moves the player a specified amount, can't use normal move
 	this.currentTile += amount;
+
+	if(currentTile > 40){
+       	 currentTile -=40;
+	}
     }
 
     public void loseMoney(int lost){
 	money-=lost;
-	if (money <= 0){
+	if (playerWorth <= 0){
 	    gameOver();
 	}
 
     }
 
     public void gameOver(){
-
+	gameOver = true;
     }
 
     public boolean canThrow() {
@@ -183,5 +194,16 @@ public class Player
     }
     public boolean isJailed(){
         return jailed;
+    }
+    public void leaveJail(){
+        jailed = false;
+        hasMoved = false;
+        jailedTurns = 0;
+    }
+    public int getJailedTurns(){
+        return jailedTurns;
+    }
+    public void increaseJailedTurns(){
+        jailedTurns++;
     }
 }

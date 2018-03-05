@@ -5,8 +5,7 @@ public class HouseTile extends SmallTile
     private int price;
     private String name;
     private Color color;
-    private String owner;
-    private Color ownerColor;
+    private Player owner;
     private int rent,rentOne,rentTwo,rentThree,rentFour,rentHotel, houses , housePrice, hotelPrice;
 
 
@@ -15,8 +14,7 @@ public class HouseTile extends SmallTile
 	this.price = price;
 	this.color = color;
 	this.name = name;
-	owner = "";
-	ownerColor = null;
+	owner = null;
 
 	houses = 0;
 
@@ -32,12 +30,11 @@ public class HouseTile extends SmallTile
 
     }
 
-    public String getOwner(){
+    public Player getOwner(){
         return owner;
     }
-    public void setOwner(String name, Color c){
-        owner = name;
-        ownerColor  = c;
+    public void setOwner(Player player){
+        owner = player;
     }
     public int getPrice() {
 	return price;
@@ -78,7 +75,7 @@ public class HouseTile extends SmallTile
     }
 
     public int buyHouse(){
-        if(owner != "" && ownerColor != null){
+        if(owner != null){
             if(houses < 5) {
 		houses++;
 		return getHousePrice();
@@ -88,7 +85,7 @@ public class HouseTile extends SmallTile
     }
 
     public Color getOwnerColor(){
-        return ownerColor;
+        return owner.getColor();
     }
     public int getHouses(){
         return houses;
@@ -126,7 +123,7 @@ public class HouseTile extends SmallTile
 	res.append(rentHotel);
 	res.append("\n");
 
-	if (owner != "") {
+	if (owner != null) {
 	    res.append("\n \t");
 	    res.append("Owner:");
 	    res.append(owner);
@@ -143,10 +140,13 @@ public class HouseTile extends SmallTile
 	return res.toString();
     }
 
-    @Override public void landAction(Player p) {
-        if(owner != ""){
-            if(p.getColor() != ownerColor)
+    @Override public String landAction(Player p) {
+        if(owner != null){
+            if(!p.equals(owner)){
                 p.loseMoney(currentRent());
-	}
+            	return "You lost " + currentRent() +"$";
+            }
+        }
+	return "";
     }
 }

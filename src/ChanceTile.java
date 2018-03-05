@@ -26,25 +26,30 @@ public class ChanceTile extends SmallTile
 	return "Gives the player a random card";
     }
 
-    @Override public void landAction(final Player p) {
+    @Override public String landAction(final Player p) {
         Card card = chanceCards.get(random.nextInt(chanceCards.size()));
+        String whatHappend = "";
         switch (card.getActionType()) {
 	    case "playerAddMoney":
 	        p.setPlayerMoney(card.getAmount());
 	        System.out.println("add");
+	        whatHappend ="You got" + card.getAmount() + "$";
 	        break;
 	    case "playerLoseMoney":
 		p.setPlayerMoney(-card.getAmount());
 		System.out.println("lsoe");
+		whatHappend ="You lost" + card.getAmount() + "$";
 
 	        break;
 	    case "getOutOfJail":
 	        p.giveOutOfJailCard();
 		System.out.println("out");
+		whatHappend ="You got a get out of jail card";
 
 	        break;
 	    case "goToJail":
 		System.out.println("in");
+		whatHappend ="You got jailed";
 
 	        p.goToJail();
 	        break;
@@ -54,10 +59,14 @@ public class ChanceTile extends SmallTile
 
 	        p.specialMove(card.getAmount());
 		System.out.println(p.getCurrentTile());
+		whatHappend ="You traveled" + card.getAmount() + "tiles";
 
 	        break;
 	    default:
 	        System.out.println(card.getActionType());
+		whatHappend ="Something happened" + card.getAmount();
+
 	}
+	return whatHappend;
     }
 }

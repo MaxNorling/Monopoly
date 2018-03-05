@@ -10,10 +10,10 @@ public class TileMaker
     }
 
 
-    public CornerTile makeCornerTile(int squareSize, int x, int y, BufferedImage img, String description) {
+    public CornerTile makeCornerTile(int squareSize, int x, int y, BufferedImage img,String name, String description) {
 	int size = squareSize * 2;
 
-	return new CornerTile(x * squareSize - size, y * squareSize - size, size, size, img,description);
+	return new CornerTile(x * squareSize - size, y * squareSize - size, size, size, img,name,description);
     }
 
     private int[] getBottomDimensions(int squareSize, int x, int y) {

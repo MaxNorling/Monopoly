@@ -92,7 +92,7 @@ public class BoardComponent extends JComponent implements MouseListener
 
 
 
-	if(tile.getOwner() != ""){
+	if(tile.getOwner() != null){
 	    g2d.setColor(tile.getOwnerColor());
 	    Stroke oldStroke = g2d.getStroke();
 
@@ -110,7 +110,7 @@ public class BoardComponent extends JComponent implements MouseListener
 	g2d.setColor(Color.BLACK);
 	g2d.drawRect(boxX, boxY, boxWidth, boxHeight);
 
-	if(tile.getOwner() != ""){
+	if(tile.getOwner() != null){
 	    int houses = tile.getHouses();
 	    if(houses > 0 && houses <=4){
 
