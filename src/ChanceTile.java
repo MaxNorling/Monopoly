@@ -59,7 +59,7 @@ public class ChanceTile extends SmallTile
 
 	        p.specialMove(card.getAmount());
 		System.out.println(p.getCurrentTile());
-		whatHappend ="You traveled" + card.getAmount() + "tiles";
+		whatHappend ="You traveled " + card.getAmount() + " tiles";
 
 	        break;
 	    default:

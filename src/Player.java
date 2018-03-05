@@ -120,8 +120,10 @@ public class Player
 
 
     public void move(int i) {
-	if(!jailed && !hasMoved){
-	    currentTile += i;
+	if(!hasMoved){
+	    if(!jailed){
+	    	currentTile += i;
+	    }
 	    hasMoved = true;
 	    if (currentTile >= 40) { // 40 is the ammount of tiles on the board
 		currentTile -= 40;
@@ -185,6 +187,11 @@ public class Player
 
     public String getName() {
 	return name;
+    }
+    public void endTurn(){
+	canThrow = true;
+	hasMoved = false;
+
     }
 
     public ArrayList<HouseTile> getOwnedTiles() { return ownedTiles; }

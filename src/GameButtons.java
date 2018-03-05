@@ -51,7 +51,7 @@ public class GameButtons extends JComponent
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
 		HouseTile selected = displayOwnedTiles(b.getCurrentPlayer());
-		if(!b.buyHouse(selected)){
+		if(!b.buyHouse(selected) && selected != null){
 		    JOptionPane.showConfirmDialog(null,"ERROR BUYING HOUSE! \n \n You need to own all tiles of the same color", "ERROR",JOptionPane.DEFAULT_OPTION);
 		}
 
@@ -76,9 +76,10 @@ public class GameButtons extends JComponent
 
 		         if(current.getJailedTurns() == 3){ // You can leave jail after 3 turns
 			     current.leaveJail();
+			     b.addToSummary("You have spent your prison sentence, you're now allowed to leave.");
 			 }else{
 		             int turnsLeft = 3 - current.getJailedTurns();
-			     b.addToSummary("You're in jail for" + turnsLeft +" more turns.");
+			     b.addToSummary("You're in jail for " + turnsLeft +" more turns.");
 
 			 }
 
@@ -86,7 +87,7 @@ public class GameButtons extends JComponent
 			 b.throwDie();
 		     }
 		    b.getCurrentPlayer().setCanThrow(false);
-		    dice.setEnabled(b.getCurrentPlayer().hasMoved());
+		    dice.setEnabled(!b.getCurrentPlayer().hasMoved());
 		    updateScreen();
 		}
 	    }
@@ -103,6 +104,8 @@ public class GameButtons extends JComponent
 	        if(current.isJailed()){
 		    if(current.getOutOfJailCard()){
 		        current.leaveJail();
+		        b.addToSummary("You used your out of jail card to leave jail");
+		        updateScreen();
 		    }else{
 			JOptionPane.showConfirmDialog(null, "You have to have a get out of jail card!", "ERROR", JOptionPane.DEFAULT_OPTION);
 		    }
@@ -122,10 +125,7 @@ public class GameButtons extends JComponent
 	{
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
-	        if(!b.getCurrentPlayer().isJailed()) {
-		    b.getCurrentPlayer().setCanThrow(true);
-		}
-		b.getCurrentPlayer().setHasMoved(false);
+	        b.getCurrentPlayer().endTurn();
 
 		b.nextPlayer();
 		b.resetTurnSummary();

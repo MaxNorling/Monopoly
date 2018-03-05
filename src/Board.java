@@ -178,7 +178,10 @@ public class Board
 	    if (tile instanceof HouseTile) {
 		HouseTile hTile = (HouseTile) tile;
 		if (hTile.getColor().equals(color)) {
-		    if (!hTile.getOwner().equals(player)) {
+		    if(hTile.getOwner() == null){
+		        return false;
+		    }
+		    else if (!hTile.getOwner().equals(player)) {
 			return false;
 		    }
 		}
