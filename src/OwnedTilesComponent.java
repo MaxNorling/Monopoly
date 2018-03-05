@@ -11,13 +11,15 @@ public class OwnedTilesComponent extends JComponent implements MouseListener
     private static int cardHeight;
     private HouseTile clicked = null;
     private int clickedIndex = -1;
+    private boolean house;
 
 
-    public OwnedTilesComponent(ArrayList<HouseTile> tiles,int size){
+    public OwnedTilesComponent(ArrayList<HouseTile> tiles,int size, boolean house){
         this.tiles = tiles;
 	cardWidth = size;
 	cardHeight = size/2;
 	addMouseListener(this);
+	this.house = house;
 
        // tiles.sort() TODO Sortera efter färg.
     }
@@ -36,7 +38,12 @@ public class OwnedTilesComponent extends JComponent implements MouseListener
 
 
 	    g2d.setColor(Color.BLACK);
-	    g2d.drawString(tile.getName() + ": $" + tile.getHousePrice(),cardWidth/2, (i * cardHeight) + cardHeight/2);
+	    String message = ""+tile.getHousePrice();
+	    if(!house) {
+		message = ""+tile.getSellValue();
+	    }
+	    g2d.drawString(tile.getName() + ": $" + message, cardWidth / 2, (i * cardHeight) + cardHeight / 2);
+
 	    g2d.drawRect(0,i * cardHeight,cardWidth,cardHeight);
 	    if(i == clickedIndex){
 	        g2d.setColor(Color.GREEN);
@@ -55,7 +62,6 @@ public class OwnedTilesComponent extends JComponent implements MouseListener
 	for(int y = 0; y < tiles.size(); y++){
 	    Rectangle temp = new Rectangle(0,y * cardHeight, cardWidth, cardHeight);
 
-	    System.out.println(e.getPoint()+" : "+ temp);
 	    if(temp.contains(e.getPoint())){
 	        clicked = tiles.get(y);
 	        clickedIndex = y;

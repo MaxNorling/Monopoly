@@ -84,8 +84,15 @@ public class HouseTile extends SmallTile
 	return 0;
     }
 
+    public int getSellValue(){
+        return price; //TODO Change to somethihng less
+    }
+
     public Color getOwnerColor(){
         return owner.getColor();
+    }
+    public void removeOwner(){
+        owner = null;
     }
     public int getHouses(){
         return houses;

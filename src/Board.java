@@ -49,14 +49,21 @@ public class Board
 	BufferedImage chest = il.loadImage("images/chest.png");
 	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, TILE_AMOUNT, img, "GO", "Pass this tile to get $200."));
 
+
+
 	for (int x = TILE_AMOUNT - 3; x >= 2; x--) {
 	    if (x == 3) {
 		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chance, "Chance", chanceCards));
 	    } else if (x == 9) {
 		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chest, "Chest", chanceCards));
 
-	    } else {
-		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.RED, 120, "Valla"));
+	    } else if(x == 10){
+		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.CYAN, 120, "Valla"));
+	    } else if(x == 8){
+		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.CYAN, 110, "Lambohov"));
+	    }else{
+		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.RED, 110, "Ryd"));
+
 	    }
 
 	}
@@ -68,7 +75,7 @@ public class Board
 	    if (y == 3) {
 		tiles.add(tm.makeLeftChanceTile(tileSize, 0, y, chest, "Chest", chanceCards));
 	    } else {
-		tiles.add(tm.makeLeftHouseTile(tileSize, 0, y, Color.ORANGE, 100 + y, "Ryd"));
+		tiles.add(tm.makeLeftHouseTile(tileSize, 0, y, Color.ORANGE, 100 + y, "Dolor"));
 	    }
 
 	}
@@ -172,6 +179,16 @@ public class Board
 	}
 	return false;
     }
+
+    public boolean sellTile(HouseTile tile){
+	Player player = getCurrentPlayer();
+	if (tile != null) {
+	    bank.sellTile(player, tile);
+	    return true;
+	}
+	return false;
+
+	}
 
     public boolean ownsAll(Color color, Player player) {
 	for (Tile tile : tiles) {

@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+
+
 public class GameButtons extends JComponent
 {
 
@@ -18,7 +20,7 @@ public class GameButtons extends JComponent
     private OwnedTilesGUI ownedTilesGUI;
 
     public GameButtons(Board b,BoardComponent bc) {
-	setLayout(new GridLayout(3, 3));
+	setLayout(new GridLayout(4, 3));
 	currentPlayer = new JTextArea();
 	currentPlayer.setText(b.getCurrentPlayer().getName() + " : $" + b.getCurrentPlayer().getMoney());
 	add(currentPlayer);
@@ -50,9 +52,9 @@ public class GameButtons extends JComponent
 	{
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
-		HouseTile selected = displayOwnedTiles(b.getCurrentPlayer());
+		HouseTile selected = displayOwnedTiles(b.getCurrentPlayer(),true);
 		if(!b.buyHouse(selected) && selected != null){
-		    JOptionPane.showConfirmDialog(null,"ERROR BUYING HOUSE! \n \n You need to own all tiles of the same color", "ERROR",JOptionPane.DEFAULT_OPTION);
+		    JOptionPane.showConfirmDialog(null,"ERROR BUYING HOUSE!", "ERROR",JOptionPane.DEFAULT_OPTION);
 		}
 
 		updateScreen();
@@ -191,13 +193,28 @@ public class GameButtons extends JComponent
 	add(loan);
 
 
+	JButton sellTile = new JButton("Sell tile!");
+	sellTile.addActionListener(new ActionListener()
+	{
+	    @Override public void actionPerformed(ActionEvent e)
+	    {
+		HouseTile selected = displayOwnedTiles(b.getCurrentPlayer(),false);
+		if(!b.sellTile(selected) && selected != null){
+		    JOptionPane.showConfirmDialog(null,"ERROR SELLING TILE!", "ERROR",JOptionPane.DEFAULT_OPTION);
+		}
+		b.addToSummary("You sold the tile " + selected.getName() +" for " + selected.getSellValue());
 
+		updateScreen();
+
+	    }
+	});
+	add(sellTile);
 
 
 
     }
 
-    private HouseTile displayOwnedTiles(Player player){
+    private HouseTile displayOwnedTiles(Player player, boolean house){
 	ArrayList<HouseTile> owned = b.getOwnedTiles(player);
 
 	if(owned.isEmpty()){
@@ -207,7 +224,7 @@ public class GameButtons extends JComponent
 		ownedTilesGUI.dispose();
 	    }
 
-	    ownedTilesGUI =  new OwnedTilesGUI(owned);
+	    ownedTilesGUI =  new OwnedTilesGUI(owned,house);
 	    HouseTile result = ownedTilesGUI.showDialog();
 	    return result;
 	}

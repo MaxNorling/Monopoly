@@ -46,8 +46,10 @@ public class Bank
 
     public void sellTile(Player player, HouseTile tile) {
         if (tile.getOwner().equals(player)) {
-            playerGiveMoney(player, tile.getPrice()); // Change resell value to something lower
+            playerGiveMoney(player, tile.getSellValue()); // Change resell value to something lower
             player.getOwnedTiles().remove(player.getOwnedTiles().indexOf(tile));
+
+            tile.removeOwner();
 	}
     } // Should take some kind of identifier to tile as parameter
 }

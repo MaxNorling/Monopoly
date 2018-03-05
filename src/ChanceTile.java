@@ -36,7 +36,7 @@ public class ChanceTile extends SmallTile
 	        whatHappend ="You got" + card.getAmount() + "$";
 	        break;
 	    case "playerLoseMoney":
-		p.setPlayerMoney(-card.getAmount());
+		p.loseMoney(card.getAmount());
 		System.out.println("lsoe");
 		whatHappend ="You lost" + card.getAmount() + "$";
 
