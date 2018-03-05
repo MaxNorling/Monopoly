@@ -32,8 +32,14 @@ public class LoadBoard
 	this.tileY = 0;
     }
 
+    public static void main(String... args) {
+	LoadBoard loadBoard = new LoadBoard(new Board(10));
+	loadBoard.readTileInformation("chance.csv");
+	System.out.println(loadBoard.boardTiles);
+    }
+
     public void readTileInformation(String fileName) {
-        File file = new File(fileName);
+	File file = new File(fileName);
 	List<String> tileInfo = new ArrayList<>();
 
 	Scanner scanner = null;
@@ -75,33 +81,25 @@ public class LoadBoard
 		} else {
 		    tileInfo.add(val);
 		}
+
 	    } else if (file.getPath().equals("chance.csv") || file.getPath().equals("community.csv")) {
 		if (val.equals("-")) {
 		    String chanceText = tileInfo.get(0);
 		    String chanceId = tileInfo.get(1).trim();
-		    String getOutOfJail = "";
-		    String goToJail = "";
-		    int amountId = 0;
-		    int travelTiles = 0;
-
-		    if (chanceId.equals("loseMoney") || chanceId.equals("addMoney")) {
-			amountId = Integer.parseInt(tileInfo.get(2).trim());
-		    } else if (chanceId.equals("travelTiles")) {
-			travelTiles = Integer.parseInt(tileInfo.get(2).trim());
-		    } else if (chanceId.equals("getOutOfJail")) {
-			getOutOfJail = tileInfo.get(2).trim();
-		    } else if (chanceId.equals("goToJail")) {
-			goToJail = tileInfo.get(2).trim();
-		    }
+		    int amountId;
+		    int travelTiles;
 
 		    switch (chanceId) {
 			case "loseMoney":
+			    amountId = Integer.parseInt(tileInfo.get(2).trim());
 			    playerLoseMoney(chanceText, amountId);
 			    break;
 			case "addMoney":
+			    amountId = Integer.parseInt(tileInfo.get(2).trim());
 			    playerAddMoney(chanceText, amountId);
 			    break;
 			case "travelTiles":
+			    travelTiles = Integer.parseInt(tileInfo.get(2).trim());
 			    playerTravelTiles(chanceText, travelTiles);
 			    break;
 			case "getOutOfJail":
@@ -169,57 +167,39 @@ public class LoadBoard
     }
 
     public void playerLoseMoney(String chanceText, int amount) {
-        Special special = new Special();
-        Card card = new Card(chanceText, "playerLoseMoney", amount, special);
-
-        chanceCards.add(card);
-        //board.getCurrentPlayer().setPlayerMoney(-amount);
+	Card card = new Card(chanceText, "playerLoseMoney", amount);
+	chanceCards.add(card);
     }
 
     public void playerAddMoney(String chanceText, int amount) {
-	Special special = new Special();
- 	Card card = new Card(chanceText, "playerLoseMoney", amount, special);
- 	chanceCards.add(card);
-	//board.getCurrentPlayer().setPlayerMoney(amount);
+	Card card = new Card(chanceText, "playerLoseMoney", amount);
+	chanceCards.add(card);
     }
 
     public void playerTravelTiles(String chanceText, int travelTiles) {
-        Special special = new Special();
-        Card card = new Card(chanceText, "playerTravelTiles", travelTiles, special);
-        chanceCards.add(card);
-
-        //board.getCurrentPlayer().move(travelTiles);
+	Card card = new Card(chanceText, "playerTravelTiles", travelTiles);
+	chanceCards.add(card);
     }
 
     public void playerGoToJail(String chanceText) {
-	Special special = new Special();
-	Card card = new Card(chanceText, "goToJail", 0, special);
- 	chanceCards.add(card);
-
-        //board.getCurrentPlayer().goToJail();
+	Card card = new Card(chanceText, "goToJail", 0);
+	chanceCards.add(card);
     }
 
     public void playerGetOutOfJail(String chanceText) {
-        Special special = new Special();
-        Card card = new Card(chanceText, "getOutOfJail", 0, special);
-        chanceCards.add(card);
+	Card card = new Card(chanceText, "getOutOfJail", 0);
+	chanceCards.add(card);
     }
 
     public ArrayList<Card> getChanceCards() {
-        return this.chanceCards;
+	return this.chanceCards;
     }
 
     public ArrayList<Card> getCommunityCard() {
-        return this.communityCards;
+	return this.communityCards;
     }
 
     public ArrayList<HouseTile> getBoardTiles() {
-        return this.boardTiles;
-    }
-
-    public static void main(String... args) {
-	LoadBoard loadBoard = new LoadBoard(new Board(10));
-	loadBoard.readTileInformation("chance.csv");
-	System.out.println(loadBoard.boardTiles);
+	return this.boardTiles;
     }
 }

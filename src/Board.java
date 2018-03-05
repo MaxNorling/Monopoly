@@ -4,26 +4,23 @@ import java.util.ArrayList;
 
 public class Board
 {
-    private int boardSize, tileSize;
     private static final int TILE_AMOUNT = 13;
+    private int boardSize, tileSize;
     private Dice die;
     private int lastThrow = 1;
     private int currentPlayer;
     private ArrayList<Player> players;
     private Bank bank;
     private ArrayList<Tile> tiles;
-    private LoadBoard loadBoard;
-    private ArrayList<Card> chanceCards;
 
     public Board(int boardSize) {
 	this.boardSize = boardSize;
 	this.tileSize = (boardSize / TILE_AMOUNT);
-	System.out.println(tileSize);
 	tiles = new ArrayList<>();
 	die = new Dice(6);
 	bank = new Bank();
-	loadBoard = new LoadBoard(this);
-	chanceCards = loadBoard.getChanceCards();
+	final LoadBoard loadBoard = new LoadBoard(this);
+	final ArrayList<Card> chanceCards = loadBoard.getChanceCards();
 	players = new ArrayList<>();
 	players.add(new Player("Sven", Color.ORANGE));
 	players.add(new Player("Pelle", Color.BLUE));
@@ -102,7 +99,7 @@ public class Board
 	return tileSize;
     }
 
-    public ArrayList<Tile> getTiles() {
+    public Iterable<Tile> getTiles() {
 	return tiles;
     }
 
@@ -113,7 +110,7 @@ public class Board
 
     }
 
-    private void movePlayer(Player player){
+    private void movePlayer(Player player) {
 	player.move(lastThrow);
 	tiles.get(player.getCurrentTile()).landAction(player);
     }
@@ -141,39 +138,38 @@ public class Board
     public Bank getBank() {
 	return bank;
     }
-    private boolean isHouseTile(Tile tile){
-        if (tile.getType() == TileType.HOUSE) {
-	    return true;
-	}
-        return false;
+
+    private boolean isHouseTile(Tile tile) {
+	return tile.getType() == TileType.HOUSE;
     }
-    public boolean buyHouse(HouseTile tile){
+
+    public boolean buyHouse(HouseTile tile) {
 	Player player = getCurrentPlayer();
 	int money = player.getMoney();
 
-	if(ownsAll(tile.getColor(), player)){
-	    if(money > tile.getHousePrice()) {
-	        player.loseMoney(tile.buyHouse());
-	        return true;
+	if (ownsAll(tile.getColor(), player)) {
+	    if (money > tile.getHousePrice()) {
+		player.loseMoney((int) tile.buyHouse());
+		return true;
 	    }
 	}
 	return false;
     }
 
-    public boolean ownsAll(Color color, Player player){
-	for (Tile tile: tiles){
-	    if(tile instanceof HouseTile) {
-	        HouseTile hTile = (HouseTile) tile;
-		if (hTile.getColor() == color) {
-		    if(hTile.getOwnerColor() != player.getColor()){
-		        return false;
+    public boolean ownsAll(Color color, Player player) {
+	for (Tile tile : tiles) {
+	    if (tile instanceof HouseTile) {
+		HouseTile hTile = (HouseTile) tile;
+		if (hTile.getColor().equals(color)) {
+		    if (hTile.getOwnerColor().equals(player.getColor())) {
+			return false;
 		    }
 		}
 	    }
 	}
 
 
-        return true;
+	return true;
     }
 
 
@@ -181,21 +177,26 @@ public class Board
 	Player player = getCurrentPlayer();
 	Tile currentTile = getTile(player.getCurrentTile());
 
-	if(isHouseTile(currentTile)){
+	if (isHouseTile(currentTile)) {
 	    player.buyTile((HouseTile) getTile(player.getCurrentTile()));
 	}
     }
 
-    public ArrayList<HouseTile> getOwnedTiles(Player player){
-        return player.getOwnedTiles();
+    public ArrayList<HouseTile> getOwnedTiles(Player player) {
+	return player.getOwnedTiles();
     }
 
     public void nextPlayer() {
 
 	if (getCurrentPlayer().getLoanMoney() > 0) {
-	    double loanPayment = getCurrentPlayer().getLoanMoney() - (getCurrentPlayer().getLoanMoney() * bank.getInterestRate());
+	    double loanPayment =
+		    getCurrentPlayer().getLoanMoney() - (getCurrentPlayer().getLoanMoney() * bank.getInterestRate());
 	    getCurrentPlayer().payLoan((int) loanPayment);
 
+	}
+
+	if (getCurrentPlayer().playerWorth() < 0) {
+	    getCurrentPlayer().gameOver();
 	}
 
 	currentPlayer++;

@@ -5,15 +5,15 @@ public class CornerTile extends Tile
     private BufferedImage image;
     private String description;
 
-    public CornerTile(int x, int y, int width, int height,BufferedImage img,String description){
-	super(x,y,width,height,TileType.CORNER);
+    public CornerTile(int x, int y, int width, int height, BufferedImage img, String description) {
+	super(x, y, width, height, TileType.CORNER);
 	this.image = img;
 	this.description = description;
     }
 
 
-    public BufferedImage getImage(){
-        return image;
+    public BufferedImage getImage() {
+	return image;
     }
 
 

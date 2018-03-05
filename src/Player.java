@@ -7,21 +7,25 @@ import java.util.ArrayList;
 
 public class Player
 {
+    private final static int PASSEDGO = 200;
+    private final static int TILES = 40;
+
     private int money;
     private int playerWorth;
     private int loanCooldown;
     private int loanMoney;
     private int currentTile;
+
     private ArrayList<HouseTile> ownedTiles;
     private String name;
     private Color color;
+
     private boolean jailed;
     private boolean hasMoved;
     private boolean outOfJailCard;
-
     private boolean canThrow;
 
-    public Player(String name,Color color) {
+    public Player(String name, Color color) {
 	this.money = 1000; // Should be assigned to a starting money function
 	this.currentTile = 0; // Should be assigned to the starting tile "GO"
 	this.ownedTiles = new ArrayList<>();
@@ -48,9 +52,6 @@ public class Player
 
     public int getCurrentTile() {
 	return this.currentTile;
-    }
-
-    public void removeTile() {
     }
 
     public boolean canBuyTile(HouseTile tile) {
@@ -96,16 +97,17 @@ public class Player
 	    money -= loanPayment;
 	}
     }
-    public void passedGo(){
-	money+=200;
+
+    public void passedGo() {
+	money += PASSEDGO;
     }
 
     public void buyTile(HouseTile tile) {
 	if (hasMoved) {
-	    if (tile.getOwner() == "") {
+	    if (tile.getOwner().isEmpty()) {
 		if (money > tile.getPrice()) {
 		    loseMoney(tile.getPrice());
-		    tile.setOwner(name,color);
+		    tile.setOwner(name, color);
 		    ownedTiles.add(tile);
 		}
 	    }
@@ -114,60 +116,56 @@ public class Player
 
 
     public void move(int i) {
-	if(!jailed && !hasMoved){
+	if (!jailed && !hasMoved) {
 	    currentTile += i;
 	    hasMoved = true;
-	    if (currentTile >= 40) { // 40 is the ammount of tiles on the board
-		currentTile -= 40;
+	    if (currentTile >= TILES) { // 40 is the ammount of tiles on the board
+		currentTile -= TILES;
 		passedGo();
 	    }
 	}
     }
 
     public void goToJail() {
-        this.currentTile = 9;
-        this.jailed = true;
+	this.currentTile = 9;
+	this.jailed = true;
     }
 
     public boolean getOutOfJailCard() {
-        return this.outOfJailCard;
+	return this.outOfJailCard;
     }
 
     public void giveOutOfJailCard() {
-        this.outOfJailCard = true;
+	this.outOfJailCard = true;
     }
 
-
-    private void setPosition(int position) {
-        this.currentTile = position;
-    }
 
     public void specialMove(int amount) {
-        // Used when a special card moves the player a specified amount, can't use normal move
+	// Used when a special card moves the player a specified amount, can't use normal move
 	this.currentTile += amount;
     }
 
-    public void loseMoney(int lost){
-	money-=lost;
-	if (money <= 0){
+    public void loseMoney(int lost) {
+	money -= lost;
+	if (money <= 0) {
 	    gameOver();
 	}
 
     }
 
-    public void gameOver(){
-
+    public void gameOver() {
+	System.out.println("GAME OVER");
+	System.exit(0); // Should show a game over screen
     }
 
     public boolean canThrow() {
 	return canThrow;
     }
-    public boolean hasMoved(){
-        return hasMoved;
+
+    public void setHasMoved(boolean b) {
+	hasMoved = b;
     }
-    public void setHasMoved(boolean b){
-        hasMoved = b;
-    }
+
     public void setCanThrow(boolean b) {
 	canThrow = b;
     }
@@ -181,7 +179,8 @@ public class Player
     public Color getColor() {
 	return color;
     }
-    public boolean isJailed(){
-        return jailed;
+
+    public boolean isJailed() {
+	return jailed;
     }
 }

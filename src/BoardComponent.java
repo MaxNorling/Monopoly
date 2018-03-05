@@ -3,13 +3,13 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 public class BoardComponent extends JComponent implements MouseListener
 {
 
 
     private Board board;
-    private Dice die;
     private BufferedImage[] dice;
 
 
@@ -45,7 +45,7 @@ public class BoardComponent extends JComponent implements MouseListener
 		    paintHouseTile(g2d, (HouseTile) tile);
 		    break;
 		case CHANCE:
-		    paintChanceTile(g2d,(ChanceTile) tile);
+		    paintChanceTile(g2d, (ChanceTile) tile);
 		    break;
 		default:
 		    break; //TODO THROW EXCEPTION
@@ -91,13 +91,12 @@ public class BoardComponent extends JComponent implements MouseListener
 	String name = tile.getText();
 
 
-
-	if(tile.getOwner() != ""){
+	if (!Objects.equals(tile.getOwner(), "")) {
 	    g2d.setColor(tile.getOwnerColor());
 	    Stroke oldStroke = g2d.getStroke();
 
 	    g2d.setStroke(new BasicStroke(4));
-	    g2d.drawRect(x + 4,y + 4,width - 8,height - 8);
+	    g2d.drawRect(x + 4, y + 4, width - 8, height - 8);
 
 	    g2d.setStroke(oldStroke);
 	}
@@ -110,24 +109,24 @@ public class BoardComponent extends JComponent implements MouseListener
 	g2d.setColor(Color.BLACK);
 	g2d.drawRect(boxX, boxY, boxWidth, boxHeight);
 
-	if(tile.getOwner() != ""){
+	if (!Objects.equals(tile.getOwner(), "")) {
 	    int houses = tile.getHouses();
-	    if(houses > 0 && houses <=4){
+	    if (houses > 0 && houses <= 4) {
 
-	        for(int i = 0;  i < houses; i++){
+		for (int i = 0; i < houses; i++) {
 		    g2d.setColor(Color.GREEN);
-	            g2d.fillRect(boxX + i * boxWidth/4,boxY,boxWidth/5,boxHeight);
+		    g2d.fillRect(boxX + i * boxWidth / 4, boxY, boxWidth / 5, boxHeight);
 
-	            g2d.setColor(Color.BLACK);
-		    g2d.drawRect(boxX + i * boxWidth/4,boxY,boxWidth/5,boxHeight);
+		    g2d.setColor(Color.BLACK);
+		    g2d.drawRect(boxX + i * boxWidth / 4, boxY, boxWidth / 5, boxHeight);
 		}
 
-	    }else if(houses > 4 ){
-	        g2d.setColor(Color.PINK);
-	        g2d.fillRect(boxX + boxWidth/4, boxY + boxHeight/4, boxWidth / 2, boxHeight/2);
+	    } else if (houses > 4) {
+		g2d.setColor(Color.PINK);
+		g2d.fillRect(boxX + boxWidth / 4, boxY + boxHeight / 4, boxWidth / 2, boxHeight / 2);
 
 		g2d.setColor(Color.BLACK);
-		g2d.drawRect(boxX + boxWidth/4, boxY + boxHeight/4, boxWidth / 2, boxHeight/2);
+		g2d.drawRect(boxX + boxWidth / 4, boxY + boxHeight / 4, boxWidth / 2, boxHeight / 2);
 	    }
 	}
 
@@ -147,32 +146,32 @@ public class BoardComponent extends JComponent implements MouseListener
     }
 
     public void paintChanceTile(Graphics2D g2d, ChanceTile tile) {
-	    int x = tile.getX();
-	    int y = tile.getY();
-	    int width = tile.getWidth();
-	    int height = tile.getHeight();
-	    int boxX = tile.getBoxX();
-	    int boxY = tile.getBoxY();
-	    int boxWidth = tile.getBoxWidth();
-	    int boxHeight = tile.getBoxHeight();
+	int x = tile.getX();
+	int y = tile.getY();
+	int width = tile.getWidth();
+	int height = tile.getHeight();
+	int boxX = tile.getBoxX();
+	int boxY = tile.getBoxY();
+	int boxWidth = tile.getBoxWidth();
+	int boxHeight = tile.getBoxHeight();
 
-	    g2d.setColor(Color.BLACK);
-	    g2d.drawRect(x, y, width, height);
+	g2d.setColor(Color.BLACK);
+	g2d.drawRect(x, y, width, height);
 
-	    g2d.drawImage(tile.getImage(),boxX, boxY, boxWidth, boxHeight,null);
+	g2d.drawImage(tile.getImage(), boxX, boxY, boxWidth, boxHeight, null);
 
-	}
+    }
 
     @Override public void mouseClicked(final MouseEvent e) {
 
     }
 
     @Override public void mousePressed(final MouseEvent e) {
-	for(Tile tile: board.getTiles()){
-	 if(tile.contains(e.getPoint())){
-	     JOptionPane.showMessageDialog(this, tile,tile.getType().toString(),JOptionPane.PLAIN_MESSAGE);
+	for (Tile tile : board.getTiles()) {
+	    if (tile.contains(e.getPoint())) {
+		JOptionPane.showMessageDialog(this, tile, tile.getType().toString(), JOptionPane.PLAIN_MESSAGE);
 
-	     }
+	    }
 	}
 
     }
