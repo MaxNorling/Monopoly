@@ -45,7 +45,7 @@ public class Board
 	BufferedImage img = il.loadImage("images/go.png");
 	BufferedImage chance = il.loadImage("images/question.png");
 	BufferedImage chest = il.loadImage("images/chest.png");
-	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, TILE_AMOUNT, img, "GO","Pass this tile to get $200."));
+	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, TILE_AMOUNT, img, "GO", "Pass this tile to get $200."));
 
 	for (int x = TILE_AMOUNT - 3; x >= 2; x--) {
 	    if (x == 3) {
@@ -71,7 +71,7 @@ public class Board
 
 	}
 	img = il.loadImage("images/parking.png");
-	tiles.add(tm.makeCornerTile(tileSize, 2, 2, img,"Free parking", "Nothing happens here"));
+	tiles.add(tm.makeCornerTile(tileSize, 2, 2, img, "Free parking", "Nothing happens here"));
 
 
 	for (int x = 2; x < TILE_AMOUNT - 2; x++) {
@@ -83,7 +83,7 @@ public class Board
 
 	}
 	img = il.loadImage("images/gotoJail.png");
-	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, 2, img, "GO TO JAIL!","GO DIRECTLY TO JAIl, WITHOUT PASSING GO!"));
+	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, 2, img, "GO TO JAIL!", "GO DIRECTLY TO JAIl, WITHOUT PASSING GO!"));
 
 	for (int y = 2; y < TILE_AMOUNT - 2; y++) {
 	    if (y == 4) {
@@ -117,14 +117,13 @@ public class Board
 	addToSummary("You rolled a " + lastThrow);
 
 
-
     }
 
-    private void movePlayer(Player player){
+    private void movePlayer(Player player) {
 	player.move(lastThrow);
 	Tile currentTile = tiles.get(player.getCurrentTile());
 	String landed = currentTile.landAction(player);
-	if(landed != ""){
+	if (landed != "") {
 	    addToSummary(landed);
 	}
 	addToSummary("You landed on a " + currentTile.getType());
@@ -150,41 +149,44 @@ public class Board
     public Bank getBank() {
 	return bank;
     }
-    private boolean isHouseTile(Tile tile){
-        if (tile.getType() == TileType.HOUSE) {
+
+    private boolean isHouseTile(Tile tile) {
+	if (tile.getType() == TileType.HOUSE) {
 	    return true;
 	}
-        return false;
+	return false;
     }
-    public boolean buyHouse(HouseTile tile){
+
+    public boolean buyHouse(HouseTile tile) {
 	Player player = getCurrentPlayer();
 	int money = player.getMoney();
-
-	if(ownsAll(tile.getColor(), player)){
-	    int price = tile.getHousePrice();
-	    if(money > price) {
-	        player.loseMoney(tile.buyHouse());
-	        addToSummary("You bought house on " +tile.getName() +" for" + price);
-	        return true;
+	if (tile != null) {
+	    if (ownsAll(tile.getColor(), player)) {
+		int price = tile.getHousePrice();
+		if (money > price) {
+		    player.loseMoney(tile.buyHouse());
+		    addToSummary("You bought house on " + tile.getName() + " for" + price);
+		    return true;
+		}
 	    }
 	}
 	return false;
     }
 
-    public boolean ownsAll(Color color, Player player){
-	for (Tile tile: tiles){
-	    if(tile instanceof HouseTile) {
-	        HouseTile hTile = (HouseTile) tile;
-		if (hTile.getColor() == color) {
-		    if(hTile.getOwner() != player ){
-		        return false;
+    public boolean ownsAll(Color color, Player player) {
+	for (Tile tile : tiles) {
+	    if (tile instanceof HouseTile) {
+		HouseTile hTile = (HouseTile) tile;
+		if (hTile.getColor().equals(color)) {
+		    if (!hTile.getOwner().equals(player)) {
+			return false;
 		    }
 		}
 	    }
 	}
 
 
-        return true;
+	return true;
     }
 
 
@@ -192,22 +194,23 @@ public class Board
 	Player player = getCurrentPlayer();
 	Tile currentTile = getTile(player.getCurrentTile());
 
-	if(isHouseTile(currentTile)){
+	if (isHouseTile(currentTile)) {
 	    HouseTile cTile = (HouseTile) currentTile;
-	    if(player.buyTile(cTile)) {
+	    if (player.buyTile(cTile)) {
 		addToSummary("You bought the tile " + cTile.getName() + " for" + cTile.getPrice());
 	    }
 	}
     }
 
-    public ArrayList<HouseTile> getOwnedTiles(Player player){
-        return player.getOwnedTiles();
+    public ArrayList<HouseTile> getOwnedTiles(Player player) {
+	return player.getOwnedTiles();
     }
 
     public void nextPlayer() {
 
 	if (getCurrentPlayer().getLoanMoney() > 0) {
-	    double loanPayment = getCurrentPlayer().getLoanMoney() - (getCurrentPlayer().getLoanMoney() * bank.getInterestRate());
+	    double loanPayment =
+		    getCurrentPlayer().getLoanMoney() - (getCurrentPlayer().getLoanMoney() * bank.getInterestRate());
 	    getCurrentPlayer().payLoan((int) loanPayment);
 
 	}
@@ -218,17 +221,18 @@ public class Board
 	}
 
     }
-    public void addToSummary(String message){
-        turnSummary.append("\n");
-        turnSummary.append(message);
+
+    public void addToSummary(String message) {
+	turnSummary.append("\n");
+	turnSummary.append(message);
     }
 
-    public String getSummary(){
-        return turnSummary.toString();
+    public String getSummary() {
+	return turnSummary.toString();
     }
 
-    public void resetTurnSummary(){
-        turnSummary = new StringBuilder();
+    public void resetTurnSummary() {
+	turnSummary = new StringBuilder();
     }
 
 

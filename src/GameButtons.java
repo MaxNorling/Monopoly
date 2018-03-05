@@ -73,9 +73,15 @@ public class GameButtons extends JComponent
 		if (!current.hasMoved()) {
 		     if(current.isJailed()){
 		         current.increaseJailedTurns();
+
 		         if(current.getJailedTurns() == 3){ // You can leave jail after 3 turns
 			     current.leaveJail();
+			 }else{
+		             int turnsLeft = 3 - current.getJailedTurns();
+			     b.addToSummary("You're in jail for" + turnsLeft +" more turns.");
+
 			 }
+
 		     }else {
 			 b.throwDie();
 		     }
