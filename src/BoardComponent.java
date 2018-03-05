@@ -53,19 +53,21 @@ public class BoardComponent extends JComponent implements MouseListener
 	}
 	int count = 0;
 	for (Player p : board.getPlayers()) {
-	    Tile currentTile = board.getTile(p.getCurrentTile());
-	    g2d.setColor(p.getColor());
-	    g2d.fillOval(currentTile.getX() + currentTile.getWidth() / 2 - board.getBoardSize() / 32,
-			 currentTile.getY() + currentTile.getHeight() / 2 + count * 2 - board.getBoardSize() / 32,
-			 board.getBoardSize() / 32, board.getBoardSize() / 32);
+	    if(!p.isGameOver()){
+		Tile currentTile = board.getTile(p.getCurrentTile());
+		g2d.setColor(p.getColor());
+		g2d.fillOval(currentTile.getX() + currentTile.getWidth() / 2 - board.getBoardSize() / 32,
+			     currentTile.getY() + currentTile.getHeight() / 2 + count * 2 - board.getBoardSize() / 32,
+			     board.getBoardSize() / 32, board.getBoardSize() / 32);
 
-	    g2d.setColor(Color.BLACK);
-	    g2d.drawOval(currentTile.getX() + currentTile.getWidth() / 2 - board.getBoardSize() / 32,
-			 currentTile.getY() + currentTile.getHeight() / 2 + count * 2 - board.getBoardSize() / 32,
-			 board.getBoardSize() / 32, board.getBoardSize() / 32);
+		g2d.setColor(Color.BLACK);
+		g2d.drawOval(currentTile.getX() + currentTile.getWidth() / 2 - board.getBoardSize() / 32,
+			     currentTile.getY() + currentTile.getHeight() / 2 + count * 2 - board.getBoardSize() / 32,
+			     board.getBoardSize() / 32, board.getBoardSize() / 32);
 
-	    count++;
+		count++;
 
+	}
 	}
 
 	g2d.drawImage(dice[board.lastThrow()], board.getBoardSize() / 2, board.getBoardSize() / 2, board.getBoardSize() / 12,

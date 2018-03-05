@@ -22,14 +22,15 @@ public class Window extends JFrame
 	playerPanel.setLayout(new GridLayout(4,4));
 
 	for(Player p: players){
-
-	    JButton button = new JButton(p.getName());
-	    button.addActionListener(new ActionListener() {
-	      public void actionPerformed(ActionEvent e) {
-		  displayPlayer(p);
-	      }
-	    } );
-	    playerPanel.add(button);
+	    if(!p.isGameOver()){
+	        JButton button = new JButton(p.getName());
+	        button.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+			  displayPlayer(p);
+		      }
+	        } );
+	        playerPanel.add(button);
+	    }
 	}
 
 	JPanel subPanel = new JPanel();
@@ -55,10 +56,15 @@ public class Window extends JFrame
 
 
     public void displayPlayer(Player player){
-	JOptionPane.showMessageDialog(this, player.getName()+" : $" + player.getMoney()
-					    + "\n" + "Color:" + player.getColor() + "\n" + "Get out of jail card: " + player.getOutOfJailCard() + "\n" + "Owned properites:",
-				      player.getName(),JOptionPane.PLAIN_MESSAGE);
-
+        if(!player.isGameOver()) {
+	    JOptionPane.showMessageDialog(this,
+					  player.getName() + " : $" + player.getMoney() + "\n" + "Color:" + player.getColor() +
+					  "\n" + "Get out of jail card: " + player.getOutOfJailCard() + "\n" +
+					  "Owned properites:", player.getName(), JOptionPane.PLAIN_MESSAGE);
+	}else{
+	    JOptionPane.showMessageDialog(this,
+	    					  player.getName() + " Has ran out of money...");
+	}
     }
 
 

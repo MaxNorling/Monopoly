@@ -85,6 +85,17 @@ public class GameButtons extends JComponent
 
 		     }else {
 			 b.throwDie();
+			 if(b.getCurrentPlayer().isGameOver()) {
+			     updateScreen();
+			     JOptionPane.showMessageDialog(null, b.getCurrentPlayer().getName() + " lost. :(", "ERROR", JOptionPane.PLAIN_MESSAGE);
+			 }
+			 if(b.allGameOver()){
+			     Player winner = b.getWinner();
+			     if(winner !=null) {
+				 JOptionPane.showMessageDialog(null, winner.getName() + " won this time!", "WINNER WINNER CHICKEN DINNER", JOptionPane.PLAIN_MESSAGE);
+			     }
+			     System.exit(0);
+			 }
 		     }
 		    b.getCurrentPlayer().setCanThrow(false);
 		    dice.setEnabled(!b.getCurrentPlayer().hasMoved());

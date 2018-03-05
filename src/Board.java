@@ -30,6 +30,8 @@ public class Board
 	players.add(new Player("Sven", Color.ORANGE));
 	players.add(new Player("Pelle", Color.BLUE));
 
+
+
 	turnSummary = new StringBuilder();
 	//players.add(new Player("Oskar", Color.RED));
 	//players.add(new Player("Erik", Color.YELLOW));
@@ -115,9 +117,8 @@ public class Board
 	Player player = players.get(currentPlayer);
 	movePlayer(player);
 	addToSummary("You rolled a " + lastThrow);
-
-
     }
+
 
     private void movePlayer(Player player) {
 	player.move(lastThrow);
@@ -127,7 +128,6 @@ public class Board
 	    addToSummary(landed);
 	}
 	addToSummary("You landed on a " + currentTile.getType());
-
     }
 
     public int lastThrow() {
@@ -222,9 +222,46 @@ public class Board
 	if (currentPlayer >= players.size()) {
 	    currentPlayer = 0;
 	}
+	if(getCurrentPlayer().isGameOver()) {
+	    if (allGameOver()) {
+		endGame();
+	    } else {
+		nextPlayer();
+	    }
+
+
+	}
+    }
+    private void endGame(){
+	JOptionPane.showMessageDialog(null,
+    					  getCurrentPlayer().getName() + " HAS WON THE GAME"); //TODO Gör det bättre...
+	System.exit(0);
+
 
     }
 
+    public Player getWinner(){
+        if(allGameOver()){
+	    for(Player player : players){
+	    	    if(!player.isGameOver()){
+	    	        return player;
+	    	    }
+	    	}
+	}
+	return null;
+    }
+
+    public boolean allGameOver(){
+        int alivePlayers = 0;
+	for(Player player : players){
+	    if(!player.isGameOver()){
+	        alivePlayers++;
+	    }
+	}
+
+	return !(alivePlayers > 1);
+
+    }
     public void addToSummary(String message) {
 	turnSummary.append("\n");
 	turnSummary.append(message);
@@ -237,6 +274,7 @@ public class Board
     public void resetTurnSummary() {
 	turnSummary = new StringBuilder();
     }
+
 
 
 }

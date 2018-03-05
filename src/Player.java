@@ -24,7 +24,7 @@ public class Player
     private boolean canThrow;
 
     public Player(String name,Color color) {
-	this.money = 1000; // Should be assigned to a starting money function
+	this.money = 550; // Should be assigned to a starting money function
 	this.currentTile = 0; // Should be assigned to the starting tile "GO"
 	this.ownedTiles = new ArrayList<>();
 	this.name = name;
@@ -162,7 +162,7 @@ public class Player
 
     public void loseMoney(int lost){
 	money-=lost;
-	if (playerWorth <= 0){
+	if (money <= 0){
 	    gameOver();
 	}
 
@@ -212,5 +212,8 @@ public class Player
     }
     public void increaseJailedTurns(){
         jailedTurns++;
+    }
+    public boolean isGameOver(){
+        return gameOver;
     }
 }
