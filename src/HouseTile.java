@@ -6,11 +6,13 @@ public class HouseTile extends SmallTile
     private String name;
     private Color color;
     private Player owner;
-    private int rent,rentOne,rentTwo,rentThree,rentFour,rentHotel, houses , housePrice, hotelPrice;
+    private int rent, rentOne, rentTwo, rentThree, rentFour, rentHotel, houses, housePrice, hotelPrice;
 
 
-    public HouseTile(int x, int y, int width,int height,int boxWidth, int boxHeight,int boxX, int boxY, int price, Color color, String name , int textX, int textY) {
-	super(x,y,width,height,boxWidth,boxHeight,boxX,boxY,name,textX,textY,TileType.HOUSE);
+    public HouseTile(int x, int y, int width, int height, int boxWidth, int boxHeight, int boxX, int boxY, int price,
+		     Color color, String name, int textX, int textY)
+    {
+	super(x, y, width, height, boxWidth, boxHeight, boxX, boxY, name, textX, textY, TileType.HOUSE);
 	this.price = price;
 	this.color = color;
 	this.name = name;
@@ -30,12 +32,14 @@ public class HouseTile extends SmallTile
 
     }
 
-    public Player getOwner(){
-        return owner;
+    public Player getOwner() {
+	return owner;
     }
-    public void setOwner(Player player){
-        owner = player;
+
+    public void setOwner(Player player) {
+	owner = player;
     }
+
     public int getPrice() {
 	return price;
     }
@@ -43,40 +47,47 @@ public class HouseTile extends SmallTile
     public Color getColor() {
 	return color;
     }
-    public int currentRent(){
-        switch(houses){
-	    case 1: return rentOne;
-	    case 2: return rentTwo;
-	    case 3: return rentThree;
-	    case 4: return rentFour;
-	    case 5: return rentHotel;
+
+    public int currentRent() {
+	switch (houses) {
+	    case 1:
+		return rentOne;
+	    case 2:
+		return rentTwo;
+	    case 3:
+		return rentThree;
+	    case 4:
+		return rentFour;
+	    case 5:
+		return rentHotel;
 
 	    case 0:
-	    default: return rent;
+	    default:
+		return rent;
 	}
     }
 
     public String getName() { return name; }
 
     public void buyTile(Player player) {
-        if (player.canBuyTile(this)) {
-            player.setPlayerMoney(-this.price);
-            player.getOwnedTiles().add(this);
+	if (player.canBuyTile(this)) {
+	    player.setPlayerMoney(-this.price);
+	    player.getOwnedTiles().add(this);
 	}
     }
 
-    public int getHousePrice(){
-        if(houses <= 3){
-            return housePrice;
-	}else if(houses < 5){
-            return hotelPrice;
+    public int getHousePrice() {
+	if (houses <= 3) {
+	    return housePrice;
+	} else if (houses < 5) {
+	    return hotelPrice;
 	}
 	return 0;
     }
 
-    public int buyHouse(){
-        if(owner != null){
-            if(houses < 5) {
+    public int buyHouse() {
+	if (owner != null) {
+	    if (houses < 5) {
 		houses++;
 		return getHousePrice();
 	    }
@@ -84,18 +95,20 @@ public class HouseTile extends SmallTile
 	return 0;
     }
 
-    public int getSellValue(){
-        return price; //TODO Change to somethihng less
+    public int getSellValue() {
+	return price; //TODO Change to somethihng less
     }
 
-    public Color getOwnerColor(){
-        return owner.getColor();
+    public Color getOwnerColor() {
+	return owner.getColor();
     }
-    public void removeOwner(){
-        owner = null;
+
+    public void removeOwner() {
+	owner = null;
     }
-    public int getHouses(){
-        return houses;
+
+    public int getHouses() {
+	return houses;
     }
 
     @Override public String toString() {
@@ -134,13 +147,13 @@ public class HouseTile extends SmallTile
 	    res.append("\n \t");
 	    res.append("Owner:");
 	    res.append(owner);
-	    if(houses > 0 && houses <=4){
+	    if (houses > 0 && houses <= 4) {
 		res.append("\n");
 		res.append(houses);
 		res.append(" houses.");
-	    }else if(houses >4){
-	        res.append("\n");
-	        res.append("Hotel");
+	    } else if (houses > 4) {
+		res.append("\n");
+		res.append("Hotel");
 	    }
 	}
 
@@ -148,12 +161,12 @@ public class HouseTile extends SmallTile
     }
 
     @Override public String landAction(Player p) {
-        if(owner != null){
-            if(!p.equals(owner)){
-                p.loseMoney(currentRent());
-            	return "You lost " + currentRent() +"$";
-            }
-        }
+	if (owner != null) {
+	    if (!p.equals(owner)) {
+		p.loseMoney(currentRent());
+		return "You lost " + currentRent() + "$";
+	    }
+	}
 	return "";
     }
 }

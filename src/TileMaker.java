@@ -10,14 +10,14 @@ public class TileMaker
     }
 
 
-    public CornerTile makeCornerTile(int squareSize, int x, int y, BufferedImage img,String name, String description) {
+    public CornerTile makeCornerTile(int squareSize, int x, int y, BufferedImage img, String name, String description) {
 	int size = squareSize * 2;
 
-	return new CornerTile(x * squareSize - size, y * squareSize - size, size, size, img,name,description);
+	return new CornerTile(x * squareSize - size, y * squareSize - size, size, size, img, name, description);
     }
 
     private int[] getBottomDimensions(int squareSize, int x, int y) {
-
+	//TODO gör klass med objekt
 	int[] res = new int[10];
 
 	int height = squareSize * 2;
@@ -90,7 +90,7 @@ public class TileMaker
 
     private int[] getLeftDimensions(int squareSize, int x, int y) {
 
-   	int[] res = new int[10];
+	int[] res = new int[10];
 
 	int width = squareSize * 2;
 
@@ -106,27 +106,27 @@ public class TileMaker
 	int textX = x + width / 8;
 	int textY = y + (int) (squareSize * 0.6);
 
-   	res[0] = width;
-   	res[1] = squareSize;
+	res[0] = width;
+	res[1] = squareSize;
 
-   	res[2] = x;
-   	res[3] = y;
+	res[2] = x;
+	res[3] = y;
 
-   	res[4] = boxX;
-   	res[5] = boxY;
+	res[4] = boxX;
+	res[5] = boxY;
 
-   	res[6] = squareSize;
-   	res[7] = boxWidth;
+	res[6] = squareSize;
+	res[7] = boxWidth;
 
-   	res[8] = textX;
-   	res[9] = textY;
+	res[8] = textX;
+	res[9] = textY;
 
-   	return res;
-       }
+	return res;
+    }
 
     private int[] getRightDimensions(int squareSize, int x, int y) {
 
-   	int[] res = new int[10];
+	int[] res = new int[10];
 
 	int width = squareSize * 2;
 
@@ -142,56 +142,65 @@ public class TileMaker
 	int textX = x + width / 3;
 	int textY = y + (int) (squareSize * 0.6);
 
-   	res[0] = width;
-   	res[1] = squareSize;
+	res[0] = width;
+	res[1] = squareSize;
 
-   	res[2] = x;
-   	res[3] = y;
+	res[2] = x;
+	res[3] = y;
 
-   	res[4] = boxX;
-   	res[5] = boxY;
+	res[4] = boxX;
+	res[5] = boxY;
 
-   	res[6] = squareSize;
-   	res[7] = boxWidth;
+	res[6] = squareSize;
+	res[7] = boxWidth;
 
-   	res[8] = textX;
-   	res[9] = textY;
+	res[8] = textX;
+	res[9] = textY;
 
-   	return res;
-       }
+	return res;
+    }
 
-    public ChanceTile makeBottomChanceTile(int squareSize, int x, int y, BufferedImage image, String name, ArrayList<Card> chanceCards) {
+    public ChanceTile makeBottomChanceTile(int squareSize, int x, int y, BufferedImage image, String name,
+					   ArrayList<Card> chanceCards)
+    {
 	//public HouseTile(int x, int y, int height,int width,int boxWidth, int boxHeight,int boxX, int boxY, int price, Color color, String name) {
 	int[] dimensions = getBottomDimensions(squareSize, x, y);
 
 	return new ChanceTile(dimensions[2], dimensions[3], dimensions[0], dimensions[1], dimensions[7], dimensions[6] * 3,
-				     dimensions[4], dimensions[5], image, name, dimensions[8], dimensions[9], chanceCards);
+			      dimensions[4], dimensions[5], image, name, dimensions[8], dimensions[9], chanceCards);
     }
 
-    public ChanceTile makeTopChanceTile(int squareSize, int x, int y, BufferedImage image, String name, ArrayList<Card> chanceCards) {
-   	//public HouseTile(int x, int y, int height,int width,int boxWidth, int boxHeight,int boxX, int boxY, int price, Color color, String name) {
-   	int[] dimensions = getTopDimensions(squareSize, x, y);
+    public ChanceTile makeTopChanceTile(int squareSize, int x, int y, BufferedImage image, String name,
+					ArrayList<Card> chanceCards)
+    {
+	//public HouseTile(int x, int y, int height,int width,int boxWidth, int boxHeight,int boxX, int boxY, int price, Color color, String name) {
+	int[] dimensions = getTopDimensions(squareSize, x, y);
 
 	return new ChanceTile(dimensions[2], dimensions[3], dimensions[0], dimensions[1], dimensions[7], dimensions[6] * 3,
-			     dimensions[4], dimensions[5] - dimensions[6] * 3, image, name, dimensions[8], dimensions[9], chanceCards);
-       }
+			      dimensions[4], dimensions[5] - dimensions[6] * 3, image, name, dimensions[8], dimensions[9],
+			      chanceCards);
+    }
 
-    public ChanceTile makeLeftChanceTile(int squareSize, int x, int y, BufferedImage image, String name, ArrayList<Card> chanceCards) {
-   	//public HouseTile(int x, int y, int height,int width,int boxWidth, int boxHeight,int boxX, int boxY, int price, Color color, String name) {
-   	int[] dimensions = getLeftDimensions(squareSize, x, y);
-
-	return new ChanceTile(dimensions[2], dimensions[3], dimensions[0], dimensions[1], dimensions[7] * 3, dimensions[6],
-				     dimensions[4] - dimensions[7] * 3, dimensions[5], image, name, dimensions[8], dimensions[9], chanceCards);
-       }
-
-    public ChanceTile makeRightChanceTile(int squareSize, int x, int y, BufferedImage image, String name, ArrayList<Card> chanceCards) {
-   	//public HouseTile(int x, int y, int height,int width,int boxWidth, int boxHeight,int boxX, int boxY, int price, Color color, String name) {
-   	int[] dimensions = getRightDimensions(squareSize, x, y);
+    public ChanceTile makeLeftChanceTile(int squareSize, int x, int y, BufferedImage image, String name,
+					 ArrayList<Card> chanceCards)
+    {
+	//public HouseTile(int x, int y, int height,int width,int boxWidth, int boxHeight,int boxX, int boxY, int price, Color color, String name) {
+	int[] dimensions = getLeftDimensions(squareSize, x, y);
 
 	return new ChanceTile(dimensions[2], dimensions[3], dimensions[0], dimensions[1], dimensions[7] * 3, dimensions[6],
-				     dimensions[4], dimensions[5], image, name, dimensions[8], dimensions[9], chanceCards);
-       }
+			      dimensions[4] - dimensions[7] * 3, dimensions[5], image, name, dimensions[8], dimensions[9],
+			      chanceCards);
+    }
 
+    public ChanceTile makeRightChanceTile(int squareSize, int x, int y, BufferedImage image, String name,
+					  ArrayList<Card> chanceCards)
+    {
+	//public HouseTile(int x, int y, int height,int width,int boxWidth, int boxHeight,int boxX, int boxY, int price, Color color, String name) {
+	int[] dimensions = getRightDimensions(squareSize, x, y);
+
+	return new ChanceTile(dimensions[2], dimensions[3], dimensions[0], dimensions[1], dimensions[7] * 3, dimensions[6],
+			      dimensions[4], dimensions[5], image, name, dimensions[8], dimensions[9], chanceCards);
+    }
 
 
     public HouseTile makeBottomHouseTile(int squareSize, int x, int y, Color color, int price, String name) {

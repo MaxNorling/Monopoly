@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
-
 public class GameButtons extends JComponent
 {
 
@@ -19,14 +18,14 @@ public class GameButtons extends JComponent
     private BoardComponent bc;
     private OwnedTilesGUI ownedTilesGUI;
 
-    public GameButtons(Board b,BoardComponent bc) {
+    public GameButtons(Board b, BoardComponent bc) {
 	setLayout(new GridLayout(4, 3));
 	currentPlayer = new JTextArea();
 	currentPlayer.setText(b.getCurrentPlayer().getName() + " : $" + b.getCurrentPlayer().getMoney());
 	add(currentPlayer);
 	this.b = b;
 	this.bc = bc;
-	summary = new JTextArea(1,8);
+	summary = new JTextArea(1, 8);
 
 	JScrollPane scrollable = new JScrollPane(summary);
 	scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -52,9 +51,13 @@ public class GameButtons extends JComponent
 	{
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
-		HouseTile selected = displayOwnedTiles(b.getCurrentPlayer(),true);
-		if(!b.buyHouse(selected) && selected != null){
-		    JOptionPane.showConfirmDialog(null,"ERROR BUYING HOUSE!", "ERROR",JOptionPane.DEFAULT_OPTION);
+		HouseTile selected = displayOwnedTiles(b.getCurrentPlayer(), true);
+		if (selected == null) {
+		    JOptionPane.showConfirmDialog(null, "You need to select a tile!", "ERROR", JOptionPane.DEFAULT_OPTION);
+		} else if (!b.buyHouse(selected)) {
+		    JOptionPane.showConfirmDialog(null,
+						  "You need to own all tiles of the same color \n AND \n have enough money for it!",
+						  "ERROR", JOptionPane.DEFAULT_OPTION);
 		}
 
 		updateScreen();
@@ -71,34 +74,37 @@ public class GameButtons extends JComponent
 	{
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
-	        Player current = b.getCurrentPlayer();
+		Player current = b.getCurrentPlayer();
 		if (!current.hasMoved()) {
-		     if(current.isJailed()){
-		         current.increaseJailedTurns();
+		    if (current.isJailed()) {
+			current.increaseJailedTurns();
 
-		         if(current.getJailedTurns() == 3){ // You can leave jail after 3 turns
-			     current.leaveJail();
-			     b.addToSummary("You have spent your prison sentence, you're now allowed to leave.");
-			 }else{
-		             int turnsLeft = 3 - current.getJailedTurns();
-			     b.addToSummary("You're in jail for " + turnsLeft +" more turns.");
+			if (current.getJailedTurns() == 3) { // You can leave jail after 3 turns
+			    current.leaveJail();
+			    b.addToSummary("You have spent your prison sentence, you're now allowed to leave.");
+			} else {
+			    int turnsLeft = 3 - current.getJailedTurns();
+			    b.addToSummary("You're in jail for " + turnsLeft + " more turns.");
 
-			 }
+			}
 
-		     }else {
-			 b.throwDie();
-			 if(b.getCurrentPlayer().isGameOver()) {
-			     updateScreen();
-			     JOptionPane.showMessageDialog(null, b.getCurrentPlayer().getName() + " lost. :(", "ERROR", JOptionPane.PLAIN_MESSAGE);
-			 }
-			 if(b.allGameOver()){
-			     Player winner = b.getWinner();
-			     if(winner !=null) {
-				 JOptionPane.showMessageDialog(null, winner.getName() + " won this time!", "WINNER WINNER CHICKEN DINNER", JOptionPane.PLAIN_MESSAGE);
-			     }
-			     System.exit(0);
-			 }
-		     }
+		    } else {
+			b.throwDie();
+			if (b.getCurrentPlayer().isGameOver()) {
+			    updateScreen();
+			    JOptionPane.showMessageDialog(null, b.getCurrentPlayer().getName() + " lost. :(", "ERROR",
+							  JOptionPane.PLAIN_MESSAGE);
+			}
+			if (b.allGameOver()) {
+			    Player winner = b.getWinner();
+			    if (winner != null) {
+				JOptionPane.showMessageDialog(null, winner.getName() + " won this time!",
+							      "WINNER WINNER CHICKEN DINNER", JOptionPane.PLAIN_MESSAGE);
+			    }
+			    System.exit(0);
+			}
+		    }
+		    b.getCurrentPlayer().setHasMoved(true);
 		    b.getCurrentPlayer().setCanThrow(false);
 		    dice.setEnabled(!b.getCurrentPlayer().hasMoved());
 		    updateScreen();
@@ -113,24 +119,24 @@ public class GameButtons extends JComponent
 	{
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
-	        Player current = b.getCurrentPlayer();
-	        if(current.isJailed()){
-		    if(current.getOutOfJailCard()){
-		        current.leaveJail();
-		        b.addToSummary("You used your out of jail card to leave jail");
-		        updateScreen();
-		    }else{
-			JOptionPane.showConfirmDialog(null, "You have to have a get out of jail card!", "ERROR", JOptionPane.DEFAULT_OPTION);
+		Player current = b.getCurrentPlayer();
+		if (current.isJailed()) {
+		    if (current.getOutOfJailCard()) {
+			b.addToSummary("You used your out of jail card to leave jail");
+			current.useJailCard();
+			updateScreen();
+		    } else {
+			JOptionPane.showConfirmDialog(null, "You have to have a get out of jail card!", "ERROR",
+						      JOptionPane.DEFAULT_OPTION);
 		    }
-		}else{
+		} else {
 		    JOptionPane.showConfirmDialog(null, "You're not in jail!", "ERROR", JOptionPane.DEFAULT_OPTION);
 		}
 
 	    }
 
-	    });
+	});
 	add(getOutOfJail);
-
 
 
 	JButton next = new JButton("Next player!");
@@ -138,7 +144,7 @@ public class GameButtons extends JComponent
 	{
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
-	        b.getCurrentPlayer().endTurn();
+		b.getCurrentPlayer().endTurn();
 
 		b.nextPlayer();
 		b.resetTurnSummary();
@@ -152,24 +158,26 @@ public class GameButtons extends JComponent
 
 	SpinnerModel loanSpinner = new SpinnerNumberModel(0, 0, 1000, 50);
 	JSpinner spinner = new JSpinner(loanSpinner);
-	spinner.addChangeListener(new ChangeListener() {
+	spinner.addChangeListener(new ChangeListener()
+	{
 
-	    @Override
-	    public void stateChanged(ChangeEvent e) {
-	        amountToLoan = (int) ((JSpinner)e.getSource()).getValue();
+	    @Override public void stateChanged(ChangeEvent e) {
+		amountToLoan = (int) ((JSpinner) e.getSource()).getValue();
 	    }
 	});
 	add(spinner);
 
 
 	JButton loan = new JButton("Ask for a loan from the bank!");
-	loan.addActionListener(new ActionListener() {
+	loan.addActionListener(new ActionListener()
+	{
 
-	    @Override
-	    public void actionPerformed(ActionEvent e)
+	    @Override public void actionPerformed(ActionEvent e)
 	    {
-	        if (amountToLoan < 1) { JOptionPane.showConfirmDialog(null, "Please use the spinner below and specify amount!", "BANK", JOptionPane.DEFAULT_OPTION);
-	        } else {
+		if (amountToLoan < 1) {
+		    JOptionPane.showConfirmDialog(null, "Please use the spinner below and specify amount!", "BANK",
+						  JOptionPane.DEFAULT_OPTION);
+		} else {
 		    String res = b.getBank().canPlayerLoan(b.getCurrentPlayer(), amountToLoan);
 		    if (res.equals("Granted")) {
 			JOptionPane.showConfirmDialog(null, "You have been granted a loan of $" + amountToLoan + "!\n" +
@@ -177,13 +185,13 @@ public class GameButtons extends JComponent
 						      JOptionPane.DEFAULT_OPTION);
 			b.getCurrentPlayer().setPlayerMoney(amountToLoan);
 			b.getCurrentPlayer().setLoanMoney(amountToLoan);
-			b.addToSummary("You loaned " + amountToLoan +" from the bank");
-
+			b.addToSummary("You loaned " + amountToLoan + " from the bank");
 
 
 			// Add terms
 		    } else {
-			JOptionPane.showConfirmDialog(null, "You have not been granted a loan.\n" + res, "BANK", JOptionPane.DEFAULT_OPTION);
+			JOptionPane.showConfirmDialog(null, "You have not been granted a loan.\n" + res, "BANK",
+						      JOptionPane.DEFAULT_OPTION);
 		    }
 		}
 		spinner.setValue(0);
@@ -198,12 +206,13 @@ public class GameButtons extends JComponent
 	{
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
-		HouseTile selected = displayOwnedTiles(b.getCurrentPlayer(),false);
-		if(!b.sellTile(selected) && selected != null){
-		    JOptionPane.showConfirmDialog(null,"ERROR SELLING TILE!", "ERROR",JOptionPane.DEFAULT_OPTION);
-		}
-		b.addToSummary("You sold the tile " + selected.getName() +" for " + selected.getSellValue());
+		HouseTile selected = displayOwnedTiles(b.getCurrentPlayer(), false);
 
+		if (!b.sellTile(selected)) {
+		    JOptionPane.showConfirmDialog(null, "ERROR SELLING TILE!", "ERROR", JOptionPane.DEFAULT_OPTION);
+		} else {
+		    b.addToSummary("You sold the tile " + selected.getName() + " for " + selected.getSellValue());
+		}
 		updateScreen();
 
 	    }
@@ -211,32 +220,31 @@ public class GameButtons extends JComponent
 	add(sellTile);
 
 
-
     }
 
-    private HouseTile displayOwnedTiles(Player player, boolean house){
+    private HouseTile displayOwnedTiles(Player player, boolean house) {
 	ArrayList<HouseTile> owned = b.getOwnedTiles(player);
 
-	if(owned.isEmpty()){
-	    JOptionPane.showMessageDialog(this,"You do not own any tiles.","ERROR",JOptionPane.PLAIN_MESSAGE);
-	}else{
-	    if(ownedTilesGUI != null) {
+	if (owned.isEmpty()) {
+	    JOptionPane.showMessageDialog(this, "You do not own any tiles.", "ERROR", JOptionPane.PLAIN_MESSAGE);
+	} else {
+	    if (ownedTilesGUI != null) {
 		ownedTilesGUI.dispose();
 	    }
 
-	    ownedTilesGUI =  new OwnedTilesGUI(owned,house);
+	    ownedTilesGUI = new OwnedTilesGUI(owned, house);
 	    HouseTile result = ownedTilesGUI.showDialog();
 	    return result;
 	}
 	return null;
     }
 
-    private void updateScreen(){
-   	currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
-   	if(b.getSummary() !=null) {
-	    summary.setText("" +b.getSummary());
+    private void updateScreen() {
+	currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
+	if (b.getSummary() != null) {
+	    summary.setText(b.getSummary());
 	}
-   	bc.repaint();
+	bc.repaint();
     }
 
 }

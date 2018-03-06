@@ -32,8 +32,14 @@ public class LoadBoard
 	this.tileY = 0;
     }
 
+    public static void main(String... args) {
+	LoadBoard loadBoard = new LoadBoard(new Board(10));
+	loadBoard.readTileInformation("chance.csv");
+	System.out.println(loadBoard.boardTiles);
+    }
+
     public void readTileInformation(String fileName) {
-        File file = new File(fileName);
+	File file = new File(fileName);
 	List<String> tileInfo = new ArrayList<>();
 
 	Scanner scanner = null;
@@ -124,6 +130,10 @@ public class LoadBoard
 	scanner.close();
     }
 
+    /**
+     *
+     * @return
+     */
     public HouseTile getLastAddedTile() {
 	if (!boardTiles.isEmpty()) {
 	    return boardTiles.get(boardTiles.size() - 1);
@@ -132,6 +142,12 @@ public class LoadBoard
 	return null;
     }
 
+    /**
+     * xgfdhgdfhgfhg
+     * @param streetName fsfgsddd
+     * @param price
+     * @param color
+     */
     public void createBottomTile(String streetName, int price, Color color) {
 	if (getLastAddedTile() != null && !getLastAddedTile().getColor().equals(color)) {
 	    tileX = 0;
@@ -169,57 +185,51 @@ public class LoadBoard
     }
 
     public void playerLoseMoney(String chanceText, int amount) {
-        Special special = new Special();
-        Card card = new Card(chanceText, "playerLoseMoney", amount, special);
+	Special special = new Special();
+	Card card = new Card(chanceText, "playerLoseMoney", amount, special);
 
-        chanceCards.add(card);
-        //board.getCurrentPlayer().setPlayerMoney(-amount);
+	chanceCards.add(card);
+	//board.getCurrentPlayer().setPlayerMoney(-amount);
     }
 
     public void playerAddMoney(String chanceText, int amount) {
 	Special special = new Special();
- 	Card card = new Card(chanceText, "playerLoseMoney", amount, special);
- 	chanceCards.add(card);
+	Card card = new Card(chanceText, "playerLoseMoney", amount, special);
+	chanceCards.add(card);
 	//board.getCurrentPlayer().setPlayerMoney(amount);
     }
 
     public void playerTravelTiles(String chanceText, int travelTiles) {
-        Special special = new Special();
-        Card card = new Card(chanceText, "playerTravelTiles", travelTiles, special);
-        chanceCards.add(card);
+	Special special = new Special();
+	Card card = new Card(chanceText, "playerTravelTiles", travelTiles, special);
+	chanceCards.add(card);
 
-        //board.getCurrentPlayer().move(travelTiles);
+	//board.getCurrentPlayer().move(travelTiles);
     }
 
     public void playerGoToJail(String chanceText) {
 	Special special = new Special();
 	Card card = new Card(chanceText, "goToJail", 0, special);
- 	chanceCards.add(card);
+	chanceCards.add(card);
 
-        //board.getCurrentPlayer().goToJail();
+	//board.getCurrentPlayer().goToJail();
     }
 
     public void playerGetOutOfJail(String chanceText) {
-        Special special = new Special();
-        Card card = new Card(chanceText, "getOutOfJail", 0, special);
-        chanceCards.add(card);
+	Special special = new Special();
+	Card card = new Card(chanceText, "getOutOfJail", 0, special);
+	chanceCards.add(card);
     }
 
     public ArrayList<Card> getChanceCards() {
-        return this.chanceCards;
+	return this.chanceCards;
     }
 
     public ArrayList<Card> getCommunityCard() {
-        return this.communityCards;
+	return this.communityCards;
     }
 
     public ArrayList<HouseTile> getBoardTiles() {
-        return this.boardTiles;
-    }
-
-    public static void main(String... args) {
-	LoadBoard loadBoard = new LoadBoard(new Board(10));
-	loadBoard.readTileInformation("chance.csv");
-	System.out.println(loadBoard.boardTiles);
+	return this.boardTiles;
     }
 }

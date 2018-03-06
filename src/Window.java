@@ -8,62 +8,58 @@ public class Window extends JFrame
 {
 
 
-    public Window(Board b){
-        BoardComponent bc = new BoardComponent(b);
-        setLayout(new BorderLayout()); // TODO Byt layout
-        add(bc,BorderLayout.CENTER);
+    public Window(Board b) {
+	BoardComponent bc = new BoardComponent(b);
+	setLayout(new BorderLayout()); // TODO Byt layout
+	add(bc, BorderLayout.CENTER);
 
-        GameButtons buttons = new GameButtons(b,bc);
+	GameButtons buttons = new GameButtons(b, bc);
 
 
-
-	ArrayList<Player> players  = b.getPlayers();
+	ArrayList<Player> players = b.getPlayers();
 	JPanel playerPanel = new JPanel();
-	playerPanel.setLayout(new GridLayout(4,4));
+	playerPanel.setLayout(new GridLayout(4, 4));
 
-	for(Player p: players){
-	    if(!p.isGameOver()){
-	        JButton button = new JButton(p.getName());
-	        button.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e) {
-			  displayPlayer(p);
-		      }
-	        } );
-	        playerPanel.add(button);
+	for (Player p : players) {
+	    if (!p.isGameOver()) {
+		JButton button = new JButton(p.getName());
+		button.addActionListener(new ActionListener()
+		{
+		    public void actionPerformed(ActionEvent e) {
+			displayPlayer(p);
+		    }
+		});
+		playerPanel.add(button);
 	    }
 	}
 
 	JPanel subPanel = new JPanel();
-	subPanel.setLayout(new GridLayout(3,1));
+	subPanel.setLayout(new GridLayout(3, 1));
 
-	add(subPanel,BorderLayout.LINE_END);
-	subPanel.add(playerPanel,BorderLayout.SOUTH);
-	subPanel.setLayout(new GridLayout(5,2));
+	add(subPanel, BorderLayout.LINE_END);
+	subPanel.add(playerPanel, BorderLayout.SOUTH);
+	subPanel.setLayout(new GridLayout(5, 2));
 
-	subPanel.add(buttons,BorderLayout.LINE_END);
-	subPanel.add(playerPanel,BorderLayout.SOUTH);
-	add(subPanel,BorderLayout.LINE_END);
+	subPanel.add(buttons, BorderLayout.LINE_END);
+	subPanel.add(playerPanel, BorderLayout.SOUTH);
+	add(subPanel, BorderLayout.LINE_END);
 	setTitle("Monopoly");
 	pack();
 	setVisible(true);
 	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args){
-        Board board = new Board(780);
-        Window w = new Window(board);
+    public static void main(String[] args) {
+	Board board = new Board(780);
+	Window w = new Window(board);
     }
 
 
-    public void displayPlayer(Player player){
-        if(!player.isGameOver()) {
-	    JOptionPane.showMessageDialog(this,
-					  player.getName() + " : $" + player.getMoney() + "\n" + "Color:" + player.getColor() +
-					  "\n" + "Get out of jail card: " + player.getOutOfJailCard() + "\n" +
-					  "Owned properites:", player.getName(), JOptionPane.PLAIN_MESSAGE);
-	}else{
-	    JOptionPane.showMessageDialog(this,
-	    					  player.getName() + " Has ran out of money...");
+    public void displayPlayer(Player player) {
+	if (!player.isGameOver()) {
+	    JOptionPane.showMessageDialog(this, player.toString());
+	} else {
+	    JOptionPane.showMessageDialog(this, player.getName() + " Has ran out of money...");
 	}
     }
 

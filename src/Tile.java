@@ -5,41 +5,41 @@ public abstract class Tile
     private int x, y, width, height;
     private TileType type;
 
-    protected Tile(int x, int y, int width, int height, TileType type){
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.type = type;
+    protected Tile(int x, int y, int width, int height, TileType type) {
+	this.x = x;
+	this.y = y;
+	this.width = width;
+	this.height = height;
+	this.type = type;
     }
 
 
-    public boolean contains(Point point){
+    public boolean contains(Point point) {
 
-        if(point.x >= x && point.x <= x + width){
-            return point.y >= y && point.y <= y + height;
+	if (point.x >= x && point.x <= x + width) {
+	    return point.y >= y && point.y <= y + height;
 	}
-        return false;
+	return false;
     }
 
-    public int getX(){
-        return x;
+    public int getX() {
+	return x;
     }
 
-    public  int getY(){
-        return y;
+    public int getY() {
+	return y;
     }
 
-    public  int getWidth(){
-        return width;
+    public int getWidth() {
+	return width;
     }
 
-    public  TileType getType(){
-        return type;
+    public TileType getType() {
+	return type;
     }
 
-    public  int getHeight(){
-        return height;
+    public int getHeight() {
+	return height;
     }
 
     public abstract String toString();

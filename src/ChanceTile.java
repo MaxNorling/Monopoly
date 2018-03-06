@@ -10,8 +10,10 @@ public class ChanceTile extends SmallTile
     private ArrayList<Card> chanceCards;
     private Random random;
 
-    public ChanceTile(int x, int y, int width, int height, int boxWidth, int boxHeight, int boxX, int boxY, BufferedImage image, String name , int textX, int textY, ArrayList<Card> chanceCards) {
-	super(x,y,width,height,boxWidth,boxHeight,boxX,boxY,name,textX,textY,TileType.CHANCE);
+    public ChanceTile(int x, int y, int width, int height, int boxWidth, int boxHeight, int boxX, int boxY, BufferedImage image,
+		      String name, int textX, int textY, ArrayList<Card> chanceCards)
+    {
+	super(x, y, width, height, boxWidth, boxHeight, boxX, boxY, name, textX, textY, TileType.CHANCE);
 	this.image = image;
 	this.chanceCards = chanceCards;
 	this.random = new Random();
@@ -27,44 +29,44 @@ public class ChanceTile extends SmallTile
     }
 
     @Override public String landAction(final Player p) {
-        Card card = chanceCards.get(random.nextInt(chanceCards.size()));
-        String whatHappend = "";
-        switch (card.getActionType()) {
+	Card card = chanceCards.get(random.nextInt(chanceCards.size()));
+	String whatHappend;
+	switch (card.getActionType()) {
 	    case "playerAddMoney":
-	        p.setPlayerMoney(card.getAmount());
-	        System.out.println("add");
-	        whatHappend ="You got" + card.getAmount() + "$";
-	        break;
+		p.setPlayerMoney(card.getAmount());
+		System.out.println("add");
+		whatHappend = "You got" + card.getAmount() + "$";
+		break;
 	    case "playerLoseMoney":
 		p.loseMoney(card.getAmount());
 		System.out.println("lsoe");
-		whatHappend ="You lost" + card.getAmount() + "$";
+		whatHappend = "You lost" + card.getAmount() + "$";
 
-	        break;
+		break;
 	    case "getOutOfJail":
-	        p.giveOutOfJailCard();
+		p.giveOutOfJailCard();
 		System.out.println("out");
-		whatHappend ="You got a get out of jail card";
+		whatHappend = "You got a get out of jail card";
 
-	        break;
+		break;
 	    case "goToJail":
 		System.out.println("in");
-		whatHappend ="You got jailed";
+		whatHappend = "You got jailed";
 
-	        p.goToJail();
-	        break;
+		p.goToJail();
+		break;
 	    case "playerTravelTiles":
 		System.out.println("t" + card.getAmount());
 		System.out.println(p.getCurrentTile());
 
-	        p.specialMove(card.getAmount());
+		p.move(card.getAmount());
 		System.out.println(p.getCurrentTile());
-		whatHappend ="You traveled " + card.getAmount() + " tiles";
+		whatHappend = "You traveled " + card.getAmount() + " tiles";
 
-	        break;
+		break;
 	    default:
-	        System.out.println(card.getActionType());
-		whatHappend ="Something happened" + card.getAmount();
+		System.out.println(card.getActionType());
+		whatHappend = "Something happened" + card.getAmount();
 
 	}
 	return whatHappend;

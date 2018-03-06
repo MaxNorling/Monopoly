@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class Board
 {
-    private int boardSize, tileSize;
     private static final int TILE_AMOUNT = 13;
+    private int boardSize, tileSize;
     private Dice die;
     private int lastThrow = 1;
     private int currentPlayer;
@@ -27,16 +27,11 @@ public class Board
 	loadBoard = new LoadBoard(this);
 	chanceCards = loadBoard.getChanceCards();
 	players = new ArrayList<>();
-	players.add(new Player("Sven", Color.ORANGE));
-	players.add(new Player("Pelle", Color.BLUE));
-
+	players.add(new Player("Max", Color.ORANGE));
+	players.add(new Player("Jacob", Color.BLUE));
 
 
 	turnSummary = new StringBuilder();
-	//players.add(new Player("Oskar", Color.RED));
-	//players.add(new Player("Erik", Color.YELLOW));
-	//players.add(new Player("Tesrta", Color.CYAN));
-
 
 	currentPlayer = 0;
 
@@ -50,18 +45,17 @@ public class Board
 	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, TILE_AMOUNT, img, "GO", "Pass this tile to get $200."));
 
 
-
 	for (int x = TILE_AMOUNT - 3; x >= 2; x--) {
 	    if (x == 3) {
 		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chance, "Chance", chanceCards));
 	    } else if (x == 9) {
 		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chest, "Chest", chanceCards));
 
-	    } else if(x == 10){
+	    } else if (x == 10) {
 		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.CYAN, 120, "Valla"));
-	    } else if(x == 8){
+	    } else if (x == 8) {
 		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.CYAN, 110, "Lambohov"));
-	    }else{
+	    } else {
 		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.RED, 110, "Ryd"));
 
 	    }
@@ -129,9 +123,18 @@ public class Board
 
     private void movePlayer(Player player) {
 	player.move(lastThrow);
+	Tile landedTile = tiles.get(player.getCurrentTile());
+
+	String landed = landedTile.landAction(player);
+	if (!landed.isEmpty()) {
+	    addToSummary(landed);
+	}
+
 	Tile currentTile = tiles.get(player.getCurrentTile());
-	String landed = currentTile.landAction(player);
-	if (landed != "") {
+	addToSummary("You landed on a " + currentTile.getType());
+
+	if (!currentTile.equals(landedTile)) {
+	    landed = landedTile.landAction(player);
 	    addToSummary(landed);
 	}
 	addToSummary("You landed on a " + currentTile.getType());
@@ -158,10 +161,7 @@ public class Board
     }
 
     private boolean isHouseTile(Tile tile) {
-	if (tile.getType() == TileType.HOUSE) {
-	    return true;
-	}
-	return false;
+	return (tile.getType() == TileType.HOUSE);
     }
 
     public boolean buyHouse(HouseTile tile) {
@@ -180,7 +180,7 @@ public class Board
 	return false;
     }
 
-    public boolean sellTile(HouseTile tile){
+    public boolean sellTile(HouseTile tile) {
 	Player player = getCurrentPlayer();
 	if (tile != null) {
 	    bank.sellTile(player, tile);
@@ -188,17 +188,16 @@ public class Board
 	}
 	return false;
 
-	}
+    }
 
     public boolean ownsAll(Color color, Player player) {
 	for (Tile tile : tiles) {
 	    if (tile instanceof HouseTile) {
 		HouseTile hTile = (HouseTile) tile;
 		if (hTile.getColor().equals(color)) {
-		    if(hTile.getOwner() == null){
-		        return false;
-		    }
-		    else if (!hTile.getOwner().equals(player)) {
+		    if (hTile.getOwner() == null) {
+			return false;
+		    } else if (!hTile.getOwner().equals(player)) {
 			return false;
 		    }
 		}
@@ -232,6 +231,7 @@ public class Board
 	    double loanPayment =
 		    getCurrentPlayer().getLoanMoney() - (getCurrentPlayer().getLoanMoney() * bank.getInterestRate());
 	    getCurrentPlayer().payLoan((int) loanPayment);
+	    addToSummary("You paid back " + loanPayment + "$ to the bank.");
 
 	}
 
@@ -239,7 +239,7 @@ public class Board
 	if (currentPlayer >= players.size()) {
 	    currentPlayer = 0;
 	}
-	if(getCurrentPlayer().isGameOver()) {
+	if (getCurrentPlayer().isGameOver()) {
 	    if (allGameOver()) {
 		endGame();
 	    } else {
@@ -249,36 +249,37 @@ public class Board
 
 	}
     }
-    private void endGame(){
-	JOptionPane.showMessageDialog(null,
-    					  getCurrentPlayer().getName() + " HAS WON THE GAME"); //TODO Gör det bättre...
+
+    private void endGame() {
+	JOptionPane.showMessageDialog(null, getCurrentPlayer().getName() + " HAS WON THE GAME"); //TODO Gör det bättre...
 	System.exit(0);
 
 
     }
 
-    public Player getWinner(){
-        if(allGameOver()){
-	    for(Player player : players){
-	    	    if(!player.isGameOver()){
-	    	        return player;
-	    	    }
-	    	}
+    public Player getWinner() {
+	if (allGameOver()) {
+	    for (Player player : players) {
+		if (!player.isGameOver()) {
+		    return player;
+		}
+	    }
 	}
 	return null;
     }
 
-    public boolean allGameOver(){
-        int alivePlayers = 0;
-	for(Player player : players){
-	    if(!player.isGameOver()){
-	        alivePlayers++;
+    public boolean allGameOver() {
+	int alivePlayers = 0;
+	for (Player player : players) {
+	    if (!player.isGameOver()) {
+		alivePlayers++;
 	    }
 	}
 
 	return !(alivePlayers > 1);
 
     }
+
     public void addToSummary(String message) {
 	turnSummary.append("\n");
 	turnSummary.append(message);
@@ -291,7 +292,6 @@ public class Board
     public void resetTurnSummary() {
 	turnSummary = new StringBuilder();
     }
-
 
 
 }

@@ -9,7 +9,7 @@ public class Special implements SpecialCards
     }
 
     @Override public void playerTravelTiles(final Player p, final int amount) {
-        System.out.println(p.getCurrentTile());
+	System.out.println(p.getCurrentTile());
 	p.move(amount);
 	System.out.println(p.getCurrentTile());
     }

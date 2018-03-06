@@ -23,7 +23,7 @@ public class Player
     private int jailedTurns;
     private boolean canThrow;
 
-    public Player(String name,Color color) {
+    public Player(String name, Color color) {
 	this.money = 550; // Should be assigned to a starting money function
 	this.currentTile = 0; // Should be assigned to the starting tile "GO"
 	this.ownedTiles = new ArrayList<>();
@@ -100,8 +100,9 @@ public class Player
 	    money -= loanPayment;
 	}
     }
-    public void passedGo(){
-	money+=200;
+
+    public void passedGo() {
+	money += 200;
     }
 
     public boolean buyTile(HouseTile tile) {
@@ -120,67 +121,68 @@ public class Player
 
 
     public void move(int i) {
-	if(!hasMoved){
-	    if(!jailed){
-	    	currentTile += i;
-	    }
-	    hasMoved = true;
-	    if (currentTile >= 40) { // 40 is the ammount of tiles on the board
-		currentTile -= 40;
-		passedGo();
-	    }
+	if (!jailed) {
+	    currentTile += i;
 	}
+	hasMoved = true;
+	if (currentTile >= 40) { // 40 is the ammount of tiles on the board
+	    currentTile -= 40;
+	    passedGo();
+	}
+
     }
 
     public void goToJail() {
-        this.currentTile = 10;
-        this.jailed = true;
+	this.currentTile = 10;
+	this.jailed = true;
     }
 
     public boolean getOutOfJailCard() {
-        return this.outOfJailCard;
+	return this.outOfJailCard;
     }
 
     public void giveOutOfJailCard() {
-        this.outOfJailCard = true;
+	this.outOfJailCard = true;
+    }
+
+    public void useJailCard() {
+        if(outOfJailCard && jailed){
+            outOfJailCard = false;
+            leaveJail();
+	}
     }
 
 
     private void setPosition(int position) {
-        this.currentTile = position;
+	this.currentTile = position;
 
     }
 
-    public void specialMove(int amount) {
-        // Used when a special card moves the player a specified amount, can't use normal move
-	this.currentTile += amount;
 
-	if(currentTile > 40){
-       	 currentTile -=40;
-	}
-    }
-
-    public void loseMoney(int lost){
-	money-=lost;
-	if (money <= 0){
+    public void loseMoney(int lost) {
+	money -= lost;
+	if (money <= 0) {
 	    gameOver();
 	}
 
     }
 
-    public void gameOver(){
+    public void gameOver() {
 	gameOver = true;
     }
 
     public boolean canThrow() {
 	return canThrow;
     }
-    public boolean hasMoved(){
-        return hasMoved;
+
+    public boolean hasMoved() {
+	return hasMoved;
     }
-    public void setHasMoved(boolean b){
-        hasMoved = b;
+
+    public void setHasMoved(boolean b) {
+	hasMoved = b;
     }
+
     public void setCanThrow(boolean b) {
 	canThrow = b;
     }
@@ -188,7 +190,8 @@ public class Player
     public String getName() {
 	return name;
     }
-    public void endTurn(){
+
+    public void endTurn() {
 	canThrow = true;
 	hasMoved = false;
 
@@ -199,21 +202,53 @@ public class Player
     public Color getColor() {
 	return color;
     }
-    public boolean isJailed(){
-        return jailed;
+
+    public boolean isJailed() {
+	return jailed;
     }
-    public void leaveJail(){
-        jailed = false;
-        hasMoved = false;
-        jailedTurns = 0;
+
+    public void leaveJail() {
+	jailed = false;
+	hasMoved = false;
+	jailedTurns = 0;
     }
-    public int getJailedTurns(){
-        return jailedTurns;
+
+    public int getJailedTurns() {
+	return jailedTurns;
     }
-    public void increaseJailedTurns(){
-        jailedTurns++;
+
+    public void increaseJailedTurns() {
+	jailedTurns++;
     }
-    public boolean isGameOver(){
-        return gameOver;
+
+    public boolean isGameOver() {
+	return gameOver;
+    }
+
+    @Override public String toString() {
+	StringBuilder builder = new StringBuilder();
+	builder.append(name);
+	builder.append(" :  $");
+	builder.append(money);
+	builder.append("\n");
+	builder.append("Color");
+	builder.append(color);
+
+	builder.append("\n");
+	builder.append("Get out of jail card: ");
+	builder.append(outOfJailCard);
+ 	if (!ownedTiles.isEmpty()) {
+	    builder.append("\n");
+	    builder.append("Owned tiles:");
+
+	    for (HouseTile tile : ownedTiles) {
+		builder.append("\n");
+		builder.append(tile.getName());
+	    }
+ 	}
+
+	return builder.toString();
+
+
     }
 }

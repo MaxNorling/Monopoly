@@ -1219,6 +1219,15 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
   </component>
+  <component name="libraryTable">
+    <library name="miglayout-3.7.1-swing">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/miglayout-3.7.1-swing.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+  </component>
   <component name="masterDetails">
     <states>
       <state key="ProjectJDKs.UI">

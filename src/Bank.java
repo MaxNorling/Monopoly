@@ -8,7 +8,7 @@ public class Bank
     private double interestRate; // Decide what the intial interest rate should be
 
     public Bank() {
-        this.interestRate = INTEREST_RATE;
+	this.interestRate = INTEREST_RATE;
     }
 
     public double getInterestRate() { return interestRate; }
@@ -26,7 +26,7 @@ public class Bank
 	    return "Turns until a loan can be taken: " + player.getLoanCooldown();
 	}
 
-	interestRate = setInterestRate(player);
+	//interestRate = setInterestRate(player);
 	return "Granted"; // Additional constraints to be added that take player financial levels into decision.
     }
 
@@ -45,11 +45,11 @@ public class Bank
     }
 
     public void sellTile(Player player, HouseTile tile) {
-        if (tile.getOwner().equals(player)) {
-            playerGiveMoney(player, tile.getSellValue()); // Change resell value to something lower
-            player.getOwnedTiles().remove(player.getOwnedTiles().indexOf(tile));
+	if (tile.getOwner().equals(player)) {
+	    playerGiveMoney(player, tile.getSellValue()); // Change resell value to something lower
+	    player.getOwnedTiles().remove(player.getOwnedTiles().indexOf(tile));
 
-            tile.removeOwner();
+	    tile.removeOwner();
 	}
     } // Should take some kind of identifier to tile as parameter
 }
