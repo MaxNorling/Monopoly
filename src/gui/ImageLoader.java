@@ -21,6 +21,7 @@ public class ImageLoader
 	    img = ImageIO.read(file);
 	} catch (IOException e) {
 	    e.printStackTrace();
+	    System.exit(1);
 	}
 	return img;
     }

@@ -33,15 +33,14 @@ public class BoardComponent extends JComponent implements MouseListener
 	board = b;
 	setPreferredSize(new Dimension(board.getBoardSize(), board.getBoardSize()));
 	ImageLoader loader = new ImageLoader();
-	dice = new BufferedImage[7];
+	dice = new BufferedImage[6];
 
-	dice[0] = null;
-	dice[1] = loader.loadImage("images/die1.png");
-	dice[2] = loader.loadImage("images/die2.png");
-	dice[3] = loader.loadImage("images/die3.png");
-	dice[4] = loader.loadImage("images/die4.png");
-	dice[5] = loader.loadImage("images/die5.png");
-	dice[6] = loader.loadImage("images/die6.png");
+	dice[0] = loader.loadImage("images/die1.png");
+	dice[1] = loader.loadImage("images/die2.png");
+	dice[2] = loader.loadImage("images/die3.png");
+	dice[3] = loader.loadImage("images/die4.png");
+	dice[4] = loader.loadImage("images/die5.png");
+	dice[5] = loader.loadImage("images/die6.png");
 
 	playerSize = board.getBoardSize() / PLAYER_SIZE_RELATIVE_TO_BOARD;
 	diceSize = board.getBoardSize() / DICE_SIZE_RELATIVE_TO_BOARD;
@@ -86,7 +85,7 @@ public class BoardComponent extends JComponent implements MouseListener
 	    }
 	}
 	//Dice
-	g2d.drawImage(dice[board.lastThrow()], board.getBoardSize() / 2, board.getBoardSize() / 2, diceSize, diceSize, null);
+	g2d.drawImage(dice[board.lastThrow() - 1], board.getBoardSize() / 2, board.getBoardSize() / 2, diceSize, diceSize, null);
 
 
     }

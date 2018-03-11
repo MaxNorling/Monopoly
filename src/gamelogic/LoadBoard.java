@@ -44,98 +44,100 @@ public class LoadBoard
 
     public void readTileInformation(String fileName) {
 	File file = new File(fileName);
-	List<String> tileInfo = new ArrayList<>();
 
-	Scanner scanner = null;
+	File temp = new File((System.getProperty("user.dir") + "/src/" + file).trim());
 
-	try {
-	    scanner = new Scanner(new File((System.getProperty("user.dir") + "/src/" + file).trim()));
+
+	try(Scanner scanner = new Scanner(temp)) {
+
+	    scanner.useDelimiter(",");
+
+
+	    List<String> tileInfo = new ArrayList<>();
+	    while (scanner.hasNext()) {
+	   	    String val = scanner.next();
+	   	    if (file.getPath().equals("tiles.csv")) {
+	   		if (val.equals("-")) {
+	   		    String streetName = tileInfo.get(0);
+	   		    int price = Integer.parseInt(tileInfo.get(1));
+	   		    String color = tileInfo.get(2);
+
+	   		    switch (color) {
+	   			case "BLUE":
+	   			    createTopTile(streetName, price, Color.BLUE);
+	   			    break;
+	   			case "RED":
+	   			    createBottomTile(streetName, price, Color.getColor(color));
+	   			    break;
+	   			case "ORANGE":
+	   			    createLeftTile(streetName, price, Color.getColor(color));
+	   			    break;
+	   			case "PINK":
+	   			    createRightTile(streetName, price, Color.getColor(color));
+	   			    break;
+	   			default:
+	   			    throw new IllegalArgumentException("Bad color.");
+	   		    }
+
+	   		    tileInfo = new ArrayList<>();
+	   		} else {
+	   		    tileInfo.add(val);
+	   		}
+	   	    } else if (file.getPath().equals("chance.csv") || file.getPath().equals("community.csv")) {
+	   		if (val.equals("-")) {
+	   		    String chanceText = tileInfo.get(0);
+	   		    String chanceId = tileInfo.get(1).trim();
+	   		    int amountId = 0;
+	   		    int travelTiles = 0;
+
+	   		    switch (chanceId) {
+	   			case "loseMoney":
+	   			case "addMoney":
+	   			    amountId = Integer.parseInt(tileInfo.get(2).trim());
+	   			    break;
+	   			case "travelTiles":
+	   			    travelTiles = Integer.parseInt(tileInfo.get(2).trim());
+	   			    break;
+	   			case "getOutOfJail":
+	   			   // String getOutOfJail = tileInfo.get(2).trim();
+	   			    break;
+	   			case "goToJail":
+	   			    //String goToJail = tileInfo.get(2).trim();
+	   			    break;
+	   		    }
+
+	   		    switch (chanceId) {
+	   			case "loseMoney":
+	   			    playerLoseMoney(chanceText, amountId);
+	   			    break;
+	   			case "addMoney":
+	   			    playerAddMoney(chanceText, amountId);
+	   			    break;
+	   			case "travelTiles":
+	   			    playerTravelTiles(chanceText, travelTiles);
+	   			    break;
+	   			case "getOutOfJail":
+	   			    playerGetOutOfJail(chanceText);
+	   			    break;
+	   			case "goToJail":
+	   			    playerGoToJail(chanceText);
+	   			    break;
+	   			default:
+	   			    throw new IllegalArgumentException("Invalid GameLogic.Card: " + chanceId);
+	   		    }
+
+	   		    tileInfo = new ArrayList<>();
+
+	   		} else {
+	   		    tileInfo.add(val);
+	   		}
+	   	    }
+	   	}
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();
 	}
 
-	scanner.useDelimiter(",");
 
-	while (scanner.hasNext()) {
-	    String val = scanner.next();
-	    if (file.getPath().equals("tiles.csv")) {
-		if (val.equals("-")) {
-		    String streetName = tileInfo.get(0);
-		    int price = Integer.parseInt(tileInfo.get(1));
-		    String color = tileInfo.get(2);
-
-		    switch (color) {
-			case "BLUE":
-			    createTopTile(streetName, price, Color.BLUE);
-			    break;
-			case "RED":
-			    createBottomTile(streetName, price, Color.getColor(color));
-			    break;
-			case "ORANGE":
-			    createLeftTile(streetName, price, Color.getColor(color));
-			    break;
-			case "PINK":
-			    createRightTile(streetName, price, Color.getColor(color));
-			    break;
-			default:
-			    throw new IllegalArgumentException("Bad color.");
-		    }
-
-		    tileInfo = new ArrayList<>();
-		} else {
-		    tileInfo.add(val);
-		}
-	    } else if (file.getPath().equals("chance.csv") || file.getPath().equals("community.csv")) {
-		if (val.equals("-")) {
-		    String chanceText = tileInfo.get(0);
-		    String chanceId = tileInfo.get(1).trim();
-		    int amountId = 0;
-		    int travelTiles = 0;
-
-		    switch (chanceId) {
-			case "loseMoney":
-			case "addMoney":
-			    amountId = Integer.parseInt(tileInfo.get(2).trim());
-			    break;
-			case "travelTiles":
-			    travelTiles = Integer.parseInt(tileInfo.get(2).trim());
-			    break;
-			case "getOutOfJail":
-			    String getOutOfJail = tileInfo.get(2).trim();
-			    break;
-			case "goToJail":
-			    String goToJail = tileInfo.get(2).trim();
-			    break;
-		    }
-
-		    switch (chanceId) {
-			case "loseMoney":
-			    playerLoseMoney(chanceText, amountId);
-			    break;
-			case "addMoney":
-			    playerAddMoney(chanceText, amountId);
-			    break;
-			case "travelTiles":
-			    playerTravelTiles(chanceText, travelTiles);
-			    break;
-			case "getOutOfJail":
-			    playerGetOutOfJail(chanceText);
-			    break;
-			case "goToJail":
-			    playerGoToJail(chanceText);
-			    break;
-			default:
-			    throw new IllegalArgumentException("Invalid GameLogic.Card: " + chanceId);
-		    }
-
-		    tileInfo = new ArrayList<>();
-
-		} else {
-		    tileInfo.add(val);
-		}
-	    }
-	}
-	scanner.close();
     }
 
 

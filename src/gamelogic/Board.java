@@ -67,13 +67,13 @@ public class Board
 
 		    break;
 		case 10:
-		    tiles.add(tm.makeHouseTile(tileSize, x, 5, Color.CYAN, 120, "Valla", Position.DOWN));
+		    tiles.add(tm.makeHouseTile(tileSize, x, 5, Color.CYAN, 100, "Valla", Position.DOWN));
 		    break;
 		case 8:
-		    tiles.add(tm.makeHouseTile(tileSize, x, 5, Color.CYAN, 110, "Lambohov", Position.DOWN));
+		    tiles.add(tm.makeHouseTile(tileSize, x, 5, Color.CYAN, 100, "Lambohov", Position.DOWN));
 		    break;
 		default:
-		    tiles.add(tm.makeHouseTile(tileSize, x, 5, Color.RED, 110, "Ryd", Position.DOWN));
+		    tiles.add(tm.makeHouseTile(tileSize, x, 5, Color.RED, 100 + x, "Ryd", Position.DOWN));
 
 		    break;
 	    }

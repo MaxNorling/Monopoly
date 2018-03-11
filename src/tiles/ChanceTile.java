@@ -38,38 +38,39 @@ public class ChanceTile extends SmallTile
 
     @Override public String landAction(final Player p) {
 	Card card = chanceCards.get(random.nextInt(chanceCards.size()));
-	String whatHappend;
+	String whatHappend = "";
+	whatHappend+= card.getChanceText() + " ";
+
 	switch (card.getAction()) {
 	    case "playerAddMoney":
 		p.setPlayerMoney(card.getAmount());
-		whatHappend = "You got" + card.getAmount() + "$";
+		whatHappend +=card.getAmount() + "$";
+
 		break;
 	    case "playerLoseMoney":
 		p.loseMoney(card.getAmount());
-		whatHappend = "You lost " + card.getAmount() + "$";
+		whatHappend +=card.getAmount() + "$";
 
 		break;
 	    case "getOutOfJail":
 		p.giveOutOfJailCard();
-		whatHappend = "You got a get out of jail card";
 
 		break;
 	    case "goToJail":
-		whatHappend = "You got jailed";
 
 		p.goToJail();
 		break;
 	    case "playerTravelTiles":
 
 		p.move(card.getAmount());
-		whatHappend = "You landed on tile number " + p.getCurrentTile();
-		whatHappend += "\nYou traveled " + card.getAmount() + " tiles";
+		whatHappend += card.getAmount() + " tiles";
 
 		break;
 	    default:
 		whatHappend = "Something went wrong" + card.getAmount();
 
 	}
+
 	return whatHappend;
     }
 }

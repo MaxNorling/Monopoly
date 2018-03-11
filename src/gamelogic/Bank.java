@@ -9,7 +9,7 @@ import tiles.HouseTile;
 public class Bank
 {
     private static final double INTEREST_RATE = 0.1;
-    private static final double INTREST_DIVIDER = 1000;
+    //private static final double INTREST_DIVIDER = 1000;
 
     private double interestRate; // Decide what the intial interest rate should be
 
@@ -36,16 +36,16 @@ public class Bank
 	//interestRate = setInterestRate(player);
 	return "Granted"; // Additional constraints to be added that take player financial levels into decision.
     }
-
-    public double setInterestRate(Player player) {
-	return player.playerWorth() / INTREST_DIVIDER;
-        /*
-        Set the interest rate depending on how many lots have been bought in the game.
-        This will make sure that the players might be more inclined to loan to buy lots in order to be progress the game forward.
-        As more and more lots dissappear the interest rate will increase and will most likely only be used in more strategic buys.
-        This will also help with the potential problem that the bank might lose a lot of money otherwise.
-         */
-    }
+//
+//    public double setInterestRate(Player player) {
+//	return player.playerWorth() / INTREST_DIVIDER;
+//        /*
+//        Set the interest rate depending on how many lots have been bought in the game.
+//        This will make sure that the players might be more inclined to loan to buy lots in order to be progress the game forward.
+//        As more and more lots dissappear the interest rate will increase and will most likely only be used in more strategic buys.
+//        This will also help with the potential problem that the bank might lose a lot of money otherwise.
+//         */
+//    }
 
     public void playerGiveMoney(Player player, int amount) {
 	player.setPlayerMoney(amount);

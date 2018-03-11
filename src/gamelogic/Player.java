@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Player
 {
     private int money;
-    private int playerWorth;
+    //private int playerWorth;
     private int loanCooldown;
     private int loanMoney;
     private int currentTile;
@@ -43,7 +43,7 @@ public class Player
 
 	this.jailed = false;
 	this.outOfJailCard = false;
-	this.playerWorth = playerWorth();
+	//this.playerWorth = playerWorth();
 	this.canThrow = true;
 	this.hasMoved = false;
 	this.gameOver = false;
@@ -97,7 +97,7 @@ public class Player
     public void payLoan(int loanPayment) {
 	// Should take things from players if player cant pay
 	if (loanPayment > money) {
-	    int playerWorth = playerWorth() - money;
+	    //int playerWorth = playerWorth() - money;
 	    // Iterate over properties and total the required amount to take from player
 	    // Should let player decide which properties to sell
 	    // Should show a prompt with a list of owned properties and a sell button next to them
