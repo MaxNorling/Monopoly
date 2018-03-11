@@ -1,3 +1,7 @@
+package gamelogic;
+
+import tiles.HouseTile;
+
 /**
  * Controls the bank logic during the game.
  */
@@ -5,7 +9,10 @@
 public class Bank
 {
     private static final double INTEREST_RATE = 0.1;
+    private static final double INTREST_DIVIDER = 1000;
+
     private double interestRate; // Decide what the intial interest rate should be
+
 
     public Bank() {
 	this.interestRate = INTEREST_RATE;
@@ -13,7 +20,7 @@ public class Bank
 
     public double getInterestRate() { return interestRate; }
 
-    public String canPlayerLoan(Player player, int toLoan) {
+    public String messageCanPlayerLoan(Player player, int toLoan) {
 	// && player.getLoanCooldown() != 0 && player.getLoanMoney() > 0
 
 	if (toLoan > player.playerWorth()) {
@@ -31,7 +38,7 @@ public class Bank
     }
 
     public double setInterestRate(Player player) {
-	return player.playerWorth() / 1000;
+	return player.playerWorth() / INTREST_DIVIDER;
         /*
         Set the interest rate depending on how many lots have been bought in the game.
         This will make sure that the players might be more inclined to loan to buy lots in order to be progress the game forward.
@@ -46,7 +53,7 @@ public class Bank
 
     public void sellTile(Player player, HouseTile tile) {
 	if (tile.getOwner().equals(player)) {
-	    playerGiveMoney(player, tile.getSellValue()); // Change resell value to something lower
+	    playerGiveMoney(player, (int) tile.getSellValue()); // Change resell value to something lower
 	    player.getOwnedTiles().remove(player.getOwnedTiles().indexOf(tile));
 
 	    tile.removeOwner();

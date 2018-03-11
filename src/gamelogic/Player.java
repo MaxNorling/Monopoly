@@ -1,3 +1,7 @@
+package gamelogic;
+
+import tiles.HouseTile;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -22,9 +26,11 @@ public class Player
 
     private int jailedTurns;
     private boolean canThrow;
+    private int passGoMoney;
+    private int tileAmmount;
 
-    public Player(String name, Color color) {
-	this.money = 550; // Should be assigned to a starting money function
+    public Player(String name, Color color, int startMoney, int passGoMoney, int tileAmmount) {
+	this.money = startMoney; // Should be assigned to a starting money function
 	this.currentTile = 0; // Should be assigned to the starting tile "GO"
 	this.ownedTiles = new ArrayList<>();
 	this.name = name;
@@ -32,6 +38,8 @@ public class Player
 	this.loanCooldown = 0;
 	this.loanMoney = 0;
 	this.jailedTurns = 0;
+	this.passGoMoney = passGoMoney;
+	this.tileAmmount = tileAmmount;
 
 	this.jailed = false;
 	this.outOfJailCard = false;
@@ -54,12 +62,9 @@ public class Player
 	return this.currentTile;
     }
 
-    public void removeTile() {
-    }
-
-    public boolean canBuyTile(HouseTile tile) {
-	return tile.getPrice() > money;
-    }
+//    public boolean canBuyTile(HouseTile tile) {
+//	return tile.getPrice() > money;
+//    }
 
     public int playerWorth() {
 	int sumMoney = money;
@@ -77,9 +82,9 @@ public class Player
 	return loanCooldown;
     }
 
-    public void setLoanCooldown() {
-	loanCooldown += 5; // Change to be dynamic depending on factors
-    }
+//    public void setLoanCooldown() {
+//	loanCooldown += 5; // Change to be dynamic depending on factors
+//    }
 
     public int getLoanMoney() {
 	return loanMoney;
@@ -98,11 +103,12 @@ public class Player
 	    // Should show a prompt with a list of owned properties and a sell button next to them
 	} else {
 	    money -= loanPayment;
+	    loanMoney-=loanPayment;
 	}
     }
 
     public void passedGo() {
-	money += 200;
+	money += passGoMoney;
     }
 
     public boolean buyTile(HouseTile tile) {
@@ -125,8 +131,8 @@ public class Player
 	    currentTile += i;
 	}
 	hasMoved = true;
-	if (currentTile >= 40) { // 40 is the ammount of tiles on the board
-	    currentTile -= 40;
+	if (currentTile >= tileAmmount) { // 40 is the ammount of tiles on the board
+	    currentTile -= tileAmmount;
 	    passedGo();
 	}
 
@@ -146,18 +152,11 @@ public class Player
     }
 
     public void useJailCard() {
-        if(outOfJailCard && jailed){
-            outOfJailCard = false;
-            leaveJail();
+	if (outOfJailCard && jailed) {
+	    outOfJailCard = false;
+	    leaveJail();
 	}
     }
-
-
-    private void setPosition(int position) {
-	this.currentTile = position;
-
-    }
-
 
     public void loseMoney(int lost) {
 	money -= lost;
@@ -237,7 +236,7 @@ public class Player
 	builder.append("\n");
 	builder.append("Get out of jail card: ");
 	builder.append(outOfJailCard);
- 	if (!ownedTiles.isEmpty()) {
+	if (!ownedTiles.isEmpty()) {
 	    builder.append("\n");
 	    builder.append("Owned tiles:");
 
@@ -245,7 +244,7 @@ public class Player
 		builder.append("\n");
 		builder.append(tile.getName());
 	    }
- 	}
+	}
 
 	return builder.toString();
 

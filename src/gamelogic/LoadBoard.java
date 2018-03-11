@@ -1,3 +1,9 @@
+package gamelogic;
+
+import tiles.HouseTile;
+import tiles.Position;
+import tiles.TileMaker;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,9 +17,8 @@ import java.util.Scanner;
 public class LoadBoard
 {
 
-    private ArrayList<HouseTile> boardTiles;
+    private List<HouseTile> boardTiles;
     private ArrayList<Card> chanceCards;
-    private ArrayList<Card> communityCards;
     private TileMaker tileMaker;
     private Board board;
     private int tileX;
@@ -25,7 +30,6 @@ public class LoadBoard
 	readTileInformation("chance.csv");
 
 
-	this.communityCards = new ArrayList<>();
 	this.tileMaker = new TileMaker();
 	this.board = board;
 	this.tileX = 0;
@@ -85,19 +89,23 @@ public class LoadBoard
 		if (val.equals("-")) {
 		    String chanceText = tileInfo.get(0);
 		    String chanceId = tileInfo.get(1).trim();
-		    String getOutOfJail = "";
-		    String goToJail = "";
 		    int amountId = 0;
 		    int travelTiles = 0;
 
-		    if (chanceId.equals("loseMoney") || chanceId.equals("addMoney")) {
-			amountId = Integer.parseInt(tileInfo.get(2).trim());
-		    } else if (chanceId.equals("travelTiles")) {
-			travelTiles = Integer.parseInt(tileInfo.get(2).trim());
-		    } else if (chanceId.equals("getOutOfJail")) {
-			getOutOfJail = tileInfo.get(2).trim();
-		    } else if (chanceId.equals("goToJail")) {
-			goToJail = tileInfo.get(2).trim();
+		    switch (chanceId) {
+			case "loseMoney":
+			case "addMoney":
+			    amountId = Integer.parseInt(tileInfo.get(2).trim());
+			    break;
+			case "travelTiles":
+			    travelTiles = Integer.parseInt(tileInfo.get(2).trim());
+			    break;
+			case "getOutOfJail":
+			    String getOutOfJail = tileInfo.get(2).trim();
+			    break;
+			case "goToJail":
+			    String goToJail = tileInfo.get(2).trim();
+			    break;
 		    }
 
 		    switch (chanceId) {
@@ -117,7 +125,7 @@ public class LoadBoard
 			    playerGoToJail(chanceText);
 			    break;
 			default:
-			    throw new IllegalArgumentException("Invalid Card: " + chanceId);
+			    throw new IllegalArgumentException("Invalid GameLogic.Card: " + chanceId);
 		    }
 
 		    tileInfo = new ArrayList<>();
@@ -130,10 +138,7 @@ public class LoadBoard
 	scanner.close();
     }
 
-    /**
-     *
-     * @return
-     */
+
     public HouseTile getLastAddedTile() {
 	if (!boardTiles.isEmpty()) {
 	    return boardTiles.get(boardTiles.size() - 1);
@@ -142,18 +147,13 @@ public class LoadBoard
 	return null;
     }
 
-    /**
-     * xgfdhgdfhgfhg
-     * @param streetName fsfgsddd
-     * @param price
-     * @param color
-     */
+
     public void createBottomTile(String streetName, int price, Color color) {
 	if (getLastAddedTile() != null && !getLastAddedTile().getColor().equals(color)) {
 	    tileX = 0;
 	}
 
-	boardTiles.add(tileMaker.makeBottomHouseTile(board.getTileSize(), tileX, 5, Color.RED, price, streetName));
+	boardTiles.add(tileMaker.makeHouseTile(board.getTileSize(), tileX, 5, Color.RED, price, streetName, Position.DOWN));
 	tileX += 1;
     }
 
@@ -162,7 +162,7 @@ public class LoadBoard
 	    tileY = 0;
 	}
 
-	boardTiles.add(tileMaker.makeRightHouseTile(board.getTileSize(), 5, tileY, Color.PINK, price, streetName));
+	boardTiles.add(tileMaker.makeHouseTile(board.getTileSize(), 5, tileY, Color.PINK, price, streetName, Position.RIGHT));
 	tileY += 1;
     }
 
@@ -171,7 +171,7 @@ public class LoadBoard
 	    tileY = 0;
 	}
 
-	boardTiles.add(tileMaker.makeLeftHouseTile(board.getTileSize(), 0, tileY, Color.ORANGE, price, streetName));
+	boardTiles.add(tileMaker.makeHouseTile(board.getTileSize(), 0, tileY, Color.ORANGE, price, streetName, Position.LEFT));
 	tileY += 1;
     }
 
@@ -180,44 +180,39 @@ public class LoadBoard
 	    tileX = 0;
 	}
 
-	boardTiles.add(tileMaker.makeTopHouseTile(board.getTileSize(), tileX, 0, Color.BLUE, price, streetName));
+	boardTiles.add(tileMaker.makeHouseTile(board.getTileSize(), tileX, 0, Color.BLUE, price, streetName, Position.UP));
 	tileX += 1;
     }
 
     public void playerLoseMoney(String chanceText, int amount) {
-	Special special = new Special();
-	Card card = new Card(chanceText, "playerLoseMoney", amount, special);
+	Card card = new Card(chanceText, "playerLoseMoney", amount);
 
 	chanceCards.add(card);
 	//board.getCurrentPlayer().setPlayerMoney(-amount);
     }
 
     public void playerAddMoney(String chanceText, int amount) {
-	Special special = new Special();
-	Card card = new Card(chanceText, "playerLoseMoney", amount, special);
+	Card card = new Card(chanceText, "playerLoseMoney", amount);
 	chanceCards.add(card);
 	//board.getCurrentPlayer().setPlayerMoney(amount);
     }
 
     public void playerTravelTiles(String chanceText, int travelTiles) {
-	Special special = new Special();
-	Card card = new Card(chanceText, "playerTravelTiles", travelTiles, special);
+	Card card = new Card(chanceText, "playerTravelTiles", travelTiles);
 	chanceCards.add(card);
 
 	//board.getCurrentPlayer().move(travelTiles);
     }
 
     public void playerGoToJail(String chanceText) {
-	Special special = new Special();
-	Card card = new Card(chanceText, "goToJail", 0, special);
+	Card card = new Card(chanceText, "goToJail", 0);
 	chanceCards.add(card);
 
 	//board.getCurrentPlayer().goToJail();
     }
 
     public void playerGetOutOfJail(String chanceText) {
-	Special special = new Special();
-	Card card = new Card(chanceText, "getOutOfJail", 0, special);
+	Card card = new Card(chanceText, "getOutOfJail", 0);
 	chanceCards.add(card);
     }
 
@@ -225,11 +220,4 @@ public class LoadBoard
 	return this.chanceCards;
     }
 
-    public ArrayList<Card> getCommunityCard() {
-	return this.communityCards;
-    }
-
-    public ArrayList<HouseTile> getBoardTiles() {
-	return this.boardTiles;
-    }
 }

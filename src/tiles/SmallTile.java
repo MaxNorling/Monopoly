@@ -1,3 +1,9 @@
+package tiles;
+
+/**
+ * The smaller tiles on the screen.
+ * Extends the abstract class tile to implement the predefined methods.
+ */
 public abstract class SmallTile extends Tile
 {
     private int boxWidth, boxHeight, boxX, boxY, textX, textY;

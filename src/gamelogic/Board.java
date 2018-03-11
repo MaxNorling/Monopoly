@@ -1,41 +1,53 @@
+package gamelogic;
+
+import gui.ImageLoader;
+import tiles.HouseTile;
+import tiles.Position;
+import tiles.Tile;
+import tiles.TileMaker;
+import tiles.TileType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Controls the board logic i.e all the players, the tiles , size of the tiles and what happend during the turn.
+ */
 public class Board
 {
     private static final int TILE_AMOUNT = 13;
+    private static final int START_MONEY = 550;
+    private static final int PASS_GO_MONEY = 200;
+    private static final int AMOUNT_OF_TILES = 40;
     private int boardSize, tileSize;
     private Dice die;
     private int lastThrow = 1;
     private int currentPlayer;
-    private ArrayList<Player> players;
+    private List<Player> players;
     private Bank bank;
-    private ArrayList<Tile> tiles;
-    private LoadBoard loadBoard;
-    private ArrayList<Card> chanceCards;
-    private StringBuilder turnSummary;
+    private List<Tile> tiles;
+    private String turnSummary;
 
     public Board(int boardSize) {
 	this.boardSize = boardSize;
 	this.tileSize = (boardSize / TILE_AMOUNT);
-	System.out.println(tileSize);
 	tiles = new ArrayList<>();
 	die = new Dice(6);
 	bank = new Bank();
-	loadBoard = new LoadBoard(this);
-	chanceCards = loadBoard.getChanceCards();
+	final LoadBoard loadBoard = new LoadBoard(this);
+	final ArrayList<Card> chanceCards = loadBoard.getChanceCards();
 	players = new ArrayList<>();
-	players.add(new Player("Max", Color.ORANGE));
-	players.add(new Player("Jacob", Color.BLUE));
+	players.add(new Player("Max", Color.ORANGE, START_MONEY, PASS_GO_MONEY, AMOUNT_OF_TILES));
+	players.add(new Player("Jacob", Color.BLUE, START_MONEY, PASS_GO_MONEY, AMOUNT_OF_TILES));
 
 
-	turnSummary = new StringBuilder();
+	turnSummary = "";
 
 	currentPlayer = 0;
 
-	//TODO SPARA OLIKA BANOR I TEXT FILER
 	TileMaker tm = new TileMaker();
 
 	ImageLoader il = new ImageLoader();
@@ -46,18 +58,24 @@ public class Board
 
 
 	for (int x = TILE_AMOUNT - 3; x >= 2; x--) {
-	    if (x == 3) {
-		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chance, "Chance", chanceCards));
-	    } else if (x == 9) {
-		tiles.add(tm.makeBottomChanceTile(tileSize, x, 5, chest, "Chest", chanceCards));
+	    switch (x) {
+		case 3:
+		    tiles.add(tm.makeChanceTile(tileSize, x, 5, chance, "Chance", chanceCards, Position.DOWN));
+		    break;
+		case 9:
+		    tiles.add(tm.makeChanceTile(tileSize, x, 5, chest, "Chest", chanceCards, Position.DOWN));
 
-	    } else if (x == 10) {
-		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.CYAN, 120, "Valla"));
-	    } else if (x == 8) {
-		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.CYAN, 110, "Lambohov"));
-	    } else {
-		tiles.add(tm.makeBottomHouseTile(tileSize, x, 5, Color.RED, 110, "Ryd"));
+		    break;
+		case 10:
+		    tiles.add(tm.makeHouseTile(tileSize, x, 5, Color.CYAN, 120, "Valla", Position.DOWN));
+		    break;
+		case 8:
+		    tiles.add(tm.makeHouseTile(tileSize, x, 5, Color.CYAN, 110, "Lambohov", Position.DOWN));
+		    break;
+		default:
+		    tiles.add(tm.makeHouseTile(tileSize, x, 5, Color.RED, 110, "Ryd", Position.DOWN));
 
+		    break;
 	    }
 
 	}
@@ -67,9 +85,9 @@ public class Board
 
 	for (int y = TILE_AMOUNT - 3; y >= 2; y--) {
 	    if (y == 3) {
-		tiles.add(tm.makeLeftChanceTile(tileSize, 0, y, chest, "Chest", chanceCards));
+		tiles.add(tm.makeChanceTile(tileSize, 0, y, chest, "Chest", chanceCards, Position.LEFT));
 	    } else {
-		tiles.add(tm.makeLeftHouseTile(tileSize, 0, y, Color.ORANGE, 100 + y, "Dolor"));
+		tiles.add(tm.makeHouseTile(tileSize, 0, y, Color.ORANGE, 100 + y, "Dolor", Position.LEFT));
 	    }
 
 	}
@@ -79,9 +97,9 @@ public class Board
 
 	for (int x = 2; x < TILE_AMOUNT - 2; x++) {
 	    if (x == 3) {
-		tiles.add(tm.makeTopChanceTile(tileSize, x, 0, chance, "Chance", chanceCards));
+		tiles.add(tm.makeChanceTile(tileSize, x, 0, chance, "Chance", chanceCards, Position.UP));
 	    } else {
-		tiles.add(tm.makeTopHouseTile(tileSize, x, 0, Color.BLUE, 100 + x, "Ipsum"));
+		tiles.add(tm.makeHouseTile(tileSize, x, 0, Color.BLUE, 100 + x, "Ipsum", Position.UP));
 	    }
 
 	}
@@ -89,12 +107,16 @@ public class Board
 	tiles.add(tm.makeCornerTile(tileSize, TILE_AMOUNT, 2, img, "GO TO JAIL!", "GO DIRECTLY TO JAIl, WITHOUT PASSING GO!"));
 
 	for (int y = 2; y < TILE_AMOUNT - 2; y++) {
-	    if (y == 4) {
-		tiles.add(tm.makeRightChanceTile(tileSize, 5, y, chest, "Chest", chanceCards));
-	    } else if (y == 7) {
-		tiles.add(tm.makeRightChanceTile(tileSize, 5, y, chance, "Chance", chanceCards));
-	    } else {
-		tiles.add(tm.makeRightHouseTile(tileSize, 5, y, Color.PINK, 100 + y, "Lorem"));
+	    switch (y) {
+		case 4:
+		    tiles.add(tm.makeChanceTile(tileSize, 5, y, chest, "Chest", chanceCards, Position.RIGHT));
+		    break;
+		case 7:
+		    tiles.add(tm.makeChanceTile(tileSize, 5, y, chance, "Chance", chanceCards, Position.RIGHT));
+		    break;
+		default:
+		    tiles.add(tm.makeHouseTile(tileSize, 5, y, Color.PINK, 100 + y, "Lorem", Position.RIGHT));
+		    break;
 	    }
 	}
 
@@ -109,35 +131,31 @@ public class Board
 	return tileSize;
     }
 
-    public ArrayList<Tile> getTiles() {
+    public Iterable<Tile> getTiles() {
 	return tiles;
     }
 
     public void throwDie() {
 	lastThrow = die.throwDie();
 	Player player = players.get(currentPlayer);
-	movePlayer(player);
+	movePlayer(player, lastThrow);
 	addToSummary("You rolled a " + lastThrow);
     }
 
 
-    private void movePlayer(Player player) {
-	player.move(lastThrow);
-	Tile landedTile = tiles.get(player.getCurrentTile());
+    private void movePlayer(Player player, int distance) {
+	player.move(distance);
 
-	String landed = landedTile.landAction(player);
+	Tile currentTile = tiles.get(player.getCurrentTile());
+
+	String landed = currentTile.landAction(player);
+
 	if (!landed.isEmpty()) {
 	    addToSummary(landed);
 	}
 
-	Tile currentTile = tiles.get(player.getCurrentTile());
 	addToSummary("You landed on a " + currentTile.getType());
 
-	if (!currentTile.equals(landedTile)) {
-	    landed = landedTile.landAction(player);
-	    addToSummary(landed);
-	}
-	addToSummary("You landed on a " + currentTile.getType());
     }
 
     public int lastThrow() {
@@ -148,7 +166,7 @@ public class Board
 	return tiles.get(i);
     }
 
-    public ArrayList<Player> getPlayers() {
+    public Iterable<Player> getPlayers() {
 	return players;
     }
 
@@ -192,18 +210,15 @@ public class Board
 
     public boolean ownsAll(Color color, Player player) {
 	for (Tile tile : tiles) {
-	    if (tile instanceof HouseTile) {
+	    if (tile.getType() == TileType.HOUSE) {
 		HouseTile hTile = (HouseTile) tile;
 		if (hTile.getColor().equals(color)) {
-		    if (hTile.getOwner() == null) {
-			return false;
-		    } else if (!hTile.getOwner().equals(player)) {
+		    if (hTile.getOwner() == null || !hTile.getOwner().equals(player)) {
 			return false;
 		    }
 		}
 	    }
 	}
-
 
 	return true;
     }
@@ -230,6 +245,7 @@ public class Board
 	if (getCurrentPlayer().getLoanMoney() > 0) {
 	    double loanPayment =
 		    getCurrentPlayer().getLoanMoney() - (getCurrentPlayer().getLoanMoney() * bank.getInterestRate());
+
 	    getCurrentPlayer().payLoan((int) loanPayment);
 	    addToSummary("You paid back " + loanPayment + "$ to the bank.");
 
@@ -281,16 +297,19 @@ public class Board
     }
 
     public void addToSummary(String message) {
-	turnSummary.append("\n");
-	turnSummary.append(message);
+	StringBuilder builder = new StringBuilder(turnSummary);
+	builder.append("\n");
+	builder.append(message);
+
+	turnSummary = builder.toString();
     }
 
-    public String getSummary() {
-	return turnSummary.toString();
+    public String getTurnSummary() {
+	return turnSummary;
     }
 
     public void resetTurnSummary() {
-	turnSummary = new StringBuilder();
+	turnSummary = "";
     }
 
 

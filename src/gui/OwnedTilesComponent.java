@@ -1,20 +1,28 @@
+package gui;
+
+import tiles.HouseTile;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Graphical component of the dialog box that
+ * displays owned tiles.
+ */
 public class OwnedTilesComponent extends JComponent implements MouseListener
 {
-    private static int cardWidth;
-    private static int cardHeight;
-    private ArrayList<HouseTile> tiles;
+    private final int cardWidth;
+    private final int cardHeight;
+    private List<HouseTile> tiles;
     private HouseTile clicked = null;
     private int clickedIndex = -1;
     private boolean house;
 
 
-    public OwnedTilesComponent(ArrayList<HouseTile> tiles, int size, boolean house) {
+    public OwnedTilesComponent(List<HouseTile> tiles, int size, boolean house) {
 	this.tiles = tiles;
 	cardWidth = size;
 	cardHeight = size / 2;
@@ -37,9 +45,9 @@ public class OwnedTilesComponent extends JComponent implements MouseListener
 
 
 	    g2d.setColor(Color.BLACK);
-	    String message = "" + tile.getHousePrice();
+	    String message = String.valueOf(tile.getHousePrice());
 	    if (!house) {
-		message = "" + tile.getSellValue();
+		message = String.valueOf(tile.getSellValue());
 	    }
 	    g2d.drawString(tile.getName() + ": $" + message, cardWidth / 2, (i * cardHeight) + cardHeight / 2);
 
@@ -48,7 +56,6 @@ public class OwnedTilesComponent extends JComponent implements MouseListener
 		g2d.setColor(Color.GREEN);
 		g2d.drawRect(0, i * cardHeight, cardWidth, cardHeight);
 	    }
-
 	}
     }
 

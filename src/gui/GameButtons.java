@@ -1,3 +1,9 @@
+package gui;
+
+import gamelogic.Board;
+import gamelogic.Player;
+import tiles.HouseTile;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -7,16 +13,20 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
+/**
+ * Creates all the buttons required to play the game.
+ */
 public class GameButtons extends JComponent
 {
 
+    private static final int STEP_SIZE = 50;
     private int amountToLoan = 0;
     private JTextArea currentPlayer;
     private JTextArea summary;
 
     private Board b;
     private BoardComponent bc;
-    private OwnedTilesGUI ownedTilesGUI;
+    private OwnedTilesGUI ownedTilesGUI = null;
 
     public GameButtons(Board b, BoardComponent bc) {
 	setLayout(new GridLayout(4, 3));
@@ -28,7 +38,7 @@ public class GameButtons extends JComponent
 	summary = new JTextArea(1, 8);
 
 	JScrollPane scrollable = new JScrollPane(summary);
-	scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	scrollable.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 	scrollable.setVisible(true);
 
 	add(scrollable);
@@ -156,7 +166,7 @@ public class GameButtons extends JComponent
 	add(next);
 
 
-	SpinnerModel loanSpinner = new SpinnerNumberModel(0, 0, 1000, 50);
+	SpinnerModel loanSpinner = new SpinnerNumberModel(0, 0, 1000, STEP_SIZE);
 	JSpinner spinner = new JSpinner(loanSpinner);
 	spinner.addChangeListener(new ChangeListener()
 	{
@@ -178,7 +188,7 @@ public class GameButtons extends JComponent
 		    JOptionPane.showConfirmDialog(null, "Please use the spinner below and specify amount!", "BANK",
 						  JOptionPane.DEFAULT_OPTION);
 		} else {
-		    String res = b.getBank().canPlayerLoan(b.getCurrentPlayer(), amountToLoan);
+		    String res = b.getBank().messageCanPlayerLoan(b.getCurrentPlayer(), amountToLoan);
 		    if (res.equals("Granted")) {
 			JOptionPane.showConfirmDialog(null, "You have been granted a loan of $" + amountToLoan + "!\n" +
 							    "Your interest rate is: " + b.getBank().getInterestRate(), "BANK",
@@ -194,7 +204,7 @@ public class GameButtons extends JComponent
 						      JOptionPane.DEFAULT_OPTION);
 		    }
 		}
-		spinner.setValue(0);
+		spinner.setValue(Integer.valueOf(0));
 		updateScreen();
 	    }
 	});
@@ -207,8 +217,9 @@ public class GameButtons extends JComponent
 	    @Override public void actionPerformed(ActionEvent e)
 	    {
 		HouseTile selected = displayOwnedTiles(b.getCurrentPlayer(), false);
-
-		if (!b.sellTile(selected)) {
+		if (selected == null) {
+		    JOptionPane.showConfirmDialog(null, "You have to select a tile!", "ERROR", JOptionPane.DEFAULT_OPTION);
+		} else if (!b.sellTile(selected)) {
 		    JOptionPane.showConfirmDialog(null, "ERROR SELLING TILE!", "ERROR", JOptionPane.DEFAULT_OPTION);
 		} else {
 		    b.addToSummary("You sold the tile " + selected.getName() + " for " + selected.getSellValue());
@@ -241,8 +252,8 @@ public class GameButtons extends JComponent
 
     private void updateScreen() {
 	currentPlayer.setText(b.getCurrentPlayer().getName() + " $" + b.getCurrentPlayer().getMoney());
-	if (b.getSummary() != null) {
-	    summary.setText(b.getSummary());
+	if (b.getTurnSummary() != null) {
+	    summary.setText(b.getTurnSummary());
 	}
 	bc.repaint();
     }

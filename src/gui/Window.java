@@ -1,12 +1,18 @@
+package gui;
+
+import gamelogic.Board;
+import gamelogic.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
+/**
+ * The window that the game is played in.
+ */
 public class Window extends JFrame
 {
-
 
     public Window(Board b) {
 	BoardComponent bc = new BoardComponent(b);
@@ -16,7 +22,7 @@ public class Window extends JFrame
 	GameButtons buttons = new GameButtons(b, bc);
 
 
-	ArrayList<Player> players = b.getPlayers();
+	Iterable<Player> players = b.getPlayers();
 	JPanel playerPanel = new JPanel();
 	playerPanel.setLayout(new GridLayout(4, 4));
 
@@ -47,11 +53,6 @@ public class Window extends JFrame
 	pack();
 	setVisible(true);
 	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
-
-    public static void main(String[] args) {
-	Board board = new Board(780);
-	Window w = new Window(board);
     }
 
 

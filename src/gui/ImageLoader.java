@@ -1,8 +1,13 @@
+package gui;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Loads in the specified image and returns it.
+ */
 public class ImageLoader
 {
     public ImageLoader() {

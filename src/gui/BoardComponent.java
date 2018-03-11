@@ -1,17 +1,33 @@
+package gui;
+
+import gamelogic.Board;
+import gamelogic.Player;
+import tiles.ChanceTile;
+import tiles.CornerTile;
+import tiles.HouseTile;
+import tiles.Tile;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
+/**
+ * The graphical component of the board.
+ */
 public class BoardComponent extends JComponent implements MouseListener
 {
 
 
+    private static final int SMALL_FONT_SIZE = 12;
+    private static final int LARGE_FONT_SIZE = 15;
+    private static final int PLAYER_SIZE_RELATIVE_TO_BOARD = 32;
+    private static final int DICE_SIZE_RELATIVE_TO_BOARD = 12;
+    private final int playerSize;
+    private final int diceSize;
     private Board board;
-    private Dice die;
     private BufferedImage[] dice;
-
 
     public BoardComponent(Board b) {
 	board = b;
@@ -26,6 +42,10 @@ public class BoardComponent extends JComponent implements MouseListener
 	dice[4] = loader.loadImage("images/die4.png");
 	dice[5] = loader.loadImage("images/die5.png");
 	dice[6] = loader.loadImage("images/die6.png");
+
+	playerSize = board.getBoardSize() / PLAYER_SIZE_RELATIVE_TO_BOARD;
+	diceSize = board.getBoardSize() / DICE_SIZE_RELATIVE_TO_BOARD;
+
 
 	addMouseListener(this);
 
@@ -47,8 +67,6 @@ public class BoardComponent extends JComponent implements MouseListener
 		case CHANCE:
 		    paintChanceTile(g2d, (ChanceTile) tile);
 		    break;
-		default:
-		    break; //TODO THROW EXCEPTION
 	    }
 	}
 	int count = 0;
@@ -56,22 +74,19 @@ public class BoardComponent extends JComponent implements MouseListener
 	    if (!p.isGameOver()) {
 		Tile currentTile = board.getTile(p.getCurrentTile());
 		g2d.setColor(p.getColor());
-		g2d.fillOval(currentTile.getX() + currentTile.getWidth() / 2 - board.getBoardSize() / 32,
-			     currentTile.getY() + currentTile.getHeight() / 2 + count * 2 - board.getBoardSize() / 32,
-			     board.getBoardSize() / 32, board.getBoardSize() / 32);
+		g2d.fillOval(currentTile.getX() + currentTile.getWidth() / 2 - playerSize,
+			     currentTile.getY() + currentTile.getHeight() / 2 + count * 2 - playerSize, playerSize, playerSize);
 
 		g2d.setColor(Color.BLACK);
-		g2d.drawOval(currentTile.getX() + currentTile.getWidth() / 2 - board.getBoardSize() / 32,
-			     currentTile.getY() + currentTile.getHeight() / 2 + count * 2 - board.getBoardSize() / 32,
-			     board.getBoardSize() / 32, board.getBoardSize() / 32);
+		g2d.drawOval(currentTile.getX() + currentTile.getWidth() / 2 - playerSize,
+			     currentTile.getY() + currentTile.getHeight() / 2 + count * 2 - playerSize, playerSize, playerSize);
 
 		count++;
 
 	    }
 	}
-
-	g2d.drawImage(dice[board.lastThrow()], board.getBoardSize() / 2, board.getBoardSize() / 2, board.getBoardSize() / 12,
-		      board.getBoardSize() / 12, null);
+	//Dice
+	g2d.drawImage(dice[board.lastThrow()], board.getBoardSize() / 2, board.getBoardSize() / 2, diceSize, diceSize, null);
 
 
     }
@@ -113,9 +128,10 @@ public class BoardComponent extends JComponent implements MouseListener
 
 	if (tile.getOwner() != null) {
 	    int houses = tile.getHouses();
+
 	    if (houses > 0 && houses <= 4) {
 
-		for (int i = 0; i < houses; i++) {
+		for (int i = 0; i < houses; i++) { // Houses
 		    g2d.setColor(Color.GREEN);
 		    g2d.fillRect(boxX + i * boxWidth / 4, boxY, boxWidth / 5, boxHeight);
 
@@ -123,7 +139,7 @@ public class BoardComponent extends JComponent implements MouseListener
 		    g2d.drawRect(boxX + i * boxWidth / 4, boxY, boxWidth / 5, boxHeight);
 		}
 
-	    } else if (houses > 4) {
+	    } else if (houses > 4) { // Hotel
 		g2d.setColor(Color.PINK);
 		g2d.fillRect(boxX + boxWidth / 4, boxY + boxHeight / 4, boxWidth / 2, boxHeight / 2);
 
@@ -132,11 +148,11 @@ public class BoardComponent extends JComponent implements MouseListener
 	    }
 	}
 
-	g2d.setFont(new Font("Serif", Font.BOLD, 15));
+	g2d.setFont(new Font("Serif", Font.BOLD, LARGE_FONT_SIZE));
 	g2d.drawString("$" + price, textX, textY);
 
-	g2d.setFont(new Font("Serif", Font.PLAIN, 12));
-	g2d.drawString(name, textX, textY - 15 - 12);
+	g2d.setFont(new Font("Serif", Font.PLAIN, SMALL_FONT_SIZE));
+	g2d.drawString(name, textX, textY - LARGE_FONT_SIZE - SMALL_FONT_SIZE);
 
     }
 
@@ -150,10 +166,13 @@ public class BoardComponent extends JComponent implements MouseListener
     public void paintChanceTile(Graphics2D g2d, ChanceTile tile) {
 	int x = tile.getX();
 	int y = tile.getY();
+
 	int width = tile.getWidth();
 	int height = tile.getHeight();
+
 	int boxX = tile.getBoxX();
 	int boxY = tile.getBoxY();
+
 	int boxWidth = tile.getBoxWidth();
 	int boxHeight = tile.getBoxHeight();
 
