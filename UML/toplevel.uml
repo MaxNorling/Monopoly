@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="5294.0" y="1693.5">tiles.ChanceTile</node>
+    <node x="3518.0" y="773.5">gamelogic.Player</node>
+    <node x="216.0" y="173.5">gamelogic.Board</node>
+    <node x="1011.0" y="733.5">gui.GameTest</node>
+    <node x="853.5" y="1573.5">gui.BoardComponent</node>
+    <node x="6052.0" y="573.5">tiles.TileMaker</node>
+    <node x="4751.5" y="1373.5">tiles.SmallTile</node>
+    <node x="4566.5" y="693.5">tiles.Tile</node>
+    <node x="420.5" y="53.5">gamelogic.Dice</node>
+    <node x="1592.5" y="1973.5">gamelogic.LoadBoard</node>
+    <node x="2191.0" y="1253.5">gui.OwnedTilesGUI</node>
+    <node x="-6.0" y="1985.0">tiles.Position</node>
+    <node x="4089.0" y="453.5">tiles.CornerTile</node>
+    <node x="5780.5" y="1853.5">gamelogic.Card</node>
+    <node x="6310.0" y="693.5">tiles.Dimensions</node>
+    <node x="5512.5" y="585.0">tiles.TileType</node>
+    <node x="3226.0" y="773.5">gamelogic.Bank</node>
+    <node x="2652.0" y="1053.5">gui.GameButtons</node>
+    <node x="642.5" y="293.5">gui.ImageLoader</node>
+    <node x="1187.5" y="1373.5">tiles.HouseTile</node>
+    <node x="1241.0" y="853.5">gui.Window</node>
+    <node x="1735.0" y="1253.5">gui.OwnedTilesComponent</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="gui.BoardComponent" target="gamelogic.Player">
+      <point x="40.0" y="-26.5" />
+      <point x="1000.0" y="1160.0" />
+      <point x="3620.0" y="1160.0" />
+      <point x="-20.0" y="26.5" />
+    </edge>
+    <edge source="gui.BoardComponent" target="gamelogic.Board">
+      <point x="-106.5" y="0.0" />
+      <point x="560.0" y="1600.0" />
+      <point x="560.0" y="217.76086956521738" />
+      <point x="64.0" y="17.760869565217376" />
+    </edge>
+    <edge source="tiles.Tile" target="tiles.TileType">
+      <point x="113.5" y="-21.5" />
+      <point x="5520.0" y="698.5" />
+      <point x="-40.0" y="15.0" />
+    </edge>
+    <edge source="gamelogic.LoadBoard" target="tiles.HouseTile">
+      <point x="0.0" y="-26.5" />
+      <point x="1680.0" y="1421.5" />
+      <point x="212.5" y="21.5" />
+    </edge>
+    <edge source="gamelogic.Board" target="tiles.TileMaker">
+      <point x="64.0" y="0.0" />
+      <point x="6110.0" y="200.0" />
+      <point x="-10.0" y="-26.5" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.ChanceTile">
+      <point x="-40.0" y="26.5" />
+      <point x="6080.0" y="1640.0" />
+      <point x="5600.0" y="1640.0" />
+      <point x="40.0" y="-26.5" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.Position">
+      <point x="0.0" y="26.5" />
+      <point x="6120.0" y="2120.0" />
+      <point x="40.0" y="2120.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="gui.GameTest" target="gui.Window">
+      <point x="0.0" y="26.5" />
+      <point x="1080.0" y="858.5" />
+      <point x="-79.0" y="-21.5" />
+    </edge>
+    <edge source="gamelogic.LoadBoard" target="tiles.Position">
+      <point x="-87.5" y="0.0" />
+      <point x="46.0" y="0.0" />
+    </edge>
+    <edge source="gui.BoardComponent" target="tiles.CornerTile">
+      <point x="106.5" y="0.0" />
+      <point x="5680.0" y="1600.0" />
+      <point x="5680.0" y="400.0" />
+      <point x="4360.0" y="400.0" />
+      <point x="80.0" y="-26.5" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.TileType">
+      <point x="-68.0" y="0.0" />
+      <point x="47.5" y="0.0" />
+    </edge>
+    <edge source="gui.Window" target="gui.BoardComponent">
+      <point x="-79.0" y="0.0" />
+      <point x="960.0" y="880.0" />
+      <point x="0.0" y="-26.5" />
+    </edge>
+    <edge source="tiles.CornerTile" target="tiles.Tile">
+      <point x="191.0" y="21.5" />
+      <point x="4640.0" y="501.5" />
+      <point x="-40.0" y="-26.5" />
+    </edge>
+    <edge source="gui.GameButtons" target="gamelogic.Player">
+      <point x="148.0" y="0.0" />
+      <point x="3600.0" y="1080.0" />
+      <point x="-40.0" y="26.5" />
+    </edge>
+    <edge source="tiles.ChanceTile" target="tiles.TileType">
+      <point x="0.0" y="-26.5" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="gamelogic.Board" target="tiles.Position">
+      <point x="-64.0" y="0.0" />
+      <point x="40.0" y="200.0" />
+      <point x="0.0" y="-15.0" />
+    </edge>
+    <edge source="gamelogic.LoadBoard" target="tiles.TileMaker">
+      <point x="0.0" y="26.5" />
+      <point x="1680.0" y="2080.0" />
+      <point x="6113.333333333333" y="2080.0" />
+      <point x="-6.66666666666697" y="26.5" />
+    </edge>
+    <edge source="gui.OwnedTilesGUI" target="gui.OwnedTilesComponent">
+      <point x="-40.0" y="-26.5" />
+      <point x="2320.0" y="1200.0" />
+      <point x="1920.0" y="1200.0" />
+      <point x="0.0" y="-26.5" />
+    </edge>
+    <edge source="gui.BoardComponent" target="tiles.HouseTile">
+      <point x="50.0" y="-26.5" />
+      <point x="1010.0" y="1400.0" />
+      <point x="-212.5" y="0.0" />
+    </edge>
+    <edge source="tiles.HouseTile" target="gamelogic.Player">
+      <point x="212.5" y="-8.269230769230717" />
+      <point x="3880.0" y="1391.7307692307693" />
+      <point x="3880.0" y="814.3333333333334" />
+      <point x="122.0" y="14.333333333333371" />
+    </edge>
+    <edge source="gamelogic.LoadBoard" target="gamelogic.Board">
+      <point x="-87.5" y="-17.200000000000045" />
+      <point x="440.0" y="1982.8" />
+      <point x="440.0" y="220.56521739130434" />
+      <point x="64.0" y="20.565217391304344" />
+    </edge>
+    <edge source="tiles.SmallTile" target="tiles.TileType">
+      <point x="208.5" y="0.0" />
+      <point x="5540.0" y="1400.0" />
+      <point x="-20.0" y="15.0" />
+    </edge>
+    <edge source="tiles.CornerTile" target="gamelogic.Player">
+      <point x="-191.0" y="0.0" />
+      <point x="3640.0" y="480.0" />
+      <point x="0.0" y="-26.5" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.HouseTile">
+      <point x="-20.0" y="-26.5" />
+      <point x="6100.0" y="280.0" />
+      <point x="3960.0" y="280.0" />
+      <point x="3960.0" y="1395.0384615384614" />
+      <point x="212.5" y="-4.9615384615385665" />
+    </edge>
+    <edge source="gamelogic.Board" target="gamelogic.Player">
+      <point x="64.0" y="5.608695652173907" />
+      <point x="3400.0" y="205.6086956521739" />
+      <point x="3400.0" y="789.25" />
+      <point x="-122.0" y="-10.75" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.CornerTile">
+      <point x="-30.0" y="-26.5" />
+      <point x="6090.0" y="320.0" />
+      <point x="4280.0" y="320.0" />
+      <point x="0.0" y="-26.5" />
+    </edge>
+    <edge source="gamelogic.Board" target="tiles.Tile">
+      <point x="64.0" y="2.804347826086939" />
+      <point x="4000.0" y="202.80434782608694" />
+      <point x="4000.0" y="712.8333333333334" />
+      <point x="-113.5" y="-7.166666666666629" />
+    </edge>
+    <edge source="tiles.Tile" target="gamelogic.Player">
+      <point x="-113.5" y="0.0" />
+      <point x="3680.0" y="720.0" />
+      <point x="40.0" y="-26.5" />
+    </edge>
+    <edge source="gui.BoardComponent" target="tiles.ChanceTile">
+      <point x="0.0" y="26.5" />
+      <point x="960.0" y="1720.0" />
+      <point x="-266.0" y="0.0" />
+    </edge>
+    <edge source="gamelogic.Board" target="gamelogic.Card">
+      <point x="64.0" y="18.695652173913032" />
+      <point x="520.0" y="218.69565217391303" />
+      <point x="520.0" y="1880.0" />
+      <point x="-99.5" y="0.0" />
+    </edge>
+    <edge source="gui.BoardComponent" target="tiles.Tile">
+      <point x="60.0" y="-26.5" />
+      <point x="1020.0" y="1480.0" />
+      <point x="4680.0" y="1480.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="tiles.ChanceTile" target="gamelogic.Player">
+      <point x="-266.0" y="-7.1666666666667425" />
+      <point x="4080.0" y="1712.8333333333333" />
+      <point x="4080.0" y="800.0" />
+      <point x="122.0" y="0.0" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.Dimensions">
+      <point x="40.0" y="26.5" />
+      <point x="6160.0" y="720.0" />
+      <point x="-170.0" y="0.0" />
+    </edge>
+    <edge source="gui.Window" target="gamelogic.Player">
+      <point x="79.0" y="0.0" />
+      <point x="3580.0" y="880.0" />
+      <point x="-60.0" y="26.5" />
+    </edge>
+    <edge source="gamelogic.Board" target="gamelogic.Bank">
+      <point x="64.0" y="8.413043478260875" />
+      <point x="3120.0" y="208.41304347826087" />
+      <point x="3120.0" y="800.0" />
+      <point x="-54.0" y="0.0" />
+    </edge>
+    <edge source="gui.Window" target="gamelogic.Board">
+      <point x="0.0" y="-26.5" />
+      <point x="1320.0" y="212.15217391304347" />
+      <point x="64.0" y="12.15217391304347" />
+    </edge>
+    <edge source="gui.OwnedTilesGUI" target="tiles.HouseTile">
+      <point x="0.0" y="26.5" />
+      <point x="2360.0" y="1381.8076923076924" />
+      <point x="212.5" y="-18.192307692307622" />
+    </edge>
+    <edge source="tiles.SmallTile" target="tiles.Tile">
+      <point x="208.5" y="-21.5" />
+      <point x="5240.0" y="1378.5" />
+      <point x="5240.0" y="720.0" />
+      <point x="113.5" y="0.0" />
+    </edge>
+    <edge source="gui.OwnedTilesComponent" target="tiles.HouseTile">
+      <point x="-185.0" y="21.5" />
+      <point x="1680.0" y="1301.5" />
+      <point x="1680.0" y="1378.5" />
+      <point x="212.5" y="-21.5" />
+    </edge>
+    <edge source="gamelogic.Board" target="gamelogic.Dice">
+      <point x="64.0" y="-21.5" />
+      <point x="480.0" y="178.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="tiles.TileMaker" target="gamelogic.Card">
+      <point x="-20.0" y="26.5" />
+      <point x="6100.0" y="1880.0" />
+      <point x="99.5" y="0.0" />
+    </edge>
+    <edge source="tiles.ChanceTile" target="gamelogic.Card">
+      <point x="0.0" y="26.5" />
+      <point x="5560.0" y="1858.5" />
+      <point x="-99.5" y="-21.5" />
+    </edge>
+    <edge source="tiles.ChanceTile" target="tiles.SmallTile">
+      <point x="-266.0" y="-14.333333333333258" />
+      <point x="4960.0" y="1705.6666666666667" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="gui.BoardComponent" target="tiles.TileType">
+      <point x="80.0" y="-26.5" />
+      <point x="1040.0" y="1520.0" />
+      <point x="5550.0" y="1520.0" />
+      <point x="-10.0" y="15.0" />
+    </edge>
+    <edge source="gamelogic.Board" target="gui.ImageLoader">
+      <point x="64.0" y="16.82608695652175" />
+      <point x="720.0" y="216.82608695652175" />
+      <point x="0.0" y="-26.5" />
+    </edge>
+    <edge source="gamelogic.LoadBoard" target="gamelogic.Card">
+      <point x="87.5" y="-21.5" />
+      <point x="1840.0" y="1978.5" />
+      <point x="1840.0" y="1890.75" />
+      <point x="-99.5" y="10.75" />
+    </edge>
+    <edge source="gamelogic.Board" target="gamelogic.LoadBoard">
+      <point x="-64.0" y="21.5" />
+      <point x="160.0" y="221.5" />
+      <point x="160.0" y="1995.7" />
+      <point x="-87.5" y="-4.2999999999999545" />
+    </edge>
+    <edge source="gamelogic.Bank" target="gamelogic.Player">
+      <point x="54.0" y="0.0" />
+      <point x="-122.0" y="0.0" />
+    </edge>
+    <edge source="gui.BoardComponent" target="gui.ImageLoader">
+      <point x="-106.5" y="-10.75" />
+      <point x="600.0" y="1589.25" />
+      <point x="600.0" y="320.0" />
+      <point x="-77.5" y="0.0" />
+    </edge>
+    <edge source="gui.GameTest" target="gamelogic.Board">
+      <point x="-69.0" y="0.0" />
+      <point x="960.0" y="760.0" />
+      <point x="960.0" y="214.02173913043478" />
+      <point x="64.0" y="14.021739130434781" />
+    </edge>
+    <edge source="gui.GameButtons" target="gui.BoardComponent">
+      <point x="-148.0" y="0.0" />
+      <point x="990.0" y="1080.0" />
+      <point x="30.0" y="-26.5" />
+    </edge>
+    <edge source="gamelogic.Board" target="tiles.HouseTile">
+      <point x="64.0" y="9.34782608695653" />
+      <point x="3080.0" y="209.34782608695653" />
+      <point x="3080.0" y="1385.1153846153845" />
+      <point x="212.5" y="-14.884615384615472" />
+    </edge>
+    <edge source="gui.GameButtons" target="gamelogic.Board">
+      <point x="148.0" y="-21.5" />
+      <point x="3000.0" y="1058.5" />
+      <point x="3000.0" y="211.2173913043478" />
+      <point x="64.0" y="11.217391304347814" />
+    </edge>
+    <edge source="tiles.CornerTile" target="tiles.TileType">
+      <point x="191.0" y="0.0" />
+      <point x="5520.0" y="480.0" />
+      <point x="-40.0" y="-15.0" />
+    </edge>
+    <edge source="gui.Window" target="gui.GameButtons">
+      <point x="0.0" y="26.5" />
+      <point x="1320.0" y="1058.5" />
+      <point x="-148.0" y="-21.5" />
+    </edge>
+    <edge source="gamelogic.Player" target="tiles.HouseTile">
+      <point x="0.0" y="26.5" />
+      <point x="3640.0" y="1388.423076923077" />
+      <point x="212.5" y="-11.576923076923094" />
+    </edge>
+    <edge source="tiles.HouseTile" target="tiles.SmallTile">
+      <point x="212.5" y="-1.6538461538461888" />
+      <point x="4040.0" y="1398.3461538461538" />
+      <point x="4040.0" y="1320.0" />
+      <point x="4920.0" y="1320.0" />
+      <point x="-40.0" y="-26.5" />
+    </edge>
+    <edge source="gui.GameButtons" target="tiles.HouseTile">
+      <point x="0.0" y="26.5" />
+      <point x="2800.0" y="1383.4615384615386" />
+      <point x="212.5" y="-16.538461538461434" />
+    </edge>
+    <edge source="tiles.HouseTile" target="tiles.TileType">
+      <point x="212.5" y="-3.3076923076923777" />
+      <point x="4000.0" y="1396.6923076923076" />
+      <point x="4000.0" y="840.0" />
+      <point x="5530.0" y="840.0" />
+      <point x="-30.0" y="15.0" />
+    </edge>
+    <edge source="gui.GameButtons" target="gui.OwnedTilesGUI">
+      <point x="-148.0" y="21.5" />
+      <point x="2600.0" y="1101.5" />
+      <point x="2600.0" y="1280.0" />
+      <point x="169.0" y="0.0" />
+    </edge>
+    <edge source="gamelogic.Bank" target="tiles.HouseTile">
+      <point x="0.0" y="26.5" />
+      <point x="3280.0" y="1386.7692307692307" />
+      <point x="212.5" y="-13.230769230769283" />
+    </edge>
+    <edge source="gamelogic.Board" target="tiles.TileType">
+      <point x="64.0" y="0.9347826086956559" />
+      <point x="5560.0" y="200.93478260869566" />
+      <point x="0.0" y="-15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="1089.83333333333" y="589.0238095238069" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

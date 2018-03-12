@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>gamelogic</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">gamelogic.Player</node>
+    <node x="72.78680555555553" y="216.0">gamelogic.Board</node>
+    <node x="297.28680555555553" y="103.0">gamelogic.Card</node>
+    <node x="7.2868055555555316" y="103.0">gamelogic.Bank</node>
+    <node x="158.28680555555553" y="103.0">gamelogic.Dice</node>
+    <node x="87.68680555555548" y="329.0">gamelogic.LoadBoard</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="gamelogic.Bank" target="gamelogic.Player">
+      <point x="0.0" y="-26.5" />
+      <point x="61.28680555555553" y="83.0" />
+      <point x="30.5" y="83.0" />
+      <point x="-91.5" y="26.5" />
+    </edge>
+    <edge source="gamelogic.Board" target="gamelogic.LoadBoard">
+      <point x="25.599999999999966" y="26.5" />
+      <point x="162.3868055555555" y="309.0" />
+      <point x="164.2493055555555" y="309.0" />
+      <point x="-10.937499999999972" y="-26.5" />
+    </edge>
+    <edge source="gamelogic.Board" target="gamelogic.Player">
+      <point x="0.0" y="-26.5" />
+      <point x="136.78680555555553" y="73.0" />
+      <point x="152.49999999999994" y="73.0" />
+      <point x="30.499999999999943" y="26.5" />
+    </edge>
+    <edge source="gamelogic.Board" target="gamelogic.Dice">
+      <point x="42.666666666666686" y="-26.5" />
+      <point x="179.45347222222222" y="186.0" />
+      <point x="247.53680555555553" y="186.0" />
+      <point x="29.75" y="26.5" />
+    </edge>
+    <edge source="gamelogic.Board" target="gamelogic.Bank">
+      <point x="-56.888888888888914" y="-26.5" />
+      <point x="79.89791666666662" y="196.0" />
+      <point x="25.28680555555553" y="196.0" />
+      <point x="-36.0" y="26.5" />
+    </edge>
+    <edge source="gamelogic.LoadBoard" target="gamelogic.Board">
+      <point x="-32.81249999999997" y="-26.5" />
+      <point x="142.3743055555555" y="309.0" />
+      <point x="136.78680555555553" y="309.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="gamelogic.Board" target="gamelogic.Card">
+      <point x="56.88888888888886" y="-26.5" />
+      <point x="193.6756944444444" y="196.0" />
+      <point x="322.16180555555553" y="196.0" />
+      <point x="-74.625" y="26.5" />
+    </edge>
+    <edge source="gamelogic.LoadBoard" target="gamelogic.Card">
+      <point x="76.56250000000003" y="-26.5" />
+      <point x="251.7493055555555" y="309.0" />
+      <point x="408.49548611111106" y="309.0" />
+      <point x="408.49548611111106" y="196.0" />
+      <point x="471.41180555555553" y="196.0" />
+      <point x="74.625" y="26.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7487985212569315" x="391.493329164061" y="176.17840329273258" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

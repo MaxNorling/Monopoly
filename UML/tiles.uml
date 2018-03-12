@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>tiles</OriginalElement>
+  <nodes>
+    <node x="0.0" y="260.0">tiles.ChanceTile</node>
+    <node x="431.746517857143" y="260.0">tiles.Position</node>
+    <node x="227.96797619047624" y="180.0">tiles.CornerTile</node>
+    <node x="296.746517857143" y="260.0">tiles.Dimensions</node>
+    <node x="191.14583333333337" y="0.0">tiles.TileType</node>
+    <node x="220.38125000000008" y="380.0">tiles.TileMaker</node>
+    <node x="130.0" y="260.0">tiles.HouseTile</node>
+    <node x="68.31875000000008" y="180.0">tiles.SmallTile</node>
+    <node x="221.64583333333337" y="90.0">tiles.Tile</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="tiles.Tile" target="tiles.TileType">
+      <point x="-17.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.Dimensions">
+      <point x="15.600000000000023" y="-15.0" />
+      <point x="287.9812500000001" y="330.0" />
+      <point x="325.246517857143" y="330.0" />
+      <point x="-28.5" y="15.0" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.Position">
+      <point x="46.80000000000001" y="-15.0" />
+      <point x="319.1812500000001" y="360.0" />
+      <point x="477.746517857143" y="360.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.ChanceTile">
+      <point x="-36.400000000000034" y="-15.0" />
+      <point x="235.98125000000005" y="350.0" />
+      <point x="82.5" y="350.0" />
+      <point x="27.5" y="15.0" />
+    </edge>
+    <edge source="tiles.SmallTile" target="tiles.TileType">
+      <point x="-33.0" y="-15.0" />
+      <point x="84.81875000000008" y="160.0" />
+      <point x="97.7006845238096" y="160.0" />
+      <point x="97.7006845238096" y="60.0" />
+      <point x="211.5029761904762" y="60.0" />
+      <point x="-27.14285714285714" y="15.0" />
+    </edge>
+    <edge source="tiles.CornerTile" target="tiles.TileType">
+      <point x="35.66666666666666" y="-15.0" />
+      <point x="317.1346428571429" y="160.0" />
+      <point x="312.2631845238096" y="160.0" />
+      <point x="312.2631845238096" y="60.0" />
+      <point x="265.78869047619054" y="60.0" />
+      <point x="27.142857142857167" y="15.0" />
+    </edge>
+    <edge source="tiles.SmallTile" target="tiles.Tile">
+      <point x="0.0" y="-15.0" />
+      <point x="117.81875000000008" y="140.0" />
+      <point x="230.14583333333337" y="140.0" />
+      <point x="-25.5" y="15.0" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.HouseTile">
+      <point x="-26.00000000000003" y="-15.0" />
+      <point x="246.38125000000008" y="340.0" />
+      <point x="156.0" y="340.0" />
+      <point x="-26.0" y="15.0" />
+    </edge>
+    <edge source="tiles.HouseTile" target="tiles.SmallTile">
+      <point x="-34.66666666666666" y="-15.0" />
+      <point x="147.33333333333337" y="235.0" />
+      <point x="130.19375000000008" y="235.0" />
+      <point x="12.375" y="15.0" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.CornerTile">
+      <point x="5.199999999999989" y="-15.0" />
+      <point x="277.58125000000007" y="320.0" />
+      <point x="286.246517857143" y="320.0" />
+      <point x="286.246517857143" y="235.0" />
+      <point x="308.21797619047624" y="235.0" />
+      <point x="26.75" y="15.0" />
+    </edge>
+    <edge source="tiles.HouseTile" target="tiles.TileType">
+      <point x="34.66666666666666" y="-15.0" />
+      <point x="216.66666666666669" y="235.0" />
+      <point x="189.90547619047624" y="235.0" />
+      <point x="189.90547619047624" y="70.0" />
+      <point x="225.07440476190482" y="70.0" />
+      <point x="-13.571428571428555" y="15.0" />
+    </edge>
+    <edge source="tiles.TileMaker" target="tiles.TileType">
+      <point x="36.39999999999998" y="-15.0" />
+      <point x="308.78125000000006" y="350.0" />
+      <point x="421.246517857143" y="350.0" />
+      <point x="421.246517857143" y="50.0" />
+      <point x="279.3601190476191" y="50.0" />
+      <point x="40.71428571428572" y="15.0" />
+    </edge>
+    <edge source="tiles.CornerTile" target="tiles.Tile">
+      <point x="-35.66666666666666" y="-15.0" />
+      <point x="245.80130952380958" y="160.0" />
+      <point x="264.14583333333337" y="160.0" />
+      <point x="8.5" y="15.0" />
+    </edge>
+    <edge source="tiles.ChanceTile" target="tiles.TileType">
+      <point x="-36.66666666666666" y="-15.0" />
+      <point x="18.333333333333343" y="235.0" />
+      <point x="45.413273809523844" y="235.0" />
+      <point x="45.413273809523844" y="50.0" />
+      <point x="197.93154761904765" y="50.0" />
+      <point x="-40.71428571428572" y="15.0" />
+    </edge>
+    <edge source="tiles.ChanceTile" target="tiles.SmallTile">
+      <point x="0.0" y="-15.0" />
+      <point x="55.0" y="235.0" />
+      <point x="80.69375000000008" y="235.0" />
+      <point x="-37.125" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="262.0" y="205.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
